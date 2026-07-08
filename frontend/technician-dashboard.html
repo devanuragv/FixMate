@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+FixMate Technician Dashboard
+</title>
+
+<link
+rel="stylesheet"
+href="css/technician-dashboard.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div>
+
+            <div class="logo">
+                <h2>FixMate</h2>
+            </div>
+
+            <!-- Technician Profile -->
+
+            <div class="technician-profile">
+
+                <div class="avatar">
+                    👨‍🔧
+                </div>
+
+                <h3 id="techName">
+                    Technician
+                </h3>
+
+                <p id="techService">
+                    Service Type
+                </p>
+
+                <div
+                id="techBadge"
+                class="tech-badge">
+
+                🏆 Top Rated Technician
+
+                </div>
+
+            </div>
+
+            <!-- Status Section -->
+
+            <div class="status-section">
+
+                <div class="status-left">
+
+                    <div
+                    id="statusDot"
+                    class="status-dot">
+                    </div>
+
+                    <span id="statusText">
+
+                        Available
+
+                    </span>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                    type="checkbox"
+                    id="availabilitySwitch"
+                    checked>
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+            <!-- Menu Section -->
+
+           <div class="menu-section">
+
+    <button id="dashboardBtn" class="menu-btn active">
+    <span>Dashboard</span>
+</button>
+
+<button id="earningsBtn" class="menu-btn">
+    <span>Earnings</span>
+</button>
+
+<button id="historyBtn" class="menu-btn">
+    <span>Work History</span>
+</button>
+
+<button id="reviewsBtn" class="menu-btn">
+    <span>Customer Feedback</span>
+</button>
+
+<button id="profileBtn" class="menu-btn">
+    <span>Account Settings</span>
+</button>
+
+</div>
+
+        </div>
+
+        <!-- Logout -->
+
+        <button
+        id="logoutBtn"
+        class="logout-btn">
+
+        Logout
+
+        </button>
+
+    </aside>
+
+    <!-- Job Details Modal -->
+
+    <div
+    id="detailsModal"
+    class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-inner">
+
+                <span
+                class="close-modal"
+                id="closeModal">
+
+                &times;
+
+                </span>
+
+                <h2>
+                Booking Details
+                </h2>
+
+                <div id="modalBody">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+id="earningModal"
+class="modal">
+
+<div class="modal-content">
+
+<span
+class="close-modal"
+id="closeEarningModal">
+
+&times;
+
+</span>
+
+<h2>
+Transaction Details
+</h2>
+
+<div
+id="earningModalBody">
+
+</div>
+
+</div>
+
+</div>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <div id="dashboardSection">
+
+        <!-- Top Header -->
+
+        <div class="top-header">
+
+            <h2>
+                Assigned Jobs
+            </h2>
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <h3 id="totalJobs">
+                        0
+                    </h3>
+
+                    <p>
+                        Total Jobs
+                    </p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h3 id="completedJobs">
+                        0
+                    </h3>
+
+                    <p>
+                        Completed
+                    </p>
+
+                </div>
+
+                <div class="stat-card rating-card">
+
+                    <h3 id="averageRating">
+                        0
+                    </h3>
+
+                    <p>
+                        Average Rating
+                    </p>
+
+                    <div
+                    id="averageStars"
+                    class="avg-stars">
+
+                    ☆☆☆☆☆
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="jobs-grid-wrapper">
+
+        <h2>
+                Last Service Bookings
+        </h2>
+
+        <!-- Job Filters -->
+
+        <div class="job-tabs">
+
+            <button
+            class="tab-btn active"
+            onclick="filterJobs('All')">
+
+            All
+
+            </button>
+
+            <button
+            class="tab-btn"
+            onclick="filterJobs('Assigned')">
+
+            Assigned
+
+            </button>
+
+            <button
+            class="tab-btn"
+            onclick="filterJobs('In Progress')">
+
+            In Progress
+
+            </button>
+
+            <button
+            class="tab-btn"
+            onclick="filterJobs('Completed')">
+
+            Completed
+
+            </button>
+
+        </div>
+
+        <!-- Jobs -->
+
+        <div
+        id="jobsContainer"
+        class="jobs-grid">
+
+        </div>
+
+        </div>
+
+        <!-- Reviews -->
+
+        <div class="reviews-section">
+
+            <div class="section-header">
+
+                <h2>
+                Customer Reviews
+                </h2>
+
+            </div>
+
+            <div
+            id="reviewsContainer"
+            class="reviews-grid">
+
+            </div>
+
+        </div>
+
+        </div>
+
+        <div
+id="earningsSection"
+style="display:none;">
+
+<div class="section-header">
+
+<h1>
+Earnings Overview
+</h1>
+
+<p>
+Track your completed jobs and earnings
+</p>
+
+</div>
+
+<div class="earnings-grid">
+
+<div class="earning-card">
+<h2 id="totalEarnings">₹0</h2>
+<p>Total Earnings</p>
+</div>
+
+<div class="earning-card">
+<h2 id="monthlyEarnings">₹0</h2>
+<p>This Month</p>
+</div>
+
+<div class="earning-card">
+<h2 id="weeklyEarnings">₹0</h2>
+<p>This Week</p>
+</div>
+
+<div class="earning-card">
+<h2 id="todayEarnings">₹0</h2>
+<p>Today</p>
+</div>
+
+</div>
+
+<!-- Analytics Cards -->
+
+<!-- <div class="earnings-grid">
+
+<div class="earning-card">
+
+<h2 id="totalEarnings">
+₹0
+</h2>
+
+<p>
+Total Earnings
+</p>
+
+</div>
+
+<div class="earning-card">
+
+<h2 id="monthlyEarnings">
+₹0
+</h2>
+
+<p>
+This Month
+</p>
+
+</div>
+
+<div class="earning-card">
+
+<h2 id="weeklyEarnings">
+₹0
+</h2>
+
+<p>
+This Week
+</p>
+
+</div>
+
+<div class="earning-card">
+
+<h2 id="todayEarnings">
+₹0
+</h2>
+
+<p>
+Today
+</p>
+
+</div>
+
+<div class="earning-card">
+
+<h2 id="lastMonthEarnings">
+₹0
+</h2>
+
+<p>
+Last Month
+</p>
+
+</div>
+
+</div> -->
+
+<!-- Analytics -->
+
+<!-- <div class="analytics-grid">
+
+<div class="analytics-card">
+
+<h3>
+Top Service
+</h3>
+
+<h2 id="topService">
+-
+</h2>
+
+</div>
+
+<div class="analytics-card">
+
+<h3>
+Completed Jobs
+</h3>
+
+<h2 id="completedServices">
+0
+</h2>
+
+</div>
+
+</div> -->
+
+<!-- Filters -->
+
+<div class="earning-tools">
+
+<input
+type="text"
+id="earningSearch"
+placeholder="Search service or customer">
+
+<input
+type="date"
+id="earningDateFilter">
+
+<select id="earningFilter">
+
+<option value="All">
+All Services
+</option>
+
+<option value="Painter">
+Painter
+</option>
+
+<option value="Electrician">
+Electrician
+</option>
+
+<option value="Plumber">
+Plumber
+</option>
+
+<option value="Carpenter">
+Carpenter
+</option>
+
+<option value="AC Repair">
+AC Repair
+</option>
+
+</select>
+
+<button
+id="clearFilterBtn">
+
+Clear
+
+</button>
+
+</div>
+
+<!-- Transactions -->
+
+<div
+id="earningHistory"
+class="history-grid">
+
+</div>
+
+</div>
+
+<div id="historySection" style="display:none;">
+
+<div class="section-header">
+
+<h1>
+Work History
+</h1>
+
+<p>
+Track all assigned, completed and ongoing jobs
+</p>
+
+</div>
+
+<div class="history-stats">
+
+<div class="history-stat-card">
+
+<h2 id="historyTotalJobs">
+0
+</h2>
+
+<p>
+Total Jobs
+</p>
+
+</div>
+
+<div class="history-stat-card">
+
+<h2 id="historyCompletedJobs">
+0
+</h2>
+
+<p>
+Completed
+</p>
+
+</div>
+
+<div class="history-stat-card">
+
+<h2 id="historyTotalEarnings">
+₹0
+</h2>
+
+<p>
+Total Earnings
+</p>
+
+</div>
+
+</div>
+
+<div class="history-toolbar">
+
+<input
+type="text"
+id="historySearch"
+placeholder="Search customer or service">
+
+<select id="historyStatusFilter">
+
+<option value="All">
+All Status
+</option>
+
+<option value="Assigned">
+Assigned
+</option>
+
+<option value="In Progress">
+In Progress
+</option>
+
+<option value="Completed">
+Completed
+</option>
+
+</select>
+
+</div>
+
+<div id="historyContainer">
+
+</div>
+
+</div>
+
+<div id="feedbackSection" style="display:none;">
+
+<div class="section-header">
+
+<h1>
+Customer Feedback
+</h1>
+
+<p>
+Monitor customer satisfaction and ratings
+</p>
+
+</div>
+
+<div class="feedback-stats">
+
+<div class="feedback-card">
+
+<h2 id="feedbackAvgRating">
+0.0
+</h2>
+
+<p>
+Average Rating
+</p>
+
+</div>
+
+<div class="feedback-card">
+
+<h2 id="feedbackTotalReviews">
+0
+</h2>
+
+<p>
+Total Reviews
+</p>
+
+</div>
+
+</div>
+
+<div class="feedback-toolbar">
+
+<input
+type="text"
+id="feedbackSearch"
+placeholder="Search reviews">
+
+<select id="feedbackRatingFilter">
+
+<option value="All">
+All Ratings
+</option>
+
+<option value="5">
+5 Star
+</option>
+
+<option value="4">
+4 Star
+</option>
+
+<option value="3">
+3 Star
+</option>
+
+<option value="2">
+2 Star
+</option>
+
+<option value="1">
+1 Star
+</option>
+
+</select>
+
+</div>
+
+<div
+id="feedbackContainer">
+
+</div>
+
+</div>
+
+<div
+id="profileSection"
+style="display:none;">
+
+<div class="section-header">
+
+<h1>
+Account Settings
+</h1>
+
+<p>
+Manage your profile information
+</p>
+
+</div>
+
+<div class="profile-card">
+
+<div class="profile-row">
+
+<label>
+Full Name
+</label>
+
+<input
+type="text"
+id="profileName"
+readonly>
+
+</div>
+
+
+<div class="profile-row">
+
+<label>
+Service Type
+</label>
+
+<input
+type="text"
+id="profileService"
+readonly>
+
+</div>
+
+<div class="profile-row">
+
+<label>
+Phone Number
+</label>
+
+<input
+type="text"
+id="profilePhone">
+
+</div>
+
+<div class="profile-row">
+
+<label>
+City
+</label>
+
+<input
+type="text"
+id="profileCity">
+
+</div>
+
+<div class="profile-row">
+
+<label>
+State
+</label>
+
+<input
+type="text"
+id="profileState">
+
+</div>
+
+<div class="profile-row">
+
+<label>
+Pincode
+</label>
+
+<input
+type="text"
+id="profilePincode">
+
+</div>
+
+<div class="profile-row">
+
+<label>
+Experience (in years)
+</label>
+
+<input
+type="number"
+id="profileExperience">
+
+<div style="height:15px;"></div>
+
+</div>
+
+<button
+id="saveProfileBtn"
+class="save-profile-btn">
+
+Save Changes
+
+</button>
+</div>
+
+<div class="password-card">
+
+<h2>
+🔒 Change Password
+</h2>
+
+<div class="profile-row">
+
+<label>
+Current Password
+</label>
+
+<input
+type="password"
+id="currentPassword">
+
+</div>
+
+<div class="profile-row">
+
+<label>
+New Password
+</label>
+
+<input
+type="password"
+id="newPassword">
+
+</div>
+
+<div class="profile-row">
+
+<label>
+Confirm Password
+</label>
+
+<input
+type="password"
+id="confirmPassword">
+
+</div>
+
+<button
+onclick="changePassword()"
+class="change-password-btn">
+
+Change Password
+
+</button>
+
+</div> <!-- password-card -->
+
+</div> <!-- profileSection -->
+
+<div
+id="successToast"
+class="success-toast">
+
+✅ Profile Updated Successfully
+
+</div>
+
+</main>
+
+</div> <!-- dashboard -->
+
+<script
+src="js/technician-dashboard.js">
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixMate | Book Service</title>
+
+    <link rel="stylesheet" href="css/booking.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Book a Service</h1>
+            <a href="dashboard.html" class="back-btn">
+                Dashboard
+            </a>
+        </div>
+
+        <div class="services">
+
+            <div class="service-card" data-service="Electrician">
+                ⚡
+                <h3>Electrician</h3>
+            </div>
+
+            <div class="service-card" data-service="Plumber">
+                🔧
+                <h3>Plumber</h3>
+            </div>
+
+            <div class="service-card" data-service="AC Repair">
+                ❄️
+                <h3>AC Repair</h3>
+            </div>
+
+            <div class="service-card" data-service="Carpenter">
+                🪚
+                <h3>Carpenter</h3>
+            </div>
+
+            <div class="service-card" data-service="Painter">
+                🎨
+                <h3>Painter</h3>
+            </div>
+
+            <div class="service-card" data-service="Appliance Repair">
+                🛠
+                <h3>Appliance Repair</h3>
+            </div>
+
+        </div>
+
+        <div class="booking-form">
+
+            <h2>Create Booking</h2>
+
+            <form id="bookingForm">
+
+                <input
+                    type="text"
+                    id="service"
+                    placeholder="Selected Service"
+                    readonly
+                    required>
+
+                <textarea
+                    id="issue"
+                    placeholder="Describe your issue"
+                    required></textarea>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Full Name"
+                        required>
+
+                        <input
+                        type="tel"
+                        id="customerPhone"
+                        placeholder="Phone Number"
+                        required>
+
+                        <input
+                        type="text"
+                        id="city"
+                        placeholder="City"
+                        required>
+
+                        <input
+                        type="text"
+                        id="state"
+                        placeholder="State"
+                        required>
+
+                        <input
+                        type="text"
+                        id="pincode"
+                        placeholder="Pincode"
+                        required>
+
+                <input
+                    type="text"
+                    id="location"
+                    placeholder="Address / Location"
+                    required>
+
+                <input
+                    type="date"
+                    id="bookingDate"
+                    required>
+
+                <input
+                    type="time"
+                    id="bookingTime"
+                    required>
+
+                <button type="submit">
+                    Book Service
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="js/booking.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FixMate — Book Trusted Home Services in Minutes</title>
+  <meta name="description" content="FixMate connects you with verified electricians, plumbers, carpenters, AC technicians and more. Fast booking, transparent pricing, trusted professionals." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-logo">
+        <i class="fas fa-wrench"></i>
+        <span>FixMate</span>
+      </div>
+      <div class="loader-bar"><div class="loader-progress"></div></div>
+    </div>
+  </div>
+
+  <!-- Animated Background Blobs -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">
+        <div class="logo-icon"><i class="fas fa-wrench"></i></div>
+        <span>Fix<strong>Mate</strong></span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#reviews" class="nav-link">Reviews</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-cta">
+        <button class="btn-ghost">Login</button>
+        <button class="btn-primary ripple">Get Started</button>
+      </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-container">
+        <div class="hero-left reveal">
+          <div class="hero-badge">
+            <i class="fas fa-star"></i>
+            <span>Trusted By Thousands</span>
+          </div>
+          <h1 class="hero-title">
+            Book Trusted
+            <span class="gradient-text">Home Services</span>
+            in Minutes
+          </h1>
+          <p class="hero-desc">
+            Find verified electricians, plumbers, carpenters, AC technicians and more.
+            Fast booking, transparent pricing and trusted professionals at your doorstep.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary btn-large ripple">
+              <i class="fas fa-calendar-check"></i>
+              Book Service
+            </button>
+            <button class="btn-outline btn-large ripple">
+              <i class="fas fa-compass"></i>
+              Explore Services
+            </button>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-value" data-target="10000" data-suffix="K+">0</span>
+              <span class="stat-label">Bookings</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat-value" data-target="500" data-suffix="+">0</span>
+              <span class="stat-label">Technicians</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat-value" data-target="4.8" data-suffix="★" data-decimal="true">0</span>
+              <span class="stat-label">Rating</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right reveal reveal-right">
+          <div class="orbit-wrapper">
+
+            <!-- Center hub -->
+            <div class="orbit-center">
+              <div class="orbit-center-icon">
+                <i class="fas fa-wrench"></i>
+              </div>
+              <span>FixMate</span>
+            </div>
+
+            <!-- Ring 1 — solo card — CW fast -->
+            <div class="orbit-ring o-r1">
+              <div class="orbit-card">
+                <i class="fas fa-bolt"></i>
+                <span>Electrician</span>
+              </div>
+            </div>
+
+            <!-- Ring 2 — solo card — CCW -->
+            <div class="orbit-ring o-r2">
+              <div class="orbit-card">
+                <i class="fas fa-faucet"></i>
+                <span>Plumbing</span>
+              </div>
+            </div>
+
+            <!-- Ring 3 — solo card — CW -->
+            <div class="orbit-ring o-r3">
+              <div class="orbit-card">
+                <i class="fas fa-snowflake"></i>
+                <span>AC Repair</span>
+              </div>
+            </div>
+
+            <!-- Ring 4 — solo card — CCW -->
+            <div class="orbit-ring o-r4">
+              <div class="orbit-card">
+                <i class="fas fa-hammer"></i>
+                <span>Carpentry</span>
+              </div>
+            </div>
+
+            <!-- Ring 5 — solo card — CW slow -->
+            <div class="orbit-ring o-r5">
+              <div class="orbit-card">
+                <i class="fas fa-paintbrush"></i>
+                <span>Painting</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trusted Section -->
+    <section class="trusted">
+      <div class="section-container">
+        <div class="trusted-grid">
+          <div class="trusted-card reveal">
+            <div class="trusted-icon">
+              <i class="fas fa-shield-halved"></i>
+            </div>
+            <h3>Verified Experts</h3>
+            <p>Every technician is background-checked and skill-certified before joining our network.</p>
+          </div>
+          <div class="trusted-card reveal">
+            <div class="trusted-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Quick Response</h3>
+            <p>Get a confirmed technician assigned to your booking within 30 minutes.</p>
+          </div>
+          <div class="trusted-card reveal">
+            <div class="trusted-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <h3>Safe &amp; Secure</h3>
+            <p>All payments are encrypted and protected. Your home and data stay safe.</p>
+          </div>
+          <div class="trusted-card reveal">
+            <div class="trusted-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <h3>Top Rated</h3>
+            <p>Consistently rated 4.8+ stars by customers across thousands of completed jobs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+      <div class="section-container">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">What We Offer</div>
+          <h2 class="section-title">Popular Services</h2>
+          <p class="section-desc">From quick fixes to full renovations — book trusted professionals for any home need.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-bolt"></i></div>
+            <h3>Electrician</h3>
+            <p>Wiring, panel upgrades, fixture installation, and emergency electrical repairs.</p>
+            <a href="#" class="service-link">Book Now <i class="fas fa-arrow-right"></i></a>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-faucet"></i></div>
+            <h3>Plumbing</h3>
+            <p>Pipe repairs, drain cleaning, water heater installation, and leak fixes.</p>
+            <a href="#" class="service-link">Book Now <i class="fas fa-arrow-right"></i></a>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-hammer"></i></div>
+            <h3>Carpentry</h3>
+            <p>Custom furniture, door fitting, cabinet work, and precision wood craftsmanship.</p>
+            <a href="#" class="service-link">Book Now <i class="fas fa-arrow-right"></i></a>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-snowflake"></i></div>
+            <h3>AC Repair</h3>
+            <p>AC servicing, gas refills, installation, and performance optimization.</p>
+            <a href="#" class="service-link">Book Now <i class="fas fa-arrow-right"></i></a>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-paintbrush"></i></div>
+            <h3>Painting</h3>
+            <p>Interior and exterior painting with premium finishes and color consultation.</p>
+            <a href="#" class="service-link">Book Now <i class="fas fa-arrow-right"></i></a>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-broom"></i></div>
+            <h3>Cleaning</h3>
+            <p>Deep home cleaning, sofa shampooing, kitchen scrubbing, and sanitization.</p>
+            <a href="#" class="service-link">Book Now <i class="fas fa-arrow-right"></i></a>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-blender"></i></div>
+            <h3>Appliance Repair</h3>
+            <p>Washing machine, refrigerator, microwave, and dishwasher repair services.</p>
+            <a href="#" class="service-link">Book Now <i class="fas fa-arrow-right"></i></a>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-icon"><i class="fas fa-bug-slash"></i></div>
+            <h3>Pest Control</h3>
+            <p>Comprehensive pest treatment for cockroaches, termites, rodents, and more.</p>
+            <a href="#" class="service-link">Book Now <i class="fas fa-arrow-right"></i></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+      <div class="section-container">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">The Process</div>
+          <h2 class="section-title">How FixMate Works</h2>
+          <p class="section-desc">Get professional help at your door in four simple steps.</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-number">01</div>
+            <div class="step-icon"><i class="fas fa-magnifying-glass"></i></div>
+            <h3>Choose Service</h3>
+            <p>Browse our catalog and select the service you need — from electrical to cleaning.</p>
+          </div>
+          <div class="step-connector" aria-hidden="true"><i class="fas fa-chevron-right"></i></div>
+          <div class="step-card reveal">
+            <div class="step-number">02</div>
+            <div class="step-icon"><i class="fas fa-calendar-days"></i></div>
+            <h3>Book Slot</h3>
+            <p>Pick a date and time that works for you. Same-day slots available in most areas.</p>
+          </div>
+          <div class="step-connector" aria-hidden="true"><i class="fas fa-chevron-right"></i></div>
+          <div class="step-card reveal">
+            <div class="step-number">03</div>
+            <div class="step-icon"><i class="fas fa-user-check"></i></div>
+            <h3>Technician Assigned</h3>
+            <p>A verified, nearby technician is matched and assigned to your job instantly.</p>
+          </div>
+          <div class="step-connector" aria-hidden="true"><i class="fas fa-chevron-right"></i></div>
+          <div class="step-card reveal">
+            <div class="step-number">04</div>
+            <div class="step-icon"><i class="fas fa-circle-check"></i></div>
+            <h3>Job Completed</h3>
+            <p>Your technician arrives, completes the work, and you rate the experience.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose FixMate -->
+    <section class="why-fixmate">
+      <div class="section-container">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">Our Advantage</div>
+          <h2 class="section-title">Why Choose FixMate</h2>
+          <p class="section-desc">We set the standard for home service quality, trust, and reliability.</p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card reveal">
+            <div class="why-icon">
+              <i class="fas fa-id-badge"></i>
+            </div>
+            <h3>Verified Technicians</h3>
+            <p>Every professional passes identity checks, skill tests, and background verification before being listed on FixMate.</p>
+          </div>
+          <div class="why-card reveal">
+            <div class="why-icon">
+              <i class="fas fa-receipt"></i>
+            </div>
+            <h3>Transparent Pricing</h3>
+            <p>No hidden charges. You see the full estimated cost before confirming your booking. Pay only for what's done.</p>
+          </div>
+          <div class="why-card reveal">
+            <div class="why-icon">
+              <i class="fas fa-gauge-high"></i>
+            </div>
+            <h3>Fast Service</h3>
+            <p>Most bookings are confirmed within 30 minutes with a live ETA, so you're never left waiting and wondering.</p>
+          </div>
+          <div class="why-card reveal">
+            <div class="why-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <h3>Customer Satisfaction</h3>
+            <p>Not satisfied? We re-assign or refund. Our 30-day service guarantee means your problem gets solved, period.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technician CTA -->
+    <section class="technician-cta">
+      <div class="section-container">
+        <div class="tech-cta-inner reveal">
+          <div class="tech-cta-shapes" aria-hidden="true">
+            <div class="cta-shape cta-shape-1"></div>
+            <div class="cta-shape cta-shape-2"></div>
+          </div>
+          <div class="tech-cta-content">
+            <div class="tech-cta-badge"><i class="fas fa-briefcase"></i> Now Hiring</div>
+            <h2>Become A FixMate Technician</h2>
+            <p>Earn more, work flexibly, and grow your service business with thousands of customers waiting.</p>
+            <a href="technician-register.html" class="btn-white btn-large ripple">
+              <i class="fas fa-arrow-right"></i>
+              Join Now
+            </a>
+          </div>
+          <div class="tech-cta-stats">
+            <div class="tech-stat">
+              <span class="tech-stat-val">₹40K+</span>
+              <span class="tech-stat-label">Avg. Monthly Earnings</span>
+            </div>
+            <div class="tech-stat">
+              <span class="tech-stat-val">500+</span>
+              <span class="tech-stat-label">Active Technicians</span>
+            </div>
+            <div class="tech-stat">
+              <span class="tech-stat-val">24/7</span>
+              <span class="tech-stat-label">Support Available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews" id="reviews">
+      <div class="section-container">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">Testimonials</div>
+          <h2 class="section-title">What Customers Say</h2>
+          <p class="section-desc">Real reviews from real homes. See why thousands choose FixMate.</p>
+        </div>
+        <div class="reviews-grid">
+          <article class="review-card reveal">
+            <div class="review-stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="review-text">"The electrician arrived on time, explained everything clearly, and fixed our panel issue in under an hour. Excellent service — I'll definitely book again."</p>
+            <div class="review-author">
+              <div class="review-avatar">RS</div>
+              <div class="review-info">
+                <strong>Rahul Sharma</strong>
+                <span>Delhi, Electrician Service</span>
+              </div>
+            </div>
+          </article>
+          <article class="review-card review-card-featured reveal">
+            <div class="review-stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="review-text">"I had a burst pipe at 9 PM and FixMate sent a plumber within the hour. He was professional, respectful of my home, and the price was exactly what was quoted. Incredible."</p>
+            <div class="review-author">
+              <div class="review-avatar">PK</div>
+              <div class="review-info">
+                <strong>Priya Kapoor</strong>
+                <span>Mumbai, Plumbing Service</span>
+              </div>
+            </div>
+          </article>
+          <article class="review-card reveal">
+            <div class="review-stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i>
+            </div>
+            <p class="review-text">"Got our AC serviced before summer — the technician was thorough and found an issue we didn't even know about. Saved us from a breakdown mid-June. Really impressed."</p>
+            <div class="review-author">
+              <div class="review-avatar">AM</div>
+              <div class="review-info">
+                <strong>Arjun Mehta</strong>
+                <span>Bangalore, AC Repair</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- App Section -->
+    <section class="app-section">
+      <div class="section-container">
+        <div class="app-inner reveal">
+          <div class="app-content">
+            <div class="section-eyebrow">Coming Soon</div>
+            <h2 class="app-title">FixMate <span class="gradient-text">Mobile App</span></h2>
+            <p>Book services, track your technician in real time, and manage all your home maintenance from your pocket.</p>
+            <div class="app-features">
+              <div class="app-feature"><i class="fas fa-location-dot"></i> Live technician tracking</div>
+              <div class="app-feature"><i class="fas fa-bell"></i> Instant booking alerts</div>
+              <div class="app-feature"><i class="fas fa-clock-rotate-left"></i> Full service history</div>
+            </div>
+            <div class="app-buttons">
+              <button class="app-btn ripple">
+                <i class="fab fa-google-play"></i>
+                <div class="app-btn-text">
+                  <span>Get it on</span>
+                  <strong>Google Play</strong>
+                </div>
+              </button>
+              <button class="app-btn ripple">
+                <i class="fab fa-apple"></i>
+                <div class="app-btn-text">
+                  <span>Download on the</span>
+                  <strong>App Store</strong>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="app-visual">
+            <div class="phone-mockup">
+              <div class="phone-screen">
+                <div class="phone-ui-header">
+                  <span>FixMate</span>
+                  <i class="fas fa-bell"></i>
+                </div>
+                <div class="phone-ui-greeting">Good Morning, Rahul 👋</div>
+                <div class="phone-ui-services">
+                  <div class="phone-svc"><i class="fas fa-bolt"></i></div>
+                  <div class="phone-svc"><i class="fas fa-faucet"></i></div>
+                  <div class="phone-svc"><i class="fas fa-snowflake"></i></div>
+                  <div class="phone-svc phone-svc-more">+5</div>
+                </div>
+                <div class="phone-ui-card">
+                  <div class="phone-card-label">Active Booking</div>
+                  <div class="phone-card-service"><i class="fas fa-user-check"></i> Electrician — On the way</div>
+                  <div class="phone-card-eta">ETA: 12 mins</div>
+                  <div class="phone-progress-bar"><div class="phone-progress-fill"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="contact">
+      <div class="section-container">
+        <div class="final-cta-inner reveal">
+          <div class="final-cta-badge"><i class="fas fa-house-chimney-crack"></i> Home Problems? Solved.</div>
+          <h2>Ready To Fix Your Home Problems?</h2>
+          <p>Book trusted professionals today. Transparent pricing, verified experts, and guaranteed satisfaction.</p>
+          <div class="final-cta-actions">
+            <button class="btn-primary btn-large ripple">
+              <i class="fas fa-rocket"></i> Get Started
+            </button>
+            <button class="btn-outline-white btn-large ripple">
+              <i class="fas fa-calendar-check"></i> Book Service
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#home" class="footer-logo">
+            <div class="logo-icon"><i class="fas fa-wrench"></i></div>
+            <span>Fix<strong>Mate</strong></span>
+          </a>
+          <p>Your trusted home services platform. Connecting customers with verified professionals since 2024.</p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#">Electrician</a></li>
+            <li><a href="#">Plumbing</a></li>
+            <li><a href="#">Carpentry</a></li>
+            <li><a href="#">AC Repair</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Refund Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 FixMate. All Rights Reserved.</p>
+        <p>Made with <i class="fas fa-heart"></i> for better homes.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back To Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script src="js/landing.js"></script>
+</body>
+</html>

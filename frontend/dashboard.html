@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixMate Dashboard</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo">
+            <h2>FixMate</h2>
+        </div>
+
+        <ul>
+
+            <li class="active">
+                Dashboard
+            </li>
+
+            <li onclick="location.href='booking.html'">
+                Book Service
+            </li>
+
+            <li onclick="location.href='history.html'">
+                Booking History
+            </li>
+
+            <li onclick="location.href='profile.html'">
+                Profile
+            </li>
+
+            <li onclick="logout()">
+                Logout
+            </li>
+
+        </ul>
+
+    </div>
+
+    <div class="main-content">
+
+        <div class="topbar">
+
+            <h1>
+                Welcome,
+                <span id="userName">User</span>
+            </h1>
+
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Total Bookings</h3>
+                <p id="totalBookings">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pending</h3>
+                <p id="pendingBookings">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Completed</h3>
+                <p id="completedBookings">0</p>
+            </div>
+
+        </div>
+
+        <div class="recent-bookings">
+
+            <div class="section-header">
+                <h2>Recent Bookings</h2>
+            </div>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Issue</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="bookingTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script src="js/dashboard.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Technician Login</title>
+<link rel="stylesheet" href="css/technician-login.css">
+</head>
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h2>Technician Login</h2>
+
+        <!-- Anti Autofill Fields -->
+
+        <input
+        type="text"
+        style="display:none"
+        autocomplete="username"
+        >
+
+        <input
+        type="password"
+        style="display:none"
+        autocomplete="current-password"
+        >
+
+        <!-- Email -->
+
+        <input
+        type="email"
+        id="email"
+        name="random_email_field"
+        placeholder="Email Address"
+        autocomplete="off"
+        required
+        >
+
+        <!-- Password -->
+
+        <div class="password-container">
+
+            <input
+            type="password"
+            id="password"
+            name="random_password_field"
+            placeholder="Password"
+            autocomplete="new-password"
+            required
+            >
+
+            <!-- <p class="forgot-password">
+
+                <a href="#">
+                    Forgot Password?
+                </a>
+
+            </p> -->
+
+            <button
+            type="button"
+            id="togglePassword"
+            class="eye-btn">
+
+            👁
+
+            </button>
+
+        </div>
+
+        <button id="loginBtn">
+
+            Login
+
+        </button>
+
+    </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="js/technician-login.js"></script>
+
+</body>
+</html>

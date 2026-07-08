@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>FixMate Admin Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="css/admin.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+<h1>
+Admin Dashboard
+</h1>
+
+<button
+class="add-tech-btn"
+onclick="showSection('addTechSection')">
+
++ Add Technician
+
+</button>
+
+</div>
+
+<!-- Dashboard Cards -->
+
+<div class="cards">
+
+    <div
+        class="card"
+        onclick="showSection('usersSection')">
+        <h2 id="usersCount">0</h2>
+        <p>Users</p>
+    </div>
+
+    <div
+        class="card"
+        onclick="showSection('bookingsSection')">
+        <h2 id="bookingsCount">0</h2>
+        <p>Bookings</p>
+    </div>
+
+    <div
+        class="card"
+        onclick="showSection('techniciansSection')">
+        <h2 id="techniciansCount">0</h2>
+        <p>Technicians</p>
+    </div>
+
+</div>
+
+<div class="search-section">
+
+<input
+type="text"
+id="adminSearch"
+placeholder="Search Users, Technicians or Services..."
+>
+
+<div
+id="searchResults"
+class="search-results">
+</div>
+
+</div>
+
+<!-- Analytics Cards -->
+
+<div class="analytics-grid">
+
+    <div
+    class="analytics-card"
+    onclick="showAvailableTechnicians()">
+
+        <h3 id="availableTechs">
+        0
+        </h3>
+
+        <p>
+        Available Technicians
+        </p>
+
+    </div>
+
+    <div
+    class="analytics-card"
+    onclick="showOfflineTechnicians()">
+
+        <h3 id="offlineTechs">
+        0
+        </h3>
+
+        <p>
+        Offline Technicians
+        </p>
+
+    </div>
+
+    <div
+    class="analytics-card"
+    onclick="showCompletedBookings()">
+
+        <h3 id="completedServices">
+        0
+        </h3>
+
+        <p>
+        Completed Services
+        </p>
+
+    </div>
+
+    <div
+    class="analytics-card"
+    onclick="showPendingBookings()">
+
+        <h3 id="pendingServices">
+        0
+        </h3>
+
+        <p>
+        Pending Services
+        </p>
+
+    </div>
+
+</div>
+       
+
+        <!-- Add Technician Section -->
+
+        <div
+            id="addTechSection"
+            class="dashboard-section">
+
+            <div class="section">
+
+                <h2>Add Technician</h2>
+
+                <form
+                    id="technicianForm"
+                    class="tech-form"
+                    autocomplete="off">
+
+                    <input
+                        type="text"
+                        id="techName"
+                        placeholder="Technician Name"
+                        required>
+
+                    <input
+                        type="email"
+                        id="techEmail"
+                        placeholder="Email Address"
+                        autocomplete="off"
+                        required>
+
+                    <div class="password-container">
+
+                        <input
+                            type="password"
+                            id="techPassword"
+                            placeholder="Create Password"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="eye-btn">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                    <input
+                        type="text"
+                        id="techPhone"
+                        placeholder="Phone Number"
+                        required>
+
+                    <select
+                        id="serviceType"
+                        required>
+
+                        <option value="">
+                        Select Technician Type
+                        </option>
+
+                        <option value="Electrician">
+                        Electrician
+                        </option>
+
+                        <option value="Plumber">
+                        Plumber
+                        </option>
+
+                        <option value="AC Technician">
+                        AC Technician
+                        </option>
+
+                        <option value="Carpenter">
+                        Carpenter
+                        </option>
+
+                        <option value="Painter">
+                        Painter
+                        </option>
+
+                        <option value="Appliance Repair">
+                        Appliance Repair
+                        </option>
+
+                        <option value="RO Technician">
+                        RO Technician
+                        </option>
+
+                        <option value="Computer Repair">
+                        Computer Repair
+                        </option>
+
+                        <option value="Mobile Repair">
+                        Mobile Repair
+                        </option>
+
+                        <option value="CCTV Technician">
+                        CCTV Technician
+                        </option>
+
+                        </select>
+                    <input
+                        type="text"
+                        id="city"
+                        placeholder="City"
+                        required>
+
+                    <input
+                        type="text"
+                        id="state"
+                        placeholder="State"
+                        required>
+
+                    <input
+                        type="text"
+                        id="pincode"
+                        placeholder="Pincode"
+                        required>
+
+                    <button type="submit">
+
+                        Add Technician
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Technicians Section -->
+
+        <div
+            id="techniciansSection"
+            class="dashboard-section hidden">
+
+            <div class="section">
+
+                <h2>All Technicians</h2>
+
+                <div id="technicianList">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Users Section -->
+
+<div
+id="usersSection"
+class="dashboard-section hidden">
+
+<div class="section">
+
+<h2>
+All Users
+</h2>
+
+<div id="usersList">
+
+</div>
+
+</div>
+
+</div>
+        <!-- Recent Bookings Section -->
+
+        <div
+            id="bookingsSection"
+            class="dashboard-section hidden">
+
+            <div class="section">
+
+                <h2>Recent Bookings</h2>
+
+                <div class="booking-filters">
+
+<button onclick="filterBookings('All')">
+All
+</button>
+
+<button onclick="filterBookings('Pending')">
+Pending
+</button>
+
+<button onclick="filterBookings('Assigned')">
+Assigned
+</button>
+
+<button onclick="filterBookings('In Progress')">
+In Progress
+</button>
+
+<button onclick="filterBookings('Completed')">
+Completed
+</button>
+
+</div>
+
+                <div id="bookingList">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- User Modal -->
+
+<div
+id="userModal"
+class="modal">
+
+<div class="modal-content">
+
+<span
+id="closeUserModal"
+class="close">
+
+&times;
+
+</span>
+
+<h2>
+User Details
+</h2>
+
+<div
+id="userDetails">
+
+</div>
+
+</div>
+
+</div>
+
+<div
+id="technicianModal"
+class="modal">
+
+<div class="modal-content">
+
+<span
+id="closeTechModal"
+class="close">
+
+&times;
+
+</span>
+
+<h2>
+Technician Details
+</h2>
+
+<div
+id="technicianDetails">
+
+</div>
+
+</div>
+
+</div>
+
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>
