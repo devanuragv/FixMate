@@ -3,844 +3,787 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FixMate — Reliable Home Services, Booked in Minutes</title>
-  <meta name="description" content="FixMate connects you with verified electricians, plumbers, carpenters, AC technicians and home care professionals. Transparent pricing, instant booking, and guaranteed quality." />
+  <title>FixMate — Pro Home Services</title>
+  <meta name="description" content="FixMate Home Services Platform interface showcase. Certified technicians, fixed rate cards, and digital job management." />
   
-  <!-- Fonts: Plus Jakarta Sans & Inter -->
+  <!-- Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
   
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   
-  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/landing.css" />
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
-  <aside class="top-bar">
-    <div class="container top-bar-container">
-      <div class="top-bar-item">
-        <i class="fas fa-shield-check text-success"></i>
-        <span>100% Background-Verified Technicians</span>
-      </div>
-      <div class="top-bar-item hide-mobile">
-        <i class="fas fa-hand-holding-dollar text-primary"></i>
-        <span>Upfront Fixed Pricing • No Hidden Fees</span>
-      </div>
-      <div class="top-bar-item">
-        <i class="fas fa-phone-volume text-primary"></i>
-        <span>Helpline: <strong>1800-FIX-MATE</strong></span>
-      </div>
-    </div>
-  </aside>
+  <!-- Sleek Header (No Search Box, Modernized Pill Buttons) -->
+<header class="navbar">
+  <div class="container nav-container">
 
-  <!-- Modern Navigation Bar -->
-  <header class="navbar" id="navbar">
-    <div class="container nav-container">
-      <a href="#home" class="nav-logo" aria-label="FixMate Home">
-        <div class="logo-badge">
-          <i class="fas fa-screwdriver-wrench"></i>
-        </div>
-        <span class="logo-text">Fix<span class="logo-accent">Mate</span></span>
+    <a href="#home" class="brand">
+      <span class="brand-box">
+        <i class="fas fa-hammer"></i>
+      </span>
+
+      <span class="brand-text">
+        Fix<span class="text-orange">Mate</span>
+      </span>
+    </a>
+
+    <div class="nav-actions">
+
+      <!-- Technician Login -->
+      <a href="http://localhost:5000/technician-login.html"
+         class="btn-tech-portal"
+         style="text-decoration: none;">
+        <span class="pulse-pro-dot"></span>
+        <i class="fas fa-briefcase"></i>
+        <span>Partner Portal</span>
       </a>
 
-      <!-- Desktop Navigation Links -->
-      <nav class="nav-menu" id="navMenu">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#services" class="nav-link">Find Services</a>
-        <a href="#how-it-works" class="nav-link">How It Works</a>
-        <a href="#why-us" class="nav-link">Why FixMate</a>
-        <a href="#testimonials" class="nav-link">Reviews</a>
-      </nav>
-
-      <!-- Nav Actions -->
-      <div class="nav-actions">
-        <!-- Technician link -->
-        <a href="javascript:void(0)" class="btn-partner" onclick="openLoginModal('technician')">
-          <i class="fas fa-briefcase"></i>
-          <span>Become a Partner</span>
-        </a>
-
-        <!-- Sign In Dropdown Trigger -->
-        <div class="dropdown-wrapper">
-          <button class="btn btn-primary" id="loginDropdownBtn" aria-expanded="false" aria-haspopup="true">
-            <i class="fas fa-user"></i>
-            <span>Sign In</span>
-            <i class="fas fa-chevron-down dropdown-arrow"></i>
-          </button>
-          
-          <!-- Role Dropdown Menu -->
-          <div class="dropdown-menu" id="loginDropdownMenu">
-            <div class="dropdown-header">Select Your Portal</div>
-            <a href="javascript:void(0)" class="dropdown-item" onclick="openLoginModal('customer')">
-              <div class="dropdown-icon bg-blue-subtle text-primary"><i class="fas fa-user"></i></div>
-              <div class="dropdown-info">
-                <strong>Customer Sign In</strong>
-                <small>Book & track your services</small>
-              </div>
-            </a>
-            <a href="javascript:void(0)" class="dropdown-item" onclick="openLoginModal('technician')">
-              <div class="dropdown-icon bg-green-subtle text-success"><i class="fas fa-wrench"></i></div>
-              <div class="dropdown-info">
-                <strong>Technician Portal</strong>
-                <small>Manage jobs & view earnings</small>
-              </div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="javascript:void(0)" class="dropdown-item" onclick="openLoginModal('admin')">
-              <div class="dropdown-icon bg-purple-subtle text-purple"><i class="fas fa-shield-halved"></i></div>
-              <div class="dropdown-info">
-                <strong>Admin Console</strong>
-                <small>Manage users, techs & system</small>
-              </div>
-            </a>
-          </div>
+      <!-- Customer Login -->
+      <a href="http://localhost:5000/login.html"
+         class="btn-modern-login"
+         style="text-decoration: none;">
+        <span>Sign In</span>
+        <div class="login-arrow-icon">
+          <i class="fas fa-arrow-right"></i>
         </div>
-
-        <!-- Mobile Hamburger -->
-        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer Menu -->
-  <div class="mobile-drawer" id="mobileDrawer">
-    <div class="drawer-header">
-      <div class="nav-logo">
-        <div class="logo-badge"><i class="fas fa-screwdriver-wrench"></i></div>
-        <span class="logo-text">Fix<span class="logo-accent">Mate</span></span>
-      </div>
-      <button class="drawer-close" id="drawerCloseBtn" aria-label="Close menu">&times;</button>
-    </div>
-    <div class="drawer-links">
-      <a href="#home" class="drawer-link active">Home</a>
-      <a href="#services" class="drawer-link">Find Services</a>
-      <a href="#how-it-works" class="drawer-link">How It Works</a>
-      <a href="#why-us" class="drawer-link">Why FixMate</a>
-      <a href="#testimonials" class="drawer-link">Reviews</a>
-    </div>
-    <div class="drawer-actions">
-      <button class="btn btn-block btn-outline mb-2" onclick="openLoginModal('technician')">
-        <i class="fas fa-briefcase"></i> Technician Portal
-      </button>
-      <button class="btn btn-block btn-primary mb-2" onclick="openLoginModal('customer')">
-        <i class="fas fa-user"></i> Customer Sign In
-      </button>
-      <a href="javascript:void(0)" class="drawer-admin-link" onclick="openLoginModal('admin')">
-        <i class="fas fa-shield-halved"></i> Admin Console Login
       </a>
+
     </div>
   </div>
-  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+</header>
 
   <main>
-    <!-- HERO SECTION WITH PROMINENT SEARCH CONSOLE -->
-    <section class="hero-section" id="home">
-      <div class="container hero-container">
+    <!-- HERO SECTION: EXPANDED BOX WITH ANIMATED TECHNICIAN -->
+    <section class="hero-stage" id="home">
+      <div class="container">
         
-        <div class="hero-content text-center">
-          <div class="hero-pill-badge">
-            <span class="badge-dot"></span>
-            <span>Over 10,000+ homes repaired & serviced this month</span>
+        <div class="stage-header text-center">
+          <div class="stage-pill">
+            <span class="badge-live-sparkle">⚡</span>
+            <span>FixMate Service Engine — Live Interface Preview</span>
           </div>
+          <h1 class="stage-title">One Platform. <span class="text-orange">Every Fix.</span></h1>
+        </div>
 
-          <h1 class="hero-title">
-            Reliable Home Services, <br />
-            <span class="gradient-text">Booked in Minutes.</span>
-          </h1>
+        <!-- EXPANDED HIGH-LENGTH SHOWCASE CONTAINER -->
+        <div class="tech-showcase-box">
           
-          <p class="hero-subtitle">
-            Connect with certified, background-checked plumbers, electricians, AC mechanics, and home cleaners with upfront guaranteed pricing.
-          </p>
-        </div>
-
-        <!-- Central Search & Requirement Console -->
-        <div class="search-console-card">
-          <div class="search-form" id="searchForm">
+          <!-- LEFT: LARGE CHARACTER STAGE WITH GIANT WATERMARK -->
+          <div class="tech-character-area">
             
-            <!-- Location Selector -->
-            <div class="search-field location-field">
-              <i class="fas fa-location-dot field-icon text-primary"></i>
-              <div class="field-body">
-                <label for="citySelect">Location</label>
-                <select id="citySelect" class="search-select">
-                  <option value="all">All Cities</option>
-                  <option value="delhi" selected>Delhi NCR</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="bangalore">Bangalore</option>
-                  <option value="hyderabad">Hyderabad</option>
-                  <option value="pune">Pune</option>
-                </select>
+            <!-- Giant Fully Visible Background Text -->
+            <div class="giant-bg-text-wrapper" aria-hidden="true">
+              <span class="giant-bg-text" id="giantBgText">PAINTER</span>
+            </div>
+
+            <!-- Taller, Fully Animated Technician Model -->
+            <div class="action-canvas" id="actionCanvas">
+              <svg class="tech-svg" viewBox="0 0 280 340" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#F1F5F9"/>
+                    <stop offset="50%" stop-color="#94A3B8"/>
+                    <stop offset="100%" stop-color="#334155"/>
+                  </linearGradient>
+
+                  <linearGradient id="goldBrassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FEF08A"/>
+                    <stop offset="60%" stop-color="#F59E0B"/>
+                    <stop offset="100%" stop-color="#78350F"/>
+                  </linearGradient>
+
+                  <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#D97706"/>
+                    <stop offset="100%" stop-color="#78350F"/>
+                  </linearGradient>
+
+                  <filter id="orangeGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="5" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                  </filter>
+                </defs>
+
+                <!-- Floor Rig -->
+                <rect x="20" y="305" width="240" height="12" rx="6" fill="#181824" />
+                <rect x="45" y="318" width="190" height="5" rx="2.5" fill="#FF6B00" opacity="0.35" />
+
+                <!-- Technician Body (With Breathing Idle Motion) -->
+                <g class="animated-technician-body">
+                  
+                  <!-- Legs & Boots -->
+                  <rect x="100" y="215" width="30" height="92" rx="10" fill="#161620" />
+                  <rect x="150" y="215" width="30" height="92" rx="10" fill="#161620" />
+                  <!-- Work Boots -->
+                  <path d="M 94 296 L 134 296 L 134 308 C 134 311, 94 311, 94 308 Z" fill="#FF6B00" />
+                  <path d="M 148 296 L 188 296 L 188 308 C 188 311, 148 311, 148 308 Z" fill="#FF6B00" />
+
+                  <!-- Torso & Dungarees -->
+                  <rect x="90" y="125" width="100" height="105" rx="22" fill="#1F1F2C" stroke="#2D2D3E" stroke-width="2.5" />
+                  
+                  <!-- Orange Straps with Rivets -->
+                  <rect x="104" y="125" width="16" height="50" rx="5" fill="#FF6B00" />
+                  <rect x="160" y="125" width="16" height="50" rx="5" fill="#FF6B00" />
+                  <circle cx="112" cy="168" r="4" fill="#FFFFFF" />
+                  <circle cx="168" cy="168" r="4" fill="#FFFFFF" />
+                  
+                  <!-- Chest Tool Pocket -->
+                  <rect x="122" y="156" width="36" height="34" rx="6" fill="#14141C" stroke="#FF6B00" stroke-width="2" />
+                  <line x1="140" y1="160" x2="140" y2="186" stroke="#FF6B00" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+                  <!-- Head & Visor -->
+                  <circle cx="140" cy="85" r="30" fill="#F4B495" />
+                  <rect x="120" y="78" width="40" height="13" rx="6.5" fill="#0C0C12" />
+                  <circle cx="134" cy="84.5" r="2.5" fill="#FF6B00" />
+                  <circle cx="146" cy="84.5" r="2.5" fill="#FF6B00" />
+
+                  <!-- Work Cap / Hardhat -->
+                  <path d="M 104 76 C 104 42, 176 42, 176 76 Z" fill="#FF6B00" />
+                  <rect x="96" y="72" width="88" height="10" rx="5" fill="#E65500" />
+                  <rect x="132" y="50" width="16" height="9" rx="3.5" fill="#FFFFFF" opacity="0.9" />
+
+                  <!-- Left Pose Arm -->
+                  <path d="M 95 135 Q 65 155, 68 185" stroke="#161620" stroke-width="20" stroke-linecap="round" fill="none" />
+                  <circle cx="68" cy="188" r="10" fill="#F4B495" />
+
+                </g>
+
+                <!-- REALISTIC ANIMATED ACTION TOOLS -->
+
+                <!-- 1. PAINTER: Moving Roller with Paint Trail -->
+                <g class="tool-group" id="tool-painter">
+                  <rect x="195" y="18" width="56" height="85" rx="5" fill="#FF6B00" opacity="0.9" />
+                  <g class="anim-painter-roller">
+                    <path d="M 180 135 Q 212 125, 224 100" stroke="#F4B495" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <path d="M 220 105 L 220 75 L 205 75" stroke="url(#metalGrad)" stroke-width="4.5" stroke-linecap="round" fill="none" />
+                    <rect x="190" y="55" width="42" height="22" rx="7" fill="#FF8533" stroke="#FFFFFF" stroke-width="2" />
+                  </g>
+                  <circle class="anim-drip-1" cx="242" cy="112" r="3.5" fill="#FF6B00" />
+                  <circle class="anim-drip-2" cx="204" cy="120" r="2.5" fill="#FF6B00" />
+                </g>
+
+                <!-- 2. CARPENTER: Hammer Striking Wood -->
+                <g class="tool-group" id="tool-carpenter" style="display:none;">
+                  <rect x="180" y="235" width="80" height="28" rx="5" fill="url(#woodGrad)" stroke="#451A03" stroke-width="2" />
+                  <rect x="218" y="222" width="6" height="15" rx="1" fill="url(#metalGrad)" />
+                  <g class="anim-carpenter-hammer">
+                    <path d="M 180 135 Q 215 155, 228 175" stroke="#F4B495" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <g transform="rotate(-30 225 180)">
+                      <rect x="220" y="165" width="11" height="52" rx="4" fill="url(#woodGrad)" />
+                      <rect x="206" y="152" width="40" height="16" rx="3.5" fill="url(#metalGrad)" />
+                      <path d="M 246 155 Q 256 158, 253 170" stroke="url(#metalGrad)" stroke-width="4.5" fill="none" />
+                    </g>
+                  </g>
+                  <polygon class="anim-spark" points="214,215 221,202 224,216 234,208 225,222" fill="#FFC800" />
+                </g>
+
+                <!-- 3. ELECTRICIAN: Pliers & Lightning Arc -->
+                <g class="tool-group" id="tool-electrician" style="display:none;">
+                  <rect x="215" y="50" width="52" height="65" rx="8" fill="#181822" stroke="#FF6B00" stroke-width="2.5" />
+                  <circle cx="232" cy="68" r="5" fill="#10B981" />
+                  <rect x="245" y="63" width="14" height="22" rx="3" fill="#000000" />
+                  <g class="anim-electrician-pliers">
+                    <path d="M 180 135 Q 210 140, 222 120" stroke="#F4B495" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <g transform="rotate(35 224 118)">
+                      <rect x="218" y="110" width="7" height="30" rx="3" fill="#FF6B00" />
+                      <rect x="227" y="110" width="7" height="30" rx="3" fill="#FF6B00" />
+                      <polygon points="218,110 231,95 234,110" fill="url(#metalGrad)" />
+                    </g>
+                  </g>
+                  <polygon class="anim-electric-spark" points="230,42 242,26 237,44 252,34 235,56" fill="#FACC15" filter="url(#orangeGlow)" />
+                </g>
+
+                <!-- 4. PLUMBER: Pipe Wrench Gripping Brass Valve -->
+                <g class="tool-group" id="tool-plumber" style="display:none;">
+                  <rect x="232" y="80" width="18" height="180" rx="5" fill="#475569" />
+                  <rect x="222" y="145" width="40" height="24" rx="5" fill="url(#goldBrassGrad)" />
+                  <circle cx="242" cy="132" r="10" fill="url(#goldBrassGrad)" />
+                  <g class="anim-plumber-wrench">
+                    <path d="M 180 135 Q 205 152, 218 165" stroke="#F4B495" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <g transform="rotate(-20 210 155)">
+                      <rect x="200" y="150" width="14" height="54" rx="5" fill="#FF6B00" />
+                      <rect x="186" y="138" width="42" height="16" rx="5" fill="url(#metalGrad)" />
+                    </g>
+                  </g>
+                  <circle class="anim-water-drip" cx="212" cy="178" r="5" fill="#38BDF8" />
+                </g>
+
+                <!-- 5. AC MECHANIC: Frost Jet Spray -->
+                <g class="tool-group" id="tool-ac" style="display:none;">
+                  <rect x="185" y="30" width="90" height="48" rx="9" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2" />
+                  <rect x="193" y="62" width="74" height="7" rx="2" fill="#CBD5E1" />
+                  <g class="anim-ac-spray">
+                    <path d="M 180 135 Q 212 135, 224 115" stroke="#F4B495" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <rect x="210" y="100" width="24" height="24" rx="4" fill="#FF6B00" />
+                    <rect x="198" y="90" width="38" height="8" rx="3" fill="url(#metalGrad)" />
+                  </g>
+                  <path class="anim-frost-wave" d="M 188 90 Q 206 97, 228 90" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round" fill="none" />
+                </g>
+
+                <!-- 6. CLEANER: Squeegee on Glass -->
+                <g class="tool-group" id="tool-cleaner" style="display:none;">
+                  <rect x="202" y="45" width="68" height="100" rx="7" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5" opacity="0.6" />
+                  <g class="anim-cleaner-wiper">
+                    <path d="M 180 135 Q 208 148, 220 134" stroke="#F4B495" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <g transform="rotate(-15 218 128)">
+                      <rect x="214" y="120" width="9" height="38" rx="4" fill="#FF6B00" />
+                      <rect x="195" y="112" width="48" height="9" rx="2" fill="url(#metalGrad)" />
+                    </g>
+                  </g>
+                  <polygon points="242,56 245,64 253,67 245,70 242,78 239,70 231,67 239,64" fill="#FDE047" />
+                </g>
+
+                <!-- 7. APPLIANCE: Socket Wrench on Washer Motor -->
+                <g class="tool-group" id="tool-appliance" style="display:none;">
+                  <rect x="188" y="130" width="85" height="100" rx="12" fill="#1C1C26" stroke="#FF6B00" stroke-width="2.5" />
+                  <circle cx="230" cy="180" r="28" fill="#121218" stroke="url(#metalGrad)" stroke-width="3.5" />
+                  <circle cx="230" cy="180" r="9" fill="#FF6B00" />
+                  <g class="anim-appliance-wrench">
+                    <path d="M 180 135 Q 205 152, 218 165" stroke="#F4B495" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <g transform="rotate(-30 216 160)">
+                      <rect x="210" y="152" width="40" height="9" rx="3" fill="url(#metalGrad)" />
+                    </g>
+                  </g>
+                </g>
+
+                <!-- 8. PEST CONTROL: Protective Mist Lance -->
+                <g class="tool-group" id="tool-pest" style="display:none;">
+                  <g class="anim-pest-wand">
+                    <path d="M 180 135 Q 208 142, 220 126" stroke="#F4B495" stroke-width="18" stroke-linecap="round" fill="none" />
+                    <rect x="205" y="112" width="50" height="6" rx="2.5" fill="url(#goldBrassGrad)" transform="rotate(-20 205 112)" />
+                  </g>
+                  <ellipse class="anim-mist-puff" cx="260" cy="98" rx="14" ry="11" fill="#10B981" opacity="0.6" />
+                </g>
+
+              </svg>
+            </div>
+
+          </div>
+
+          <!-- RIGHT: COMPACT WORK OVERVIEW -->
+          <div class="tech-info-card" id="techInfoCard">
+            <div class="info-badge-row">
+              <span class="badge-role-number" id="roleNumber">01 / 08</span>
+              <span class="badge-status"><span class="pulse-dot"></span> Active Trade Demo</span>
+            </div>
+            
+            <h2 class="info-role-title" id="roleTitle">Wall Painting Specialist</h2>
+            <p class="info-role-desc" id="roleDesc">Precision wall roll painting, waterproof damp treatment, and clean border tape masking.</p>
+            
+            <div class="info-specs-row">
+              <div class="spec-box">
+                <small>Pricing</small>
+                <strong id="rolePrice">From ₹199</strong>
+              </div>
+              <div class="spec-box">
+                <small>Standard Time</small>
+                <strong id="roleTime">⏱ 45 mins</strong>
+              </div>
+              <div class="spec-box">
+                <small>Rating</small>
+                <strong id="roleRating">★ 4.9 (1.2k)</strong>
               </div>
             </div>
 
-            <div class="search-divider"></div>
-
-            <!-- Service Input with Auto-Filter -->
-            <div class="search-field input-field">
-              <i class="fas fa-magnifying-glass field-icon text-muted"></i>
-              <div class="field-body">
-                <label for="serviceSearchInput">What service do you need?</label>
-                <input 
-                  type="text" 
-                  id="serviceSearchInput" 
-                  placeholder="e.g. AC Servicing, Tap Leak, Electrician, Deep Cleaning..." 
-                  autocomplete="off"
-                />
-              </div>
-              <button type="button" class="btn-clear-search" id="clearSearchBtn" title="Clear search" style="display:none;">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-
-            <!-- Search Action Button -->
-            <button type="button" class="btn btn-primary btn-search" id="searchTriggerBtn">
-              <i class="fas fa-search"></i>
-              <span>Find Services</span>
-            </button>
+            <!-- Feature Showcase Button (No Address Form) -->
+           <button class="btn-orange full-width" onclick="scrollToDeck()">
+            <span>Explore All Services</span>
+            <i class="fas fa-arrow-down"></i>
+          </button>
           </div>
 
-          <!-- Quick Filter Tags / Pills -->
-          <div class="quick-tags-wrapper">
-            <span class="quick-tags-label">Quick filter:</span>
-            <div class="quick-tags-list" id="quickTagsList">
-              <button type="button" class="tag-pill active" data-category="all">All</button>
-              <button type="button" class="tag-pill" data-category="electrician">Electrician</button>
-              <button type="button" class="tag-pill" data-category="plumbing">Plumbing</button>
-              <button type="button" class="tag-pill" data-category="ac-repair">AC Repair</button>
-              <button type="button" class="tag-pill" data-category="cleaning">Cleaning</button>
-              <button type="button" class="tag-pill" data-category="carpentry">Carpentry</button>
-              <button type="button" class="tag-pill" data-category="appliances">Appliances</button>
-              <button type="button" class="tag-pill" data-category="painting">Painting</button>
-              <button type="button" class="tag-pill" data-category="pest-control">Pest Control</button>
-            </div>
-          </div>
         </div>
 
-        <!-- Trust Stats Counter Row -->
-        <div class="hero-stats-row">
-          <div class="stat-item">
-            <div class="stat-number">15,000+</div>
-            <div class="stat-label">Jobs Completed</div>
-          </div>
-          <div class="stat-sep"></div>
-          <div class="stat-item">
-            <div class="stat-number">650+</div>
-            <div class="stat-label">Verified Pros</div>
-          </div>
-          <div class="stat-sep"></div>
-          <div class="stat-item">
-            <div class="stat-number">4.85 ★</div>
-            <div class="stat-label">Customer Rating</div>
-          </div>
-          <div class="stat-sep"></div>
-          <div class="stat-item">
-            <div class="stat-number">30 Min</div>
-            <div class="stat-label">Fast Doorstep Arrival</div>
+      </div>
+    </section>
+
+    <!-- SECTION: PLAYING CARDS STACK WITH INSTAGRAM POST DOTS -->
+    <section class="section-deck" id="servicesDeck">
+      <div class="container">
+        
+        <div class="deck-header text-center">
+          <span class="deck-tag">Doorstep Solutions</span>
+          <h2 class="deck-title">Popular Home Services</h2>
+          <p class="deck-subtitle">Verified professionals, upfront fixed pricing, and guaranteed doorstep fixes.</p>
+        </div>
+
+        <!-- THE 3D PLAYING CARDS STACK STAGE -->
+        <div class="deck-stage">
+          
+         <!-- Navigation Arrow Left -->
+ <button type="button" class="deck-nav-btn prev-btn" onclick="prevCard(event)" aria-label="Previous card">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+
+
+          <!-- STACK CONTAINER (Cards sit one behind another) -->
+          <div class="deck-stack" id="deckStack">
+
+            <!-- CARD 1: ELECTRICIAN -->
+            <div class="deck-card active" data-index="0">
+              <div class="card-inner">
+                <div class="card-header-bar">
+                <div class="card-author">
+                  <div class="avatar-chip"><i class="fas fa-bolt"></i></div>
+                  <div>
+                    <strong>Electrician Services <i class="fas fa-circle-check text-orange" style="font-size: 0.8rem;"></i></strong>
+                    <small>FixMate Certified Pro</small>
+                  </div>
+                </div>
+                <span class="card-status-pill"><span class="pulse-dot"></span> 25-Min Arrival</span>
+              </div>
+
+                <div class="card-media">
+                  <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80" alt="Electrician Service" />
+                  <span class="card-price-pill">Fixed Base: ₹79</span>
+                </div>
+
+                <div class="card-content">
+                  <h3>Switchboard, MCB & House Wiring</h3>
+                  <p>Complete electrical diagnostics, spark troubleshooting, switchboard replacements, and circuit breaker trip balance.</p>
+                  
+                  <div class="card-features-chips">
+                    <span><i class="fas fa-check text-orange"></i> Live GPS Technician Dispatch</span>
+                    <span><i class="fas fa-check text-orange"></i> Standardized Rates</span>
+                    <span><i class="fas fa-check text-orange"></i> 30-Day Guarantee</span>
+                  </div>
+
+                  <div class="card-action-row">
+                    <div class="card-stat"><i class="fas fa-star text-orange"></i> 4.9 Rating (3.4k Reviews)</div>
+                    <button class="btn-card-demo" onclick="showFeaturePreview('Electrical Diagnostic & Repair Engine')">
+                      <span>View Feature Specs</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2: PLUMBER -->
+            <div class="deck-card next-1" data-index="1">
+              <div class="card-inner">
+                <div class="card-header-bar">
+                  <div class="card-author">
+                    <div class="avatar-chip"><i class="fas fa-faucet-drip"></i></div>
+                    <div>
+                      <strong>Plumbing Services <i class="fas fa-circle-check text-orange" style="font-size: 0.8rem;"></i></strong>
+                      <small>FixMate Certified Pro</small>
+                    </div>
+                  </div>
+                  <span class="card-status-pill"><span class="pulse-dot"></span> 30-Min Arrival</span>
+                </div>
+
+                <div class="card-media">
+                  <img src="https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=600&q=80" alt="Plumbing Service" />
+                  <span class="card-price-pill">Fixed Base: ₹99</span>
+                </div>
+
+                <div class="card-content">
+                  <h3>Pipe Leakage & Drain Blockage</h3>
+                  <p>High-pressure leak tests, drain snake unblocking, tap cartridge fittings, and brass mixer valve installations.</p>
+                  
+                  <div class="card-features-chips">
+                    <span><i class="fas fa-check text-orange"></i> Zero Leakage Assurance</span>
+                    <span><i class="fas fa-check text-orange"></i> Standardized Rates</span>
+                    <span><i class="fas fa-check text-orange"></i> 30-Day Guarantee</span>
+                  </div>
+
+                  <div class="card-action-row">
+                    <div class="card-stat"><i class="fas fa-star text-orange"></i> 4.8 Rating (2.1k Reviews)</div>
+                    <button class="btn-card-demo" onclick="showFeaturePreview('Plumbing Hardware & Flow Restoration')">
+                      <span>View Feature Specs</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 3: AC REPAIR -->
+            <div class="deck-card next-2" data-index="2">
+              <div class="card-inner">
+                <div class="card-header-bar">
+                  <div class="card-author">
+                    <div class="avatar-chip"><i class="fas fa-snowflake"></i></div>
+                    <div>
+                      <strong>AC Jet Servicing <i class="fas fa-circle-check text-orange" style="font-size: 0.8rem;"></i></strong>
+                      <small>FixMate Certified Pro</small>
+                    </div>
+                  </div>
+                  <span class="card-status-pill"><span class="pulse-dot"></span> Priority Slot</span>
+                </div>
+
+                <div class="card-media">
+                  <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=600&q=80" alt="AC Service" />
+                  <span class="card-price-pill">Fixed Base: ₹399</span>
+                </div>
+
+                <div class="card-content">
+                  <h3>Split AC Foam Jet Deep Wash</h3>
+                  <p>2x deeper coil cleaning using jet-spray water guns, gas leak checkup, and cooling efficiency optimization.</p>
+                  
+                  <div class="card-features-chips">
+                    <span><i class="fas fa-check text-orange"></i> Spill-Proof Indoor Jacket</span>
+                    <span><i class="fas fa-check text-orange"></i> Power Bill Reduction</span>
+                    <span><i class="fas fa-check text-orange"></i> 30-Day Guarantee</span>
+                  </div>
+
+                  <div class="card-action-row">
+                    <div class="card-stat"><i class="fas fa-star text-orange"></i> 4.9 Rating (4.2k Reviews)</div>
+                    <button class="btn-card-demo" onclick="showFeaturePreview('AC Jet Cleaning & Gas Manifold Unit')">
+                      <span>View Feature Specs</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 4: CARPENTER -->
+            <div class="deck-card hidden" data-index="3">
+              <div class="card-inner">
+                <div class="card-header-bar">
+                  <div class="card-author">
+                    <div class="avatar-chip"><i class="fas fa-hammer"></i></div>
+                    <div>
+                      <strong>Carpentry Precision <i class="fas fa-circle-check text-orange" style="font-size: 0.8rem;"></i></strong>
+                      <small>FixMate Certified Pro</small>
+                    </div>
+                  </div>
+                  <span class="card-status-pill"><span class="pulse-dot"></span> Today Available</span>
+                </div>
+
+                <div class="card-media">
+                  <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=600&q=80" alt="Carpentry Service" />
+                  <span class="card-price-pill">Fixed Base: ₹149</span>
+                </div>
+
+                <div class="card-content">
+                  <h3>Door Locks & Custom Furniture Fitting</h3>
+                  <p>Main door mortise locks, hydraulic soft-close hinge alignment, drawer channel repair, and custom shelf mounting.</p>
+                  
+                  <div class="card-features-chips">
+                    <span><i class="fas fa-check text-orange"></i> Precision Fit Guarantee</span>
+                    <span><i class="fas fa-check text-orange"></i> Standardized Rates</span>
+                    <span><i class="fas fa-check text-orange"></i> 30-Day Guarantee</span>
+                  </div>
+
+                  <div class="card-action-row">
+                    <div class="card-stat"><i class="fas fa-star text-orange"></i> 4.8 Rating (950 Reviews)</div>
+                    <button class="btn-card-demo" onclick="showFeaturePreview('Carpentry & Woodwork Precision Fitting')">
+                      <span>View Feature Specs</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 5: PAINTER -->
+            <div class="deck-card hidden" data-index="4">
+              <div class="card-inner">
+                <div class="card-header-bar">
+                  <div class="card-author">
+                    <div class="avatar-chip"><i class="fas fa-paint-roller"></i></div>
+                    <div>
+                      <strong>Wall Painting <i class="fas fa-circle-check text-orange" style="font-size: 0.8rem;"></i></strong>
+                      <small>FixMate Certified Pro</small>
+                    </div>
+                  </div>
+                  <span class="card-status-pill"><span class="pulse-dot"></span> Zero Mess Floor</span>
+                </div>
+
+                <div class="card-media">
+                  <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&q=80" alt="Wall Painting" />
+                  <span class="card-price-pill">Fixed Base: ₹199</span>
+                </div>
+
+                <div class="card-content">
+                  <h3>Accent Wall Coating & Waterproofing</h3>
+                  <p>Smooth wall putty sanding, moisture barrier primer, roller finish, and zero-stain floor sheet protection.</p>
+                  
+                  <div class="card-features-chips">
+                    <span><i class="fas fa-check text-orange"></i> Zero Floor Mess Policy</span>
+                    <span><i class="fas fa-check text-orange"></i> Premium Finish</span>
+                    <span><i class="fas fa-check text-orange"></i> 30-Day Guarantee</span>
+                  </div>
+
+                  <div class="card-action-row">
+                    <div class="card-stat"><i class="fas fa-star text-orange"></i> 4.9 Rating (1.2k Reviews)</div>
+                    <button class="btn-card-demo" onclick="showFeaturePreview('Wall Coating & Surface Finish Module')">
+                      <span>View Feature Specs</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 6: CLEANING -->
+            <div class="deck-card hidden" data-index="5">
+              <div class="card-inner">
+                <div class="card-header-bar">
+                  <div class="card-author">
+                    <div class="avatar-chip"><i class="fas fa-broom"></i></div>
+                    <div>
+                      <strong>Deep Sanitization <i class="fas fa-circle-check text-orange" style="font-size: 0.8rem;"></i></strong>
+                      <small>FixMate Certified Pro</small>
+                    </div>
+                  </div>
+                  <span class="card-status-pill"><span class="pulse-dot"></span> Hospital Grade</span>
+                </div>
+
+                <div class="card-media">
+                  <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80" alt="Deep Cleaning" />
+                  <span class="card-price-pill">Fixed Base: ₹299</span>
+                </div>
+
+                <div class="card-content">
+                  <h3>Bathroom & Kitchen Intensive Scrub</h3>
+                  <p>Hard water tile stain de-scaling, kitchen oil degreasing, sofa shampooing, and hospital-grade sanitization.</p>
+                  
+                  <div class="card-features-chips">
+                    <span><i class="fas fa-check text-orange"></i> Eco-Safe Medical Detergents</span>
+                    <span><i class="fas fa-check text-orange"></i> Deep Sanitization</span>
+                    <span><i class="fas fa-check text-orange"></i> 30-Day Guarantee</span>
+                  </div>
+
+                  <div class="card-action-row">
+                    <div class="card-stat"><i class="fas fa-star text-orange"></i> 4.8 Rating (1.8k Reviews)</div>
+                    <button class="btn-card-demo" onclick="showFeaturePreview('Sanitization & Hygiene Machine Scrub')">
+                      <span>View Feature Specs</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 7: APPLIANCES -->
+            <div class="deck-card hidden" data-index="6">
+              <div class="card-inner">
+                <div class="card-header-bar">
+                  <div class="card-author">
+                    <div class="avatar-chip"><i class="fas fa-blender"></i></div>
+                    <div>
+                      <strong>Appliance Repair <i class="fas fa-circle-check text-orange" style="font-size: 0.8rem;"></i></strong>
+                      <small>FixMate Certified Pro</small>
+                    </div>
+                  </div>
+                  <span class="card-status-pill"><span class="pulse-dot"></span> OEM Genuine Parts</span>
+                </div>
+
+                <div class="card-media">
+                  <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80" alt="Appliance Repair" />
+                  <span class="card-price-pill">Fixed Base: ₹199</span>
+                </div>
+
+                <div class="card-content">
+                  <h3>Washing Machine & Refrigerator Fix</h3>
+                  <p>Motor drum spinning issues, thermostat compressor checks, microwave magnetron test, and RO filter service.</p>
+                  
+                  <div class="card-features-chips">
+                    <span><i class="fas fa-check text-orange"></i> OEM Genuine Spare Parts</span>
+                    <span><i class="fas fa-check text-orange"></i> Transparent Rates</span>
+                    <span><i class="fas fa-check text-orange"></i> 30-Day Guarantee</span>
+                  </div>
+
+                  <div class="card-action-row">
+                    <div class="card-stat"><i class="fas fa-star text-orange"></i> 4.8 Rating (880 Reviews)</div>
+                    <button class="btn-card-demo" onclick="showFeaturePreview('Appliance Motor & Electronic Control Engine')">
+                      <span>View Feature Specs</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 8: PEST CONTROL -->
+            <div class="deck-card hidden" data-index="7">
+              <div class="card-inner">
+                <div class="card-header-bar">
+                  <div class="card-author">
+                    <div class="avatar-chip"><i class="fas fa-shield-virus"></i></div>
+                    <div>
+                      <strong>Pest Extermination <i class="fas fa-circle-check text-orange" style="font-size: 0.8rem;"></i></strong>
+                      <small>FixMate Certified Pro</small>
+                    </div>
+                  </div>
+                  <span class="card-status-pill"><span class="pulse-dot"></span> 100% Odorless</span>
+                </div>
+
+                <div class="card-media">
+                  <img src="https://images.unsplash.com/photo-1584744982491-665216d95f8b?auto=format&fit=crop&w=600&q=80" alt="Pest Control" />
+                  <span class="card-price-pill">Fixed Base: ₹499</span>
+                </div>
+
+                <div class="card-content">
+                  <h3>Odorless Gel Bait & Anti-Termite Treatment</h3>
+                  <p>Targeted herbal cockroach gel placement, woodwork drill & fill termite treatment, and complete bedbug clearing.</p>
+                  
+                  <div class="card-features-chips">
+                    <span><i class="fas fa-check text-orange"></i> 100% Odorless & Pet Safe</span>
+                    <span><i class="fas fa-check text-orange"></i> Long-Term Repel</span>
+                    <span><i class="fas fa-check text-orange"></i> 30-Day Guarantee</span>
+                  </div>
+
+                  <div class="card-action-row">
+                    <div class="card-stat"><i class="fas fa-star text-orange"></i> 4.9 Rating (1.1k Reviews)</div>
+                    <button class="btn-card-demo" onclick="showFeaturePreview('Bio-Safe Pest Eradication Protocol')">
+                      <span>View Feature Specs</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- End Stack -->
+
+          <!-- Navigation Arrow Right -->
+          <button type="button" class="deck-nav-btn next-btn" onclick="nextCard(event)" aria-label="Next card">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+
+        </div> <!-- End Deck Stage -->
+
+        <!-- INSTAGRAM POST PAGINATION DOTS (INDICATES ACTIVE CARD) -->
+        <div class="insta-dots-wrapper">
+          <div class="insta-dots-track" id="instaDotsTrack">
+            <span class="insta-dot active" onclick="jumpToCard(0)" title="Electrician"></span>
+            <span class="insta-dot" onclick="jumpToCard(1)" title="Plumber"></span>
+            <span class="insta-dot" onclick="jumpToCard(2)" title="AC Repair"></span>
+            <span class="insta-dot" onclick="jumpToCard(3)" title="Carpenter"></span>
+            <span class="insta-dot" onclick="jumpToCard(4)" title="Painter"></span>
+            <span class="insta-dot" onclick="jumpToCard(5)" title="Cleaning"></span>
+            <span class="insta-dot" onclick="jumpToCard(6)" title="Appliances"></span>
+            <span class="insta-dot" onclick="jumpToCard(7)" title="Pest Control"></span>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- POPULAR SERVICES SECTION (INTERACTIVE LIVE FILTER GRID) -->
-    <section class="section services-section" id="services">
+    <!-- COMPACT PARTNER CTA -->
+    <section class="partner-card-section">
       <div class="container">
-        
-        <div class="section-header-split">
+        <div class="partner-compact-box">
           <div>
-            <div class="badge-subtitle">Verified Doorstep Solutions</div>
-            <h2 class="section-title">Explore Our Popular Services</h2>
-            <p class="section-desc">Instant booking with certified technicians and upfront price guarantees.</p>
+            <h3>Are you a certified trade expert?</h3>
+            <p>Earn ₹40,000+ monthly with FixMate. Direct bank deposits every single week.</p>
           </div>
-          <div class="results-counter" id="resultsCount">Showing 8 services</div>
-        </div>
-
-        <!-- Dynamic Service Cards Grid -->
-        <div class="services-grid" id="servicesGrid">
-          
-          <!-- Card 1: Electrician -->
-          <div class="service-card" data-category="electrician" data-keywords="electrician wiring switches mcb circuit fan light installation repair">
-            <div class="service-card-top">
-              <div class="service-icon-box bg-blue-subtle text-primary">
-                <i class="fas fa-bolt"></i>
-              </div>
-              <span class="category-tag">Electrical</span>
-            </div>
-            <h3 class="service-card-title">General Electrical Repairs</h3>
-            <p class="service-card-desc">Switchboard repair, fuse tripping, short circuits, appliance installations, and complete wiring checkups.</p>
-            <div class="service-meta">
-              <div class="service-rating"><i class="fas fa-star"></i> 4.9 <span>(2.4k)</span></div>
-              <div class="service-price">From <strong>₹249</strong></div>
-            </div>
-            <button class="btn btn-outline btn-block service-book-btn" onclick="openBookingModal('General Electrical Repairs', '₹249')">
-              <span>Book Service</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Card 2: Plumbing -->
-          <div class="service-card" data-category="plumbing" data-keywords="plumbing pipe leakage tap shower drain blockage sink toilet faucet water heater">
-            <div class="service-card-top">
-              <div class="service-icon-box bg-cyan-subtle text-cyan">
-                <i class="fas fa-faucet-drip"></i>
-              </div>
-              <span class="category-tag">Plumbing</span>
-            </div>
-            <h3 class="service-card-title">Plumbing & Leak Repairs</h3>
-            <p class="service-card-desc">Tap & shower leakage fix, drain unclogging, geyser piping connection, and high-pressure water testing.</p>
-            <div class="service-meta">
-              <div class="service-rating"><i class="fas fa-star"></i> 4.8 <span>(1.8k)</span></div>
-              <div class="service-price">From <strong>₹299</strong></div>
-            </div>
-            <button class="btn btn-outline btn-block service-book-btn" onclick="openBookingModal('Plumbing & Leak Repairs', '₹299')">
-              <span>Book Service</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Card 3: AC Repair -->
-          <div class="service-card" data-category="ac-repair" data-keywords="ac repair air conditioner split window gas refill cooling filter service duct">
-            <div class="service-card-top">
-              <div class="service-icon-box bg-sky-subtle text-sky">
-                <i class="fas fa-snowflake"></i>
-              </div>
-              <span class="category-tag">Climate Care</span>
-            </div>
-            <h3 class="service-card-title">AC Servicing & Gas Refill</h3>
-            <p class="service-card-desc">Deep jet-spray foam cleaning, gas leakage check, refrigerant top-up, and cooling efficiency tuneup.</p>
-            <div class="service-meta">
-              <div class="service-rating"><i class="fas fa-star"></i> 4.9 <span>(3.1k)</span></div>
-              <div class="service-price">From <strong>₹499</strong></div>
-            </div>
-            <button class="btn btn-outline btn-block service-book-btn" onclick="openBookingModal('AC Servicing & Gas Refill', '₹499')">
-              <span>Book Service</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Card 4: House Cleaning -->
-          <div class="service-card" data-category="cleaning" data-keywords="cleaning deep clean bathroom kitchen sofa carpet sanitize maid vacuum mop">
-            <div class="service-card-top">
-              <div class="service-icon-box bg-green-subtle text-success">
-                <i class="fas fa-broom"></i>
-              </div>
-              <span class="category-tag">Deep Cleaning</span>
-            </div>
-            <h3 class="service-card-title">Full Home Deep Cleaning</h3>
-            <p class="service-card-desc">Kitchen degreasing, bathroom scrubbing & sanitization, sofa shampooing, and high-grade floor polishing.</p>
-            <div class="service-meta">
-              <div class="service-rating"><i class="fas fa-star"></i> 4.8 <span>(1.5k)</span></div>
-              <div class="service-price">From <strong>₹899</strong></div>
-            </div>
-            <button class="btn btn-outline btn-block service-book-btn" onclick="openBookingModal('Full Home Deep Cleaning', '₹899')">
-              <span>Book Service</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Card 5: Carpentry -->
-          <div class="service-card" data-category="carpentry" data-keywords="carpentry wood door furniture lock handle hinges cabinet wardrobe repair">
-            <div class="service-card-top">
-              <div class="service-icon-box bg-amber-subtle text-amber">
-                <i class="fas fa-hammer"></i>
-              </div>
-              <span class="category-tag">Carpentry</span>
-            </div>
-            <h3 class="service-card-title">Carpentry & Furniture Assembly</h3>
-            <p class="service-card-desc">Door hinges and lock repairs, wardrobe latch fixes, custom shelf mounting, and flatpack furniture assembly.</p>
-            <div class="service-meta">
-              <div class="service-rating"><i class="fas fa-star"></i> 4.7 <span>(980)</span></div>
-              <div class="service-price">From <strong>₹349</strong></div>
-            </div>
-            <button class="btn btn-outline btn-block service-book-btn" onclick="openBookingModal('Carpentry & Furniture Assembly', '₹349')">
-              <span>Book Service</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Card 6: Appliances -->
-          <div class="service-card" data-category="appliances" data-keywords="appliances refrigerator washing machine microwave oven dishwasher ro water purifier">
-            <div class="service-card-top">
-              <div class="service-icon-box bg-indigo-subtle text-indigo">
-                <i class="fas fa-blender"></i>
-              </div>
-              <span class="category-tag">Appliances</span>
-            </div>
-            <h3 class="service-card-title">Major Appliance Servicing</h3>
-            <p class="service-card-desc">Washing machine spinning problems, refrigerator cooling issues, microwave repair, and RO filter replacement.</p>
-            <div class="service-meta">
-              <div class="service-rating"><i class="fas fa-star"></i> 4.8 <span>(1.1k)</span></div>
-              <div class="service-price">From <strong>₹399</strong></div>
-            </div>
-            <button class="btn btn-outline btn-block service-book-btn" onclick="openBookingModal('Major Appliance Servicing', '₹399')">
-              <span>Book Service</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Card 7: Painting -->
-          <div class="service-card" data-category="painting" data-keywords="painting wall painter interior exterior waterproof texture primer touch up">
-            <div class="service-card-top">
-              <div class="service-icon-box bg-purple-subtle text-purple">
-                <i class="fas fa-paint-roller"></i>
-              </div>
-              <span class="category-tag">Home Decor</span>
-            </div>
-            <h3 class="service-card-title">Wall Painting & Waterproofing</h3>
-            <p class="service-card-desc">Room refresh, moisture/seepage repair, stencil textures, and single accent wall painting with zero mess.</p>
-            <div class="service-meta">
-              <div class="service-rating"><i class="fas fa-star"></i> 4.9 <span>(720)</span></div>
-              <div class="service-price">From <strong>₹999</strong></div>
-            </div>
-            <button class="btn btn-outline btn-block service-book-btn" onclick="openBookingModal('Wall Painting & Waterproofing', '₹999')">
-              <span>Book Service</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Card 8: Pest Control -->
-          <div class="service-card" data-category="pest-control" data-keywords="pest control cockroaches termites bedbugs ants mosquitoes chemical organic spray">
-            <div class="service-card-top">
-              <div class="service-icon-box bg-red-subtle text-danger">
-                <i class="fas fa-shield-virus"></i>
-              </div>
-              <span class="category-tag">Protection</span>
-            </div>
-            <h3 class="service-card-title">Eco-Safe Pest Control</h3>
-            <p class="service-card-desc">Odorless gel baiting for cockroaches, anti-termite drill treatments, and bedbug extermination with warranty.</p>
-            <div class="service-meta">
-              <div class="service-rating"><i class="fas fa-star"></i> 4.8 <span>(1.3k)</span></div>
-              <div class="service-price">From <strong>₹699</strong></div>
-            </div>
-            <button class="btn btn-outline btn-block service-book-btn" onclick="openBookingModal('Eco-Safe Pest Control', '₹699')">
-              <span>Book Service</span>
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-        </div>
-
-        <!-- No Results Fallback -->
-        <div class="no-results-box" id="noResultsBox" style="display:none;">
-          <div class="no-results-icon"><i class="fas fa-search"></i></div>
-          <h3>No services found matching your search</h3>
-          <p>Try searching for words like "plumber", "AC", "cleaning", "wiring", or browse all categories.</p>
-          <button class="btn btn-primary" id="resetSearchBtn">Browse All Services</button>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS SECTION -->
-    <section class="section section-light" id="how-it-works">
-      <div class="container">
-        <div class="section-header text-center">
-          <div class="badge-subtitle">Transparent Process</div>
-          <h2 class="section-title">How FixMate Works</h2>
-          <p class="section-desc">Reliable home repairs completed in 4 simple, transparent steps.</p>
-        </div>
-
-        <div class="steps-container">
-          
-          <div class="step-box">
-            <div class="step-badge">1</div>
-            <div class="step-icon bg-blue-subtle text-primary">
-              <i class="fas fa-list-check"></i>
-            </div>
-            <h4>Select Your Service</h4>
-            <p>Browse our catalog, view upfront transparent rates, and pick your preferred date and time slot.</p>
-          </div>
-
-          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
-
-          <div class="step-box">
-            <div class="step-badge">2</div>
-            <div class="step-icon bg-green-subtle text-success">
-              <i class="fas fa-user-shield"></i>
-            </div>
-            <h4>Technician Assigned</h4>
-            <p>Our platform pairs you with a verified, nearby technician possessing the exact skills you need.</p>
-          </div>
-
-          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
-
-          <div class="step-box">
-            <div class="step-badge">3</div>
-            <div class="step-icon bg-amber-subtle text-amber">
-              <i class="fas fa-toolbox"></i>
-            </div>
-            <h4>Doorstep Service</h4>
-            <p>Your technician arrives on schedule with standard equipment, performs diagnostic checks, and fixes the issue.</p>
-          </div>
-
-          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
-
-          <div class="step-box">
-            <div class="step-badge">4</div>
-            <div class="step-icon bg-purple-subtle text-purple">
-              <i class="fas fa-circle-check"></i>
-            </div>
-            <h4>Review & Pay</h4>
-            <p>Verify completed work, pay securely via UPI, Card, or Cash, and rate your technician's performance.</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY FIXMATE (TRUST BADGES) -->
-    <section class="section" id="why-us">
-      <div class="container">
-        <div class="section-header text-center">
-          <div class="badge-subtitle">Built On Quality & Trust</div>
-          <h2 class="section-title">Why 50,000+ Homes Rely On FixMate</h2>
-          <p class="section-desc">We solved the uncertainty of unverified local handymen with institutional standards.</p>
-        </div>
-
-        <div class="trust-grid">
-          
-          <div class="trust-card">
-            <div class="trust-icon bg-blue-subtle text-primary">
-              <i class="fas fa-user-check"></i>
-            </div>
-            <h3>100% Background Checked</h3>
-            <p>Every technician completes national identity verification, police clearance, and trade skill testing before accepting jobs.</p>
-          </div>
-
-          <div class="trust-card">
-            <div class="trust-icon bg-green-subtle text-success">
-              <i class="fas fa-receipt"></i>
-            </div>
-            <h3>Upfront Fixed Pricing</h3>
-            <p>No sudden surprises or haggling at your door. You see the standard rate card before confirming your booking.</p>
-          </div>
-
-          <div class="trust-card">
-            <div class="trust-icon bg-purple-subtle text-purple">
-              <i class="fas fa-clock"></i>
-            </div>
-            <h3>On-Time Guarantee</h3>
-            <p>We respect your schedule. Technicians arrive within your booked window with live dispatch updates.</p>
-          </div>
-
-          <div class="trust-card">
-            <div class="trust-icon bg-sky-subtle text-sky">
-              <i class="fas fa-shield-heart"></i>
-            </div>
-            <h3>30-Day Service Warranty</h3>
-            <p>If something isn't right with the repaired appliance within 30 days, we'll send a technician to re-inspect for free.</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- CUSTOMER TESTIMONIALS -->
-    <section class="section section-light" id="testimonials">
-      <div class="container">
-        <div class="section-header text-center">
-          <div class="badge-subtitle">Customer Feedback</div>
-          <h2 class="section-title">What Real Customers Experience</h2>
-          <p class="section-desc">Read reviews from verified homeowners who booked with FixMate this week.</p>
-        </div>
-
-        <div class="testimonials-grid">
-          
-          <div class="testimonial-card">
-            <div class="testi-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-            <p class="testi-text">"Had an emergency main MCB trip on a Sunday night. FixMate's electrician arrived in 25 minutes, diagnosed a faulty sub-switch, and repaired it cleanly without pushing extra parts."</p>
-            <div class="testi-user">
-              <div class="user-avatar bg-blue-subtle text-primary">RS</div>
-              <div class="user-info">
-                <strong>Rohit Sharma</strong>
-                <span>Delhi NCR • Electrical Service</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card featured-testimonial">
-            <div class="testi-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-            <p class="testi-text">"The AC jet cleaning was night and day compared to random handymen. The technician wore shoe covers, kept the floor dry, and our electricity bill dropped significantly!"</p>
-            <div class="testi-user">
-              <div class="user-avatar bg-green-subtle text-success">AK</div>
-              <div class="user-info">
-                <strong>Ananya Kulkarni</strong>
-                <span>Mumbai • AC Jet Servicing</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="testimonial-card">
-            <div class="testi-stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-            <p class="testi-text">"Booked kitchen plumbing repair and tap cartridge replacement. The quote was shown upfront in the app and the technician gave a 30-day warranty slip. Extremely satisfied."</p>
-            <div class="testi-user">
-              <div class="user-avatar bg-purple-subtle text-purple">VP</div>
-              <div class="user-info">
-                <strong>Vikram Patel</strong>
-                <span>Bangalore • Plumbing Repair</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- TECHNICIAN RECRUITMENT CTA BANNER -->
-    <section class="section partner-banner-section">
-      <div class="container">
-        <div class="partner-banner">
-          <div class="partner-content">
-            <span class="partner-pill"><i class="fas fa-tools"></i> Technicians & Partners Wanted</span>
-            <h2>Are You a Skilled Service Professional?</h2>
-            <p>Partner with FixMate to grow your business. Get consistent local job leads, guaranteed weekly payouts, and zero commission on your first 15 jobs.</p>
-            
-            <div class="partner-features">
-              <div class="partner-feat-item"><i class="fas fa-check-circle"></i> Weekly Direct Bank Payouts</div>
-              <div class="partner-feat-item"><i class="fas fa-check-circle"></i> Flexible Working Hours</div>
-              <div class="partner-feat-item"><i class="fas fa-check-circle"></i> Free Safety Gear & Skill Training</div>
-            </div>
-
-            <button class="btn btn-white btn-lg" onclick="openLoginModal('technician')">
-              <i class="fas fa-briefcase"></i>
-              <span>Join as a FixMate Partner</span>
-            </button>
-          </div>
-          
-          <div class="partner-badge-card">
-            <div class="partner-stat-val">₹45,000+</div>
-            <div class="partner-stat-sub">Average Monthly Partner Earnings</div>
-            <div class="partner-avatar-group">
-              <span class="p-avatar">👨‍🔧</span>
-              <span class="p-avatar">⚡</span>
-              <span class="p-avatar">🛠️</span>
-              <span class="p-avatar-count">+650 Pros Active</span>
-            </div>
-          </div>
+          <a href="technician-login.html" class="btn-outline-orange">
+    Technician Portal <i class="fas fa-arrow-right"></i>
+</a>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- COMPREHENSIVE FOOTER -->
-  <footer class="footer">
-    <div class="container footer-container">
-      
-      <!-- Column 1: Brand & Contact -->
-      <div class="footer-col brand-col">
-        <a href="#home" class="nav-logo footer-logo">
-          <div class="logo-badge"><i class="fas fa-screwdriver-wrench"></i></div>
-          <span class="logo-text">Fix<span class="logo-accent">Mate</span></span>
-        </a>
-        <p class="footer-desc">
-          FixMate connects homeowners with certified, background-checked service technicians. Transparent, quick, and reliable.
-        </p>
-        <div class="footer-contact-info">
-          <div><i class="fas fa-envelope"></i> support@fixmate.com</div>
-          <div><i class="fas fa-phone"></i> +91 (800) 349-6283</div>
+  <!-- FEATURE DETAILS MODAL (Pure interface demonstration, zero personal address forms) -->
+  <div class="modal-backdrop" id="featureModal">
+    <div class="modal-box">
+      <button class="btn-close" onclick="closeFeatureModal()">&times;</button>
+      <div class="modal-head">
+        <span class="modal-badge text-orange"><i class="fas fa-microchip"></i> FixMate Architecture Feature</span>
+        <h3 id="featureTitle">Service Engine</h3>
+        <p>How FixMate handles this service digitally:</p>
+      </div>
+
+      <div class="feature-spec-list">
+        <div class="feature-item">
+          <i class="fas fa-satellite-dish text-orange"></i>
+          <div>
+            <strong>Smart Proximity Dispatch</strong>
+            <small>Matches customer order with the closest verified technician within a 3km geofence.</small>
+          </div>
         </div>
-        <div class="footer-socials">
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+
+        <div class="feature-item">
+          <i class="fas fa-receipt text-orange"></i>
+          <div>
+            <strong>Pre-Calibrated Price Matrix</strong>
+            <small>Standardized line items prevent doorstep price disputes and arbitrary bargaining.</small>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <i class="fas fa-shield-halved text-orange"></i>
+          <div>
+            <strong>Automated 30-Day Warranty</strong>
+            <small>Platform tracks completed job ID and auto-approves free re-inspection if issues recur.</small>
+          </div>
         </div>
       </div>
 
-      <!-- Column 2: Customers -->
-      <div class="footer-col">
-        <h4 class="footer-heading">For Customers</h4>
-        <ul class="footer-links">
-          <li><a href="#services" onclick="filterByCategory('all')">Browse All Services</a></li>
-          <li><a href="javascript:void(0)" onclick="openLoginModal('customer')">Customer Login</a></li>
-          <li><a href="javascript:void(0)" onclick="openLoginModal('customer')">Track Active Bookings</a></li>
-          <li><a href="#why-us">Pricing & Warranty</a></li>
-          <li><a href="#how-it-works">Safety Standards</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 3: Technicians -->
-      <div class="footer-col">
-        <h4 class="footer-heading">For Technicians</h4>
-        <ul class="footer-links">
-          <li><a href="javascript:void(0)" onclick="openLoginModal('technician')">Technician Login Portal</a></li>
-          <li><a href="javascript:void(0)" onclick="openLoginModal('technician')">Register as Partner</a></li>
-          <li><a href="javascript:void(0)">Partner Code of Conduct</a></li>
-          <li><a href="javascript:void(0)">Earnings Calculator</a></li>
-          <li><a href="javascript:void(0)">Equipment Support</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 4: Platform & Admin -->
-      <div class="footer-col">
-        <h4 class="footer-heading">Platform & Admin</h4>
-        <ul class="footer-links">
-          <li><a href="javascript:void(0)" onclick="openLoginModal('admin')">Admin Console Login</a></li>
-          <li><a href="javascript:void(0)">System Status</a></li>
-          <li><a href="javascript:void(0)">Privacy Policy</a></li>
-          <li><a href="javascript:void(0)">Terms of Service</a></li>
-          <li><a href="javascript:void(0)">Dispute Resolution</a></li>
-        </ul>
-      </div>
-
+      <button class="btn-orange full-width" onclick="closeFeatureModal()">
+        Got It, Back to Showcase
+      </button>
     </div>
+  </div>
 
-    <div class="footer-bottom">
-      <div class="container footer-bottom-container">
-        <p>&copy; 2026 FixMate Technologies Inc. All rights reserved.</p>
-        <p class="footer-secure"><i class="fas fa-lock text-success"></i> 256-Bit SSL Encrypted Platform</p>
+  <!-- MULTI-ROLE LOGIN MODAL -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-box">
+      <button class="btn-close" onclick="closeLoginModal()">&times;</button>
+      
+      <div class="modal-head">
+        <h3 id="authModalTitle">Sign In</h3>
+        <p id="authModalSubtitle">Choose portal to access</p>
       </div>
+
+      <div class="auth-role-tabs">
+        <button class="role-btn active" id="btnCustomer" onclick="switchAuthRole('customer')">Customer</button>
+        <button class="role-btn" id="btnTechnician" onclick="switchAuthRole('technician')">Technician</button>
+        <button class="role-btn" id="btnAdmin" onclick="switchAuthRole('admin')">Admin</button>
+      </div>
+
+      <form class="auth-form" onsubmit="submitAuth(event)">
+        <div class="form-row">
+          <label id="authIdLabel">Mobile or Email</label>
+          <input type="text" id="authIdInput" placeholder="Enter mobile or email" required />
+        </div>
+        <div class="form-row">
+          <label>Password</label>
+          <input type="password" placeholder="Enter password" required />
+        </div>
+        <div class="form-row" id="adminCodeRow" style="display:none;">
+          <label>Admin Security Code</label>
+          <input type="password" placeholder="6-digit passcode" />
+        </div>
+        <button type="submit" class="btn-orange full-width" id="authSubmitBtn">
+          Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MINIMAL FOOTER -->
+  <footer class="compact-footer">
+    <div class="container footer-row">
+      <div class="brand">
+        <span class="brand-box"><i class="fas fa-hammer"></i></span>
+        <span class="brand-text">Fix<span class="text-orange">Mate</span></span>
+      </div>
+      <div class="footer-copy">&copy; 2026 FixMate. On-demand doorstep technical repairs.</div>
+      <!-- ✅ Direct Dashboard Links in Footer -->
+        <div class="footer-portal-links">
+          <a href="login.html">Customer Login</a>
+          <a href="technician-login.html">Technician Login</a>
+          <a href="admin-login.html">Admin Login</a>
+        </div>
     </div>
   </footer>
 
-  <!-- ROLE-BASED LOGIN / REGISTER MODAL -->
-  <div class="modal-backdrop" id="authModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-dialog">
-      <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">&times;</button>
-      
-      <div class="modal-header text-center">
-        <div class="modal-logo">
-          <i class="fas fa-screwdriver-wrench"></i>
-        </div>
-        <h3 id="modalTitle">FixMate Access Portal</h3>
-        <p id="modalSubtitle">Choose your role to continue</p>
-      </div>
+  <div class="toast-box" id="toast"></div>
 
-      <!-- Role Selector Tabs -->
-      <div class="modal-role-tabs" role="tablist">
-        <button class="role-tab active" id="tabCustomer" role="tab" onclick="switchModalRole('customer')">
-          <i class="fas fa-user"></i>
-          <span>Customer</span>
-        </button>
-        <button class="role-tab" id="tabTechnician" role="tab" onclick="switchModalRole('technician')">
-          <i class="fas fa-wrench"></i>
-          <span>Technician</span>
-        </button>
-        <button class="role-tab" id="tabAdmin" role="tab" onclick="switchModalRole('admin')">
-          <i class="fas fa-shield-halved"></i>
-          <span>Admin</span>
-        </button>
-      </div>
-
-      <!-- Role Form -->
-      <form class="modal-form" id="roleAuthForm" onsubmit="handleAuthSubmit(event)">
-        
-        <div class="role-notice-banner" id="roleNotice">
-          <i class="fas fa-info-circle"></i>
-          <span id="roleNoticeText">Sign in to book services and track technicians.</span>
-        </div>
-
-        <div class="form-group">
-          <label for="authIdentifier" id="authIdLabel">Email Address or Mobile</label>
-          <div class="input-with-icon">
-            <i class="fas fa-envelope input-icon"></i>
-            <input type="text" id="authIdentifier" placeholder="name@example.com or 10-digit number" required />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="label-row">
-            <label for="authPassword">Password</label>
-            <a href="javascript:void(0)" class="forgot-link">Forgot?</a>
-          </div>
-          <div class="input-with-icon">
-            <i class="fas fa-lock input-icon"></i>
-            <input type="password" id="authPassword" placeholder="Enter your password" required />
-            <button type="button" class="btn-toggle-pw" onclick="togglePasswordVisibility('authPassword')">
-              <i class="fas fa-eye" id="pwEyeIcon"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Extra Passkey for Admin -->
-        <div class="form-group" id="adminSecretGroup" style="display: none;">
-          <label for="adminSecretKey">Admin Master Passkey / 2FA Token</label>
-          <div class="input-with-icon">
-            <i class="fas fa-key input-icon"></i>
-            <input type="password" id="adminSecretKey" placeholder="Enter security passkey" />
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-block btn-lg" id="modalSubmitBtn">
-          <span>Sign In as Customer</span>
-          <i class="fas fa-arrow-right"></i>
-        </button>
-
-        <div class="modal-footer-note text-center" id="modalFooterNote">
-          <span>Don't have an account?</span>
-          <a href="javascript:void(0)" class="text-primary font-semibold">Register as Customer</a>
-        </div>
-      </form>
-
-    </div>
-  </div>
-
-  <!-- QUICK BOOKING MODAL -->
-  <div class="modal-backdrop" id="bookingModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-dialog">
-      <button class="modal-close" onclick="closeBookingModal()">&times;</button>
-      
-      <div class="modal-header text-center">
-        <div class="modal-logo bg-blue-subtle text-primary">
-          <i class="fas fa-calendar-check"></i>
-        </div>
-        <h3 id="bookingServiceTitle">Book Service</h3>
-        <p>Estimated Base Price: <strong id="bookingServicePrice" class="text-primary">₹249</strong></p>
-      </div>
-
-      <form class="modal-form" onsubmit="handleBookingSubmit(event)">
-        <div class="form-group">
-          <label>Your Full Name</label>
-          <input type="text" class="input-control" placeholder="e.g. Priya Sharma" required />
-        </div>
-        <div class="form-group">
-          <label>Mobile Number</label>
-          <input type="tel" class="input-control" placeholder="10-digit phone number" required />
-        </div>
-        <div class="form-group">
-          <label>Service Address / Landmark</label>
-          <input type="text" class="input-control" placeholder="House/Flat No, Landmark, City" required />
-        </div>
-        <div class="form-group">
-          <label>Preferred Time Slot</label>
-          <select class="input-control">
-            <option>Today: Within Next 60 Mins (Express Arrival)</option>
-            <option>Today: Evening (5:00 PM - 8:00 PM)</option>
-            <option>Tomorrow: Morning (9:00 AM - 12:00 PM)</option>
-            <option>Tomorrow: Afternoon (1:00 PM - 4:00 PM)</option>
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block btn-lg">
-          <i class="fas fa-check"></i> Confirm Instant Booking
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- TOAST NOTIFICATION CONTAINER -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <!-- BACK TO TOP BUTTON -->
-  <button class="back-to-top" id="backToTopBtn" aria-label="Scroll back to top">
-    <i class="fas fa-arrow-up"></i>
-  </button>
-
-  <!-- External Script -->
   <script src="js/landing.js"></script>
 </body>
 </html>
