@@ -1,370 +1,285 @@
 /**
- * FixMate — Interactive Home Services Engine
- * Handles Real-Time Search, Live Category Filtering, Role-Based Authentication Modals, & Interactions.
+ * FixMate — 3D Playing Cards Deck & Instagram Dots Engine
+ * Fast 1.3s Shape Technician + Card Stack Dealing & Pagination
  */
 
+const TECHNICIAN_ROLES = [
+  {
+    id: "tool-painter",
+    bgText: "PAINTER",
+    number: "01 / 08",
+    title: "Wall Painting Specialist",
+    desc: "Precision wall roll painting, waterproof damp treatment, and clean border tape masking.",
+    price: "From ₹199",
+    time: "⏱ 45 mins",
+    rating: "★ 4.9 (1.2k)"
+  },
+  {
+    id: "tool-carpenter",
+    bgText: "CARPENTER",
+    number: "02 / 08",
+    title: "Precision Carpenter",
+    desc: "Door lock fixing, cabinet hinges, wardrobe latch adjustment, and custom woodcraft.",
+    price: "From ₹149",
+    time: "⏱ 35 mins",
+    rating: "★ 4.8 (950)"
+  },
+  {
+    id: "tool-electrician",
+    bgText: "ELECTRICIAN",
+    number: "03 / 08",
+    title: "Certified Electrician",
+    desc: "Switchboard repairs, tripping MCB circuits, ceiling fan mounting, and wiring checks.",
+    price: "From ₹79",
+    time: "⏱ 25 mins",
+    rating: "★ 4.9 (3.4k)"
+  },
+  {
+    id: "tool-plumber",
+    bgText: "PLUMBER",
+    number: "04 / 08",
+    title: "Licensed Plumber",
+    desc: "Tap & pipe leakage fixing, unclogging drain pipes, and bathroom fixture installation.",
+    price: "From ₹99",
+    time: "⏱ 30 mins",
+    rating: "★ 4.8 (2.1k)"
+  },
+  {
+    id: "tool-ac",
+    bgText: "AC REPAIR",
+    number: "05 / 08",
+    title: "AC Foam Jet Mechanic",
+    desc: "High-pressure jet servicing, gas leakage detection, and summer cooling tune-up.",
+    price: "From ₹399",
+    time: "⏱ 45 mins",
+    rating: "★ 4.9 (4.2k)"
+  },
+  {
+    id: "tool-cleaner",
+    bgText: "CLEANER",
+    number: "06 / 08",
+    title: "Deep Sanitization Pro",
+    desc: "Intensive bathroom scrubbing, kitchen tile degreasing, and sofa shampooing.",
+    price: "From ₹299",
+    time: "⏱ 60 mins",
+    rating: "★ 4.8 (1.8k)"
+  },
+  {
+    id: "tool-appliance",
+    bgText: "APPLIANCE",
+    number: "07 / 08",
+    title: "Appliance Engineer",
+    desc: "Washing machine spinning issues, refrigerator defrost fixes, and microwave repair.",
+    price: "From ₹199",
+    time: "⏱ 40 mins",
+    rating: "★ 4.8 (880)"
+  },
+  {
+    id: "tool-pest",
+    bgText: "PEST PRO",
+    number: "08 / 08",
+    title: "Pest Exterminator",
+    desc: "Odorless cockroach gel baiting, anti-termite wood treatment, and bedbug clearing.",
+    price: "From ₹499",
+    time: "⏱ 50 mins",
+    rating: "★ 4.9 (1.1k)"
+  }
+];
+
+let currentHeroIndex = 0;
+let heroCycleTimer = null;
+const CYCLE_SPEED_MS = 1300; // 1.3 Seconds Fast Cycle
+
+// Playing Card Deck State
+let activeCardIndex = 0;
+const totalCards = 8;
+let currentAuthRole = 'customer';
+
 document.addEventListener('DOMContentLoaded', () => {
-  initNavbar();
-  initSearchAndFilter();
-  initDropdowns();
-  initModals();
-  initBackToTop();
+  startHeroCycle();
+  initPlayingCardsDeck();
 });
 
 /* ==========================================================================
-   1. NAVBAR & MOBILE DRAWER
+   1. HERO TECHNICIAN MOTION & GIANT TEXT CYCLE
    ========================================================================== */
-function initNavbar() {
-  const navbar = document.getElementById('navbar');
-  const hamburgerBtn = document.getElementById('hamburgerBtn');
-  const drawer = document.getElementById('mobileDrawer');
-  const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-  const backdrop = document.getElementById('drawerBackdrop');
-  const drawerLinks = document.querySelectorAll('.drawer-link');
-
-  // Sticky Navbar Scroll Elevation
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  });
-
-  // Open Drawer
-  hamburgerBtn.addEventListener('click', () => {
-    drawer.classList.add('open');
-    backdrop.classList.add('active');
-    hamburgerBtn.setAttribute('aria-expanded', 'true');
-  });
-
-  // Close Drawer
-  const closeDrawer = () => {
-    drawer.classList.remove('open');
-    backdrop.classList.remove('active');
-    hamburgerBtn.setAttribute('aria-expanded', 'false');
-  };
-
-  drawerCloseBtn.addEventListener('click', closeDrawer);
-  backdrop.addEventListener('click', closeDrawer);
-  drawerLinks.forEach(link => link.addEventListener('click', closeDrawer));
-}
-
-/* ==========================================================================
-   2. SEARCH & DYNAMIC CATEGORY FILTER
-   ========================================================================== */
-let activeCategory = 'all';
-
-function initSearchAndFilter() {
-  const searchInput = document.getElementById('serviceSearchInput');
-  const clearBtn = document.getElementById('clearSearchBtn');
-  const searchTriggerBtn = document.getElementById('searchTriggerBtn');
-  const tagPills = document.querySelectorAll('.tag-pill');
-  const resetBtn = document.getElementById('resetSearchBtn');
-
-  // Real-Time Search Input
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.trim();
-    clearBtn.style.display = query.length > 0 ? 'block' : 'none';
-    executeFilter();
-  });
-
-  // Clear Search
-  clearBtn.addEventListener('click', () => {
-    searchInput.value = '';
-    clearBtn.style.display = 'none';
-    executeFilter();
-    searchInput.focus();
-  });
-
-  // Search Button Click -> Scroll down to services
-  searchTriggerBtn.addEventListener('click', () => {
-    document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-  });
-
-  // Category Tag Pills Click
-  tagPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      tagPills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      activeCategory = pill.getAttribute('data-category');
-      executeFilter();
-    });
-  });
-
-  // Reset Button when 0 results found
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      searchInput.value = '';
-      clearBtn.style.display = 'none';
-      filterByCategory('all');
-    });
-  }
-}
-
-// Global category trigger (usable from footer or banners)
-window.filterByCategory = function(category) {
-  activeCategory = category;
-  const tagPills = document.querySelectorAll('.tag-pill');
-  tagPills.forEach(p => {
-    if (p.getAttribute('data-category') === category) {
-      p.classList.add('active');
-    } else {
-      p.classList.remove('active');
-    }
-  });
-  executeFilter();
-};
-
-function executeFilter() {
-  const searchInput = document.getElementById('serviceSearchInput');
-  const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
-  const serviceCards = document.querySelectorAll('.service-card');
-  const resultsCount = document.getElementById('resultsCount');
-  const noResultsBox = document.getElementById('noResultsBox');
-
-  let visibleCount = 0;
-
-  serviceCards.forEach(card => {
-    const cardCategory = card.getAttribute('data-category');
-    const cardKeywords = (card.getAttribute('data-keywords') || '').toLowerCase();
-    const cardTitle = (card.querySelector('.service-card-title')?.textContent || '').toLowerCase();
-    const cardDesc = (card.querySelector('.service-card-desc')?.textContent || '').toLowerCase();
-
-    // Category matching
-    const matchesCategory = (activeCategory === 'all' || cardCategory === activeCategory);
-
-    // Search query matching (matches title, keywords, or description)
-    const matchesQuery = !query || 
-      cardTitle.includes(query) || 
-      cardKeywords.includes(query) || 
-      cardDesc.includes(query);
-
-    if (matchesCategory && matchesQuery) {
-      card.style.display = 'flex';
-      visibleCount++;
-    } else {
-      card.style.display = 'none';
-    }
-  });
-
-  // Update Results Counter & Empty State
-  if (resultsCount) {
-    resultsCount.textContent = `Showing ${visibleCount} service${visibleCount === 1 ? '' : 's'}`;
-  }
-
-  if (noResultsBox) {
-    noResultsBox.style.display = visibleCount === 0 ? 'block' : 'none';
-  }
-}
-
-/* ==========================================================================
-   3. ROLE DROPDOWN (NAVBAR)
-   ========================================================================== */
-function initDropdowns() {
-  const dropdownBtn = document.getElementById('loginDropdownBtn');
-  const dropdownWrapper = dropdownBtn.closest('.dropdown-wrapper');
-
-  dropdownBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = dropdownWrapper.classList.contains('open');
-    dropdownWrapper.classList.toggle('open', !isOpen);
-    dropdownBtn.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
-  });
-
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!dropdownWrapper.contains(e.target)) {
-      dropdownWrapper.classList.remove('open');
-      dropdownBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-}
-
-/* ==========================================================================
-   4. ROLE-BASED AUTH MODAL (CUSTOMER / TECHNICIAN / ADMIN)
-   ========================================================================== */
-let currentRole = 'customer';
-
-function initModals() {
-  const authModal = document.getElementById('authModal');
-  const modalCloseBtn = document.getElementById('modalCloseBtn');
-
-  modalCloseBtn.addEventListener('click', () => {
-    authModal.classList.remove('active');
-  });
-
-  // Close on backdrop click
-  authModal.addEventListener('click', (e) => {
-    if (e.target === authModal) {
-      authModal.classList.remove('active');
-    }
-  });
-
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      authModal.classList.remove('active');
-      closeBookingModal();
-    }
-  });
-}
-
-// Open modal with specific role pre-selected
-window.openLoginModal = function(role = 'customer') {
-  const authModal = document.getElementById('authModal');
-  authModal.classList.add('active');
+function startHeroCycle() {
+  renderHeroRole(currentHeroIndex);
   
-  // Close the nav dropdown if open
-  const dropdownWrapper = document.querySelector('.dropdown-wrapper');
-  if (dropdownWrapper) dropdownWrapper.classList.remove('open');
+  heroCycleTimer = setInterval(() => {
+    currentHeroIndex = (currentHeroIndex + 1) % TECHNICIAN_ROLES.length;
+    renderHeroRole(currentHeroIndex);
+  }, CYCLE_SPEED_MS);
+}
 
-  switchModalRole(role);
+function renderHeroRole(index) {
+  const role = TECHNICIAN_ROLES[index];
+
+  // Animate Giant Watermark Text
+  const giantTextEl = document.getElementById('giantBgText');
+  if (giantTextEl) {
+    giantTextEl.classList.add('text-animating');
+    setTimeout(() => {
+      giantTextEl.textContent = role.bgText;
+      giantTextEl.classList.remove('text-animating');
+    }, 140);
+  }
+
+  // Display Active Tool
+  document.querySelectorAll('.tool-group').forEach(el => el.style.display = 'none');
+  const activeTool = document.getElementById(role.id);
+  if (activeTool) activeTool.style.display = 'block';
+
+  // Update Companion Overview
+  document.getElementById('roleNumber').textContent = role.number;
+  document.getElementById('roleTitle').textContent = role.title;
+  document.getElementById('roleDesc').textContent = role.desc;
+  document.getElementById('rolePrice').textContent = role.price;
+  document.getElementById('roleTime').textContent = role.time;
+  document.getElementById('roleRating').textContent = role.rating;
+}
+
+window.scrollToDeck = function() {
+  document.getElementById('servicesDeck').scrollIntoView({ behavior: 'smooth' });
 };
 
-// Switch between Customer / Technician / Admin tabs
-window.switchModalRole = function(role) {
-  currentRole = role;
+/* ==========================================================================
+   2. 3D PLAYING CARDS DECK & INSTAGRAM POST DOTS
+   ========================================================================== */
+function initPlayingCardsDeck() {
+  updateDeckPositions();
+}
 
-  // Tabs UI
-  document.getElementById('tabCustomer').classList.toggle('active', role === 'customer');
-  document.getElementById('tabTechnician').classList.toggle('active', role === 'technician');
-  document.getElementById('tabAdmin').classList.toggle('active', role === 'admin');
+window.nextCard = function(e) {
+  if (e) e.stopPropagation();
+  const cards = document.querySelectorAll('.deck-card');
+  const total = cards.length || 8;
+  activeCardIndex = (activeCardIndex + 1) % total;
+  updateDeckPositions();
+};
 
-  // Elements to update
-  const modalTitle = document.getElementById('modalTitle');
-  const modalSubtitle = document.getElementById('modalSubtitle');
-  const noticeBanner = document.getElementById('roleNotice');
-  const noticeText = document.getElementById('roleNoticeText');
-  const authIdLabel = document.getElementById('authIdLabel');
-  const authIdInput = document.getElementById('authIdentifier');
-  const adminSecretGroup = document.getElementById('adminSecretGroup');
-  const submitBtn = document.getElementById('modalSubmitBtn');
-  const footerNote = document.getElementById('modalFooterNote');
+window.prevCard = function(e) {
+  if (e) e.stopPropagation();
+  const cards = document.querySelectorAll('.deck-card');
+  const total = cards.length || 8;
+  activeCardIndex = (activeCardIndex - 1 + total) % total;
+  updateDeckPositions();
+};
+
+window.jumpToCard = function(targetIndex) {
+  activeCardIndex = targetIndex;
+  updateDeckPositions();
+};
+
+function updateDeckPositions() {
+  const cards = document.querySelectorAll('.deck-card');
+  if (!cards.length) return;
+
+  const total = cards.length;
+
+  cards.forEach((card, i) => {
+    // Clean all classes so no card gets stuck invisible
+    card.classList.remove('active', 'next-1', 'next-2', 'hidden', 'prev-flyout');
+
+    if (i === activeCardIndex) {
+      card.classList.add('active');
+    } else if (i === (activeCardIndex + 1) % total) {
+      card.classList.add('next-1');
+    } else if (i === (activeCardIndex + 2) % total) {
+      card.classList.add('next-2');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  // Update Instagram Dots
+  const dots = document.querySelectorAll('.insta-dot');
+  dots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === activeCardIndex);
+  });
+}
+
+/* ==========================================================================
+   3. FEATURE SHOWCASE MODAL (NO PERSONAL ADDRESS FORM)
+   ========================================================================== */
+window.showFeaturePreview = function(featureName) {
+  document.getElementById('featureTitle').textContent = featureName;
+  document.getElementById('featureModal').classList.add('active');
+};
+
+window.closeFeatureModal = function() {
+  document.getElementById('featureModal').classList.remove('active');
+};
+
+/* ==========================================================================
+   4. MULTI-ROLE AUTH MODAL
+   ========================================================================== */
+window.openLoginModal = function(role = 'customer') {
+  document.getElementById('authModal').classList.add('active');
+  switchAuthRole(role);
+};
+
+window.closeLoginModal = function() {
+  document.getElementById('authModal').classList.remove('active');
+};
+
+window.switchAuthRole = function(role) {
+  currentAuthRole = role;
+
+  document.getElementById('btnCustomer').classList.toggle('active', role === 'customer');
+  document.getElementById('btnTechnician').classList.toggle('active', role === 'technician');
+  document.getElementById('btnAdmin').classList.toggle('active', role === 'admin');
+
+  const title = document.getElementById('authModalTitle');
+  const sub = document.getElementById('authModalSubtitle');
+  const label = document.getElementById('authIdLabel');
+  const adminRow = document.getElementById('adminCodeRow');
 
   if (role === 'customer') {
-    modalTitle.textContent = "Customer Sign In";
-    modalSubtitle.textContent = "Book home services and manage appointments";
-    noticeBanner.style.display = 'flex';
-    noticeBanner.className = 'role-notice-banner bg-blue-subtle text-primary';
-    noticeText.textContent = "Sign in to view your bookings and track assigned technicians.";
-    authIdLabel.textContent = "Email Address or Mobile Number";
-    authIdInput.placeholder = "name@example.com or 10-digit number";
-    adminSecretGroup.style.display = 'none';
-    submitBtn.className = "btn btn-primary btn-block btn-lg";
-    submitBtn.innerHTML = `<span>Sign In as Customer</span> <i class="fas fa-arrow-right"></i>`;
-    footerNote.innerHTML = `<span>Don't have an account?</span> <a href="javascript:void(0)" onclick="showToast('Customer registration page is ready for backend hookup!')" class="text-primary font-semibold">Register as Customer</a>`;
-  } 
-  else if (role === 'technician') {
-    modalTitle.textContent = "Technician Portal";
-    modalSubtitle.textContent = "Manage daily jobs, track routes & earnings";
-    noticeBanner.style.display = 'flex';
-    noticeBanner.className = 'role-notice-banner bg-green-subtle text-success';
-    noticeText.textContent = "Access assigned customer bookings and daily payout reports.";
-    authIdLabel.textContent = "Technician ID or Registered Email";
-    authIdInput.placeholder = "tech@fixmate.com or TECH-8821";
-    adminSecretGroup.style.display = 'none';
-    submitBtn.className = "btn btn-primary btn-block btn-lg";
-    submitBtn.innerHTML = `<span>Login to Partner Console</span> <i class="fas fa-arrow-right"></i>`;
-    footerNote.innerHTML = `<span>Want to join FixMate?</span> <a href="javascript:void(0)" onclick="showToast('Technician onboarding form opened!')" class="text-primary font-semibold">Apply as Partner</a>`;
-  } 
-  else if (role === 'admin') {
-    modalTitle.textContent = "FixMate Admin Console";
-    modalSubtitle.textContent = "System oversight, verification & user management";
-    noticeBanner.style.display = 'flex';
-    noticeBanner.className = 'role-notice-banner bg-purple-subtle text-purple';
-    noticeText.textContent = "Authorized platform operators and administrators only.";
-    authIdLabel.textContent = "Admin Official Username";
-    authIdInput.placeholder = "admin@fixmate.internal";
-    adminSecretGroup.style.display = 'block';
-    submitBtn.className = "btn btn-primary btn-block btn-lg";
-    submitBtn.innerHTML = `<span>Authenticate Admin</span> <i class="fas fa-shield-halved"></i>`;
-    footerNote.innerHTML = `<span class="text-muted"><i class="fas fa-lock"></i> Secured with 2FA & Activity Logging</span>`;
+    title.textContent = "Customer Sign In";
+    sub.textContent = "Book & track services";
+    label.textContent = "Mobile or Email";
+    adminRow.style.display = 'none';
+  } else if (role === 'technician') {
+    title.textContent = "Technician Portal";
+    sub.textContent = "Assigned jobs & daily payouts";
+    label.textContent = "Technician ID / Mobile";
+    adminRow.style.display = 'none';
+  } else if (role === 'admin') {
+    title.textContent = "FixMate Admin";
+    sub.textContent = "Platform controls & oversight";
+    label.textContent = "Admin ID";
+    adminRow.style.display = 'block';
   }
 };
 
-// Password Visibility Toggle
-window.togglePasswordVisibility = function(inputId) {
-  const input = document.getElementById(inputId);
-  const icon = document.getElementById('pwEyeIcon');
-  if (input.type === 'password') {
-    input.type = 'text';
-    icon.classList.replace('fa-eye', 'fa-eye-slash');
+window.submitAuth = function(e) {
+  e.preventDefault();
+  closeLoginModal();
+
+  if (currentAuthRole === 'technician') {
+    showToast("Redirecting to Technician Dashboard...");
+    setTimeout(() => {
+      window.location.href = "http://localhost:5000/technician-dashboard.html";
+    }, 600);
+  } else if (currentAuthRole === 'admin') {
+    showToast("Redirecting to Admin Console...");
+    setTimeout(() => {
+      window.location.href = "http://localhost:5000/admin-dashboard.html";
+    }, 600);
   } else {
-    input.type = 'password';
-    icon.classList.replace('fa-eye-slash', 'fa-eye');
+    showToast("Signed into Customer Account successfully!");
   }
 };
 
-// Handle Authentication Submit Demo
-window.handleAuthSubmit = function(e) {
-  e.preventDefault();
-  const idValue = document.getElementById('authIdentifier').value;
-  
-  // Simulated authentication flow
-  showToast(`Signing in as ${currentRole.toUpperCase()} (${idValue})...`, 'success');
-  
+/* ==========================================================================
+   5. TOAST NOTIFICATION
+   ========================================================================== */
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.style.display = 'block';
   setTimeout(() => {
-    document.getElementById('authModal').classList.remove('active');
-    showToast(`Welcome back! Logged into ${currentRole} dashboard.`, 'success');
-  }, 1000);
-};
-
-/* ==========================================================================
-   5. INSTANT BOOKING MODAL
-   ========================================================================== */
-window.openBookingModal = function(serviceTitle, price) {
-  document.getElementById('bookingServiceTitle').textContent = `Book ${serviceTitle}`;
-  document.getElementById('bookingServicePrice').textContent = price;
-  document.getElementById('bookingModal').classList.add('active');
-};
-
-window.closeBookingModal = function() {
-  const modal = document.getElementById('bookingModal');
-  if (modal) modal.classList.remove('active');
-};
-
-window.handleBookingSubmit = function(e) {
-  e.preventDefault();
-  closeBookingModal();
-  showToast("Booking submitted successfully! A verified technician is being assigned.", "success");
-};
-
-/* ==========================================================================
-   6. TOAST NOTIFICATIONS
-   ========================================================================== */
-window.showToast = function(message, type = 'info') {
-  const container = document.getElementById('toastContainer');
-  const toast = document.createElement('div');
-  toast.className = `toast toast-${type}`;
-  
-  const icon = type === 'success' ? 'fa-check-circle text-success' : 'fa-info-circle text-primary';
-  toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
-  
-  container.appendChild(toast);
-  
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(10px)';
-    toast.style.transition = 'all 0.3s ease';
-    setTimeout(() => toast.remove(), 300);
-  }, 3500);
-};
-
-/* ==========================================================================
-   7. BACK TO TOP
-   ========================================================================== */
-function initBackToTop() {
-  const btn = document.getElementById('backToTopBtn');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
-      btn.classList.add('visible');
-    } else {
-      btn.classList.remove('visible');
-    }
-  });
-
-  btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+    toast.style.display = 'none';
+  }, 2200);
 }
