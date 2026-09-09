@@ -1,8 +1,5 @@
 import express from "express";
 
-import authMiddleware from "../middleware/authMiddleware.js";
-import adminMiddleware from "../middleware/adminMiddleware.js";
-
 import {
   getDashboardStats,
   getAllUsers,
@@ -17,79 +14,16 @@ import {
 
 const router = express.Router();
 
-// ================================
-// Dashboard Stats
-// ================================
-router.get(
-  "/stats",
-  authMiddleware,
-  adminMiddleware,
-  getDashboardStats
-);
+router.get("/stats", getDashboardStats);
+router.get("/users", getAllUsers);
+router.get("/bookings", getAllBookings);
 
-// ================================
-// Users
-// ================================
-router.get(
-  "/users",
-  authMiddleware,
-  adminMiddleware,
-  getAllUsers
-);
+router.put("/assign/:id", assignTechnician);
+router.put("/status/:id", updateBookingStatus);
 
-// ================================
-// Bookings
-// ================================
-router.get(
-  "/bookings",
-  authMiddleware,
-  adminMiddleware,
-  getAllBookings
-);
-
-router.put(
-  "/assign/:id",
-  authMiddleware,
-  adminMiddleware,
-  assignTechnician
-);
-
-router.put(
-  "/status/:id",
-  authMiddleware,
-  adminMiddleware,
-  updateBookingStatus
-);
-
-// ================================
-// Technicians
-// ================================
-router.get(
-  "/technicians",
-  authMiddleware,
-  adminMiddleware,
-  getAllTechnicians
-);
-
-router.post(
-  "/technicians",
-  authMiddleware,
-  adminMiddleware,
-  addTechnician
-);
-
-router.put(
-  "/technicians/:id",
-  authMiddleware,
-  adminMiddleware,
-  updateTechnician
-);
-
-router.delete(
-  "/technicians/:id",
-  authMiddleware,
-  adminMiddleware,
-  deleteTechnician
-);
+router.get("/technicians", getAllTechnicians);
+router.post("/technicians", addTechnician);
+router.put("/technicians/:id", updateTechnician);
+router.delete("/technicians/:id", deleteTechnician);
 
 export default router;
