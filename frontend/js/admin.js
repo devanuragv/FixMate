@@ -433,8 +433,10 @@ document
           await response.json();
 
         alert(
-          data.message
-        );
+  data.message +
+  "\nTechnician ID: " +
+  (data.technicianId || "Not generated")
+);
 
         document
           .getElementById(
