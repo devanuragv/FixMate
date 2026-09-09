@@ -98,22 +98,39 @@ await response.json();
 
 if(data.success){
 
-localStorage.setItem(
-"fixmateToken",
-data.token
-);
+    localStorage.setItem(
+        "fixmateToken",
+        data.token
+    );
 
-localStorage.setItem(
-"user",
-JSON.stringify(data.user)
-);
+    localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+    );
 
-window.location.href =
-"dashboard.html";
+    // Read role directly from JWT
+    const payload =
+        JSON.parse(
+            atob(
+                data.token.split(".")[1]
+            )
+        );
+
+    if(payload.role === "admin"){
+
+        window.location.href =
+            "admin-dashboard.html";
+
+    }else{
+
+        window.location.href =
+            "dashboard.html";
+
+    }
 
 }else{
 
-alert(data.message);
+    alert(data.message);
 
 }
 
