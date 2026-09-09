@@ -67,11 +67,6 @@ app.use(
 );
 
 app.use(
-"/api/reviews",
-reviewRoutes
-);
-
-app.use(
   "/api/users",
   userRoutes
 );
