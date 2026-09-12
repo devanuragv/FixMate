@@ -1,0 +1,1080 @@
+/* =========================================
+   FIXMATE CUSTOMER SUPPORT
+   Premium Dark + Orange Theme
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* =========================================
+   ROOT
+========================================= */
+
+:root {
+
+    --bg: #0b0b0f;
+
+    --panel: #111116;
+
+    --panel-light: #16161d;
+
+    --input: #0d0d12;
+
+    --orange: #ff7100;
+
+    --orange-light: #ff8a1f;
+
+    --white: #ffffff;
+
+    --muted: #8f929d;
+
+    --border: #282830;
+
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+
+    min-height: 100vh;
+
+    color: var(--white);
+
+    background:
+
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(255, 113, 0, 0.08),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 90% 100%,
+            rgba(255, 113, 0, 0.05),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            #0b0b0f,
+            #0d0d12,
+            #09090c
+        );
+
+    padding: 40px 25px;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.support-container {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.support-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 25px;
+
+    margin-bottom: 40px;
+
+    padding-bottom: 28px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.header-content {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   HEADER ICON
+========================================= */
+
+.support-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 28px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-light)
+        );
+
+    box-shadow:
+
+        0 10px 30px
+        rgba(255, 113, 0, 0.20),
+
+        0 0 30px
+        rgba(255, 113, 0, 0.08);
+}
+
+
+/* =========================================
+   EYEBROW
+========================================= */
+
+.eyebrow {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--orange);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================
+   HEADER TITLE
+========================================= */
+
+.support-header h1 {
+
+    color: var(--white);
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+}
+
+
+.support-header p {
+
+    margin-top: 4px;
+
+    color: var(--orange);
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 12px 20px;
+
+    color: #d4d4d8;
+
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+
+.back-btn:hover {
+
+    color: var(--white);
+
+    border-color: var(--orange);
+
+    background: #17171d;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(255, 113, 0, 0.08);
+}
+
+
+/* =========================================
+   SUPPORT CARDS
+========================================= */
+
+/* =========================================
+   SUPPORT CARDS OUTER BOX
+========================================= */
+
+.support-cards {
+
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 0 auto 55px;
+
+    padding: 25px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: stretch;
+
+    gap: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.02),
+            rgba(255,255,255,0)
+        ),
+        var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.20);
+}
+
+
+/* =========================================
+   SUPPORT CARD
+========================================= */
+
+.support-card {
+
+    position: relative;
+
+    flex: 1;
+
+    min-height: 175px;
+
+    padding: 25px;
+
+    display: flex;
+
+    gap: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.025),
+            rgba(255,255,255,0)
+        ),
+        #0d0d12;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* =========================================
+   ORANGE SIDE ACCENT
+========================================= */
+
+.support-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 3px;
+
+    height: 100%;
+
+    background: var(--orange);
+
+    opacity: 0;
+
+    transition: 0.25s ease;
+}
+
+
+/* =========================================
+   CARD HOVER
+========================================= */
+
+.support-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: #383840;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.35),
+        0 0 20px rgba(255,113,0,0.05);
+}
+
+
+.support-card:hover::before {
+
+    opacity: 1;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .support-cards {
+
+        flex-direction: column;
+
+        padding: 18px;
+
+        gap: 12px;
+    }
+
+    .support-card {
+
+        flex: none;
+
+        width: 100%;
+    }
+}
+
+
+/* =========================================
+   CARD ICON
+========================================= */
+
+.card-icon {
+
+    width: 48px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+    font-size: 21px;
+
+    background:
+        rgba(255,113,0,0.10);
+
+    border:
+        1px solid
+        rgba(255,113,0,0.18);
+}
+
+
+/* =========================================
+   CARD CONTENT
+========================================= */
+
+.card-content h3 {
+
+    margin-bottom: 8px;
+
+    color: var(--white);
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+.card-content p {
+
+    margin-bottom: 12px;
+
+    color: var(--muted);
+
+    font-size: 12.5px;
+
+    line-height: 1.7;
+}
+
+
+.card-label {
+
+    color: #70737e;
+
+    font-size: 11px;
+}
+
+
+.support-email {
+
+    color: var(--orange-light);
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.support-hours {
+
+    display: inline-block;
+
+    color: #c8c8cd;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   FAQ SECTION
+========================================= */
+
+.faq-section {
+
+    max-width: 900px;
+
+    margin: auto;
+}
+
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.section-heading {
+
+    margin-bottom: 25px;
+}
+
+
+.section-tag {
+
+    display: inline-block;
+
+    margin-bottom: 7px;
+
+    color: var(--orange);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.section-heading h2 {
+
+    color: var(--white);
+
+    font-size: 25px;
+
+    font-weight: 700;
+}
+
+
+.section-heading p {
+
+    margin-top: 6px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   FAQ CONTAINER
+========================================= */
+
+.faq-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+/* =========================================
+   FAQ ITEM
+========================================= */
+
+.faq-item {
+
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.faq-item.active {
+
+    border-color:
+        rgba(255,113,0,0.45);
+
+    background: #131318;
+
+    box-shadow:
+        0 8px 25px
+        rgba(255,113,0,0.04);
+}
+
+
+/* =========================================
+   FAQ QUESTION
+========================================= */
+
+.faq-question {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 19px 21px;
+
+    color: #e9e9ed;
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+
+.faq-question:hover {
+
+    color: var(--orange-light);
+}
+
+
+/* =========================================
+   FAQ ARROW
+========================================= */
+
+.faq-arrow {
+
+    width: 28px;
+
+    height: 28px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: var(--orange);
+
+    background:
+        rgba(255,113,0,0.08);
+
+    border:
+        1px solid
+        rgba(255,113,0,0.15);
+
+    border-radius: 8px;
+
+    font-size: 19px;
+
+    font-weight: 400;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+
+.faq-item.active .faq-arrow {
+
+    transform: rotate(45deg);
+
+    background:
+        rgba(255,113,0,0.15);
+}
+
+
+/* =========================================
+   FAQ ANSWER
+========================================= */
+
+.faq-answer {
+
+    max-height: 0;
+
+    overflow: hidden;
+
+    transition:
+        max-height 0.35s ease;
+}
+
+
+.faq-answer p {
+
+    padding:
+        0 21px 20px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+}
+
+
+.faq-answer strong {
+
+    color: #dcdce1;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   HELP BANNER
+========================================= */
+
+.help-banner {
+
+    max-width: 900px;
+
+    margin: 55px auto 0;
+
+    padding: 27px 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(255,113,0,0.12),
+            rgba(255,113,0,0.025)
+        ),
+
+        var(--panel);
+
+    border:
+        1px solid
+        rgba(255,113,0,0.25);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,0,0,0.25);
+}
+
+
+/* =========================================
+   HELP ICON
+========================================= */
+
+.help-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,113,0,0.12);
+
+    font-size: 23px;
+}
+
+
+/* =========================================
+   HELP CONTENT
+========================================= */
+
+.help-content {
+
+    flex: 1;
+}
+
+
+.help-content span {
+
+    color: var(--orange);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+.help-content h2 {
+
+    margin-top: 2px;
+
+    color: var(--white);
+
+    font-size: 19px;
+}
+
+
+.help-content p {
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   CONTACT BUTTON
+========================================= */
+
+.contact-btn {
+
+    padding: 12px 19px;
+
+    flex-shrink: 0;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-light)
+        );
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 20px
+        rgba(255,113,0,0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.contact-btn:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px
+        rgba(255,113,0,0.28);
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+
+    width: 7px;
+}
+
+
+::-webkit-scrollbar-track {
+
+    background: #0b0b0f;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background: #303038;
+
+    border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: var(--orange);
+}
+
+
+/* =========================================
+   SELECTION
+========================================= */
+
+::selection {
+
+    color: white;
+
+    background: var(--orange);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .support-cards {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .support-card:last-child {
+
+        grid-column:
+            1 / -1;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    body {
+
+        padding: 25px 15px;
+    }
+
+
+    .support-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .header-content {
+
+        align-items: flex-start;
+    }
+
+
+    .support-header h1 {
+
+        font-size: 27px;
+    }
+
+
+    .back-btn {
+
+        width: 100%;
+    }
+
+
+    .support-cards {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .support-card:last-child {
+
+        grid-column: auto;
+    }
+
+
+    .help-banner {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 25px;
+    }
+
+
+    .contact-btn {
+
+        width: 100%;
+
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 420px) {
+
+    .support-icon {
+
+        width: 55px;
+
+        height: 55px;
+
+        font-size: 24px;
+    }
+
+
+    .support-header h1 {
+
+        font-size: 24px;
+    }
+
+
+    .support-header p {
+
+        font-size: 12px;
+    }
+
+
+    .support-card {
+
+        padding: 21px;
+    }
+
+
+    .section-heading h2 {
+
+        font-size: 21px;
+    }
+
+
+    .faq-question {
+
+        padding: 17px;
+
+        font-size: 13px;
+    }
+
+
+    .faq-answer p {
+
+        padding:
+            0 17px 18px;
+
+        font-size: 12px;
+    }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation: none !important;
+
+        transition: none !important;
+    }
+}

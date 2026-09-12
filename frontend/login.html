@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>FixMate | Login</title>
 
     <link rel="stylesheet" href="css/login.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 </head>
 
@@ -16,45 +18,258 @@
 
     <div class="auth-wrapper">
 
+        <!-- ================= LEFT SIDE ================= -->
+
         <div class="auth-left">
+
+            <!-- BRAND -->
             <div class="brand">
-                <h1>FixMate</h1>
+                <h1>Fix<span>Mate</span></h1>
                 <p>Your Trusted Home Service Partner</p>
             </div>
 
-            <img src="images/login-banner.png" alt="FixMate">
+
+            <!-- LARGE FIXMATE BACKGROUND -->
+            <div class="fixmate-background">
+                FIXMATE
+            </div>
+
+
+            <!-- CENTER HERO -->
+            <div class="hero-area">
+
+                <div class="handyman">
+
+                    <!-- ================= HELMET ================= -->
+
+                    <div class="helmet">
+
+                        <div class="helmet-logo">
+                            🔧
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= HEAD ================= -->
+
+                    <div class="head">
+
+                        <div class="hair"></div>
+
+                        <div class="eyebrow eyebrow-left"></div>
+                        <div class="eyebrow eyebrow-right"></div>
+
+                        <div class="eye eye-left">
+                            <span></span>
+                        </div>
+
+                        <div class="eye eye-right">
+                            <span></span>
+                        </div>
+
+                        <div class="nose"></div>
+
+                        <div class="smile"></div>
+
+                    </div>
+
+
+                    <!-- ================= BODY ================= -->
+
+                    <div class="body">
+
+                        <div class="suspender suspender-left"></div>
+                        <div class="suspender suspender-right"></div>
+
+                        <div class="suspender-button button-left"></div>
+                        <div class="suspender-button button-right"></div>
+
+                        <div class="shirt-logo">
+                            Fix<span>Mate</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= LEFT ARM ================= -->
+
+                    <div class="arm left-arm">
+
+                        <div class="normal-hand"></div>
+
+                    </div>
+
+
+                    <!-- ================= WAVING ARM ================= -->
+
+                    <div class="wave-arm">
+
+                        <div class="wave-hand">
+
+                            <!-- Palm -->
+                            <div class="palm"></div>
+
+                            <!-- FIVE FINGERS -->
+
+                            <div class="finger finger-1"></div>
+                            <div class="finger finger-2"></div>
+                            <div class="finger finger-3"></div>
+                            <div class="finger finger-4"></div>
+                            <div class="finger finger-5"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= TOOL BELT ================= -->
+
+                    <div class="tool-belt">
+
+                        <div class="belt-buckle"></div>
+
+                        <div class="tool-box">
+                            🔧
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= LEGS ================= -->
+
+                    <div class="leg left-leg"></div>
+                    <div class="leg right-leg"></div>
+
+                    <div class="shoe left-shoe"></div>
+                    <div class="shoe right-shoe"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CENTER TAGLINE -->
+
+            <div class="brand-tag">
+
+                <span class="dot"></span>
+
+                <span>
+                    Reliable service. Every fix.
+                </span>
+
+            </div>
+
         </div>
+
+
+        <!-- ================= RIGHT SIDE ================= -->
 
         <div class="auth-right">
 
             <div class="auth-card">
 
-                <h2>Welcome Back 👋</h2>
-                <p>Login to continue managing your bookings.</p>
+                <div class="card-header">
+
+                    <span class="welcome-tag">
+                        FIXMATE SERVICE ENGINE
+                    </span>
+
+                    <h2>
+                        Welcome Back 👋
+                    </h2>
+
+                    <p>
+                        Login to continue managing your bookings.
+                    </p>
+
+                </div>
+
+
+                <!-- KEEP THIS FORM ID -->
 
                 <form id="loginForm">
 
                     <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email"
-                            id="loginEmail"
-                            placeholder="Enter Email"
-                            required>
+
+                        <label for="loginEmail">
+                            Email Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                type="email"
+                                id="loginEmail"
+                                placeholder="Enter Email"
+                                required>
+
+                        </div>
+
                     </div>
+
 
                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="password"
-                            id="loginPassword"
-                            placeholder="Enter Password"
-                            required>
+
+                        <label for="loginPassword">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                🔒
+                            </span>
+
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                placeholder="Enter Password"
+                                required>
+
+                        </div>
+
                     </div>
 
-                    <button type="submit" class="primary-btn">
-                        Login
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        <span>Login</span>
+
+                        <span class="btn-arrow">
+                            →
+                        </span>
+
                     </button>
 
                 </form>
+
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <button
+                    type="button"
+                    id="googleLoginBtn"
+                    class="google-btn">
+
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                        class="google-icon"
+                        alt="Google">
+
+                    <span>Continue with Google</span>
+
+                </button>
+                
+            </br>
 
                 <div class="auth-footer">
 
@@ -72,7 +287,16 @@
 
     </div>
 
-    <script src="js/auth.js"></script>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+
+<!-- FixMate Firebase Configuration -->
+<script src="js/firebase-config.js"></script>
+
+<!-- FixMate Authentication -->
+<script src="js/auth.js"></script>
 
 </body>
 

@@ -1,87 +1,345 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<title>Technician Login</title>
-<link rel="stylesheet" href="css/technician-login.css">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>FixMate Technician Login</title>
+
+    <link
+        rel="stylesheet"
+        href="css/technician-login.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
 </head>
+
 <body>
 
-<div class="login-container">
+<div class="auth-wrapper">
 
-    <div class="login-card">
+    <!-- =========================================
+         LEFT SIDE
+    ========================================== -->
 
-        <h2>Technician Login</h2>
+    <div class="auth-left">
 
-        <!-- Anti Autofill Fields -->
+        <div class="brand">
 
-        <input
-        type="text"
-        style="display:none"
-        autocomplete="username"
-        >
+            <h1>
+                FIX<span>MATE</span>
+            </h1>
 
-        <input
-        type="password"
-        style="display:none"
-        autocomplete="current-password"
-        >
-
-        <!-- Email -->
-
-        <input
-        type="email"
-        id="email"
-        name="random_email_field"
-        placeholder="Email Address"
-        autocomplete="off"
-        required
-        >
-
-        <!-- Password -->
-
-        <div class="password-container">
-
-            <input
-            type="password"
-            id="password"
-            name="random_password_field"
-            placeholder="Password"
-            autocomplete="new-password"
-            required
-            >
-
-            <!-- <p class="forgot-password">
-
-                <a href="#">
-                    Forgot Password?
-                </a>
-
-            </p> -->
-
-            <button
-            type="button"
-            id="togglePassword"
-            class="eye-btn">
-
-            👁
-
-            </button>
+            <p>
+                Professional Service Network
+            </p>
 
         </div>
 
-        <button id="loginBtn">
 
-            Login
+        <div class="fixmate-background">
+            FIXMATE
+        </div>
 
-        </button>
+
+        <!-- =========================================
+             HANDYMAN
+        ========================================== -->
+
+        <div class="hero-area">
+
+            <div class="handyman">
+
+                <!-- Head -->
+
+                <div class="head">
+
+                    <div class="hair"></div>
+
+                    <div class="eyebrow eyebrow-left"></div>
+
+                    <div class="eyebrow eyebrow-right"></div>
+
+                    <div class="eye eye-left"></div>
+
+                    <div class="eye eye-right"></div>
+
+                    <div class="nose"></div>
+
+                    <div class="smile"></div>
+
+                </div>
+
+
+                <!-- Helmet -->
+
+                <div class="helmet">
+
+                    <div class="helmet-logo">
+                        🔧
+                    </div>
+
+                </div>
+
+
+                <!-- Body -->
+
+                <div class="body">
+
+                    <div class="suspender suspender-left"></div>
+
+                    <div class="suspender suspender-right"></div>
+
+                    <div class="suspender-button button-left"></div>
+
+                    <div class="suspender-button button-right"></div>
+
+                    <div class="shirt-logo">
+                        FIX<span>MATE</span>
+                    </div>
+
+                </div>
+
+
+                <!-- Left Arm -->
+
+                <div class="left-arm">
+
+                    <div class="normal-hand"></div>
+
+                </div>
+
+
+                <!-- Waving Arm -->
+
+                <div class="wave-arm">
+
+                    <div class="wave-hand">
+
+                        <div class="palm"></div>
+
+                        <div class="finger finger-1"></div>
+
+                        <div class="finger finger-2"></div>
+
+                        <div class="finger finger-3"></div>
+
+                        <div class="finger finger-4"></div>
+
+                        <div class="finger finger-5"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Tool Belt -->
+
+                <div class="tool-belt">
+
+                    <div class="belt-buckle"></div>
+
+                    <div class="tool-box">
+                        🔧
+                    </div>
+
+                </div>
+
+
+                <!-- Legs -->
+
+                <div class="leg left-leg"></div>
+
+                <div class="leg right-leg"></div>
+
+
+                <!-- Shoes -->
+
+                <div class="shoe left-shoe"></div>
+
+                <div class="shoe right-shoe"></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="brand-tag">
+
+            <span class="dot"></span>
+
+            <span>
+                Reliable service. Every fix.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         RIGHT SIDE
+    ========================================== -->
+
+    <div class="auth-right">
+
+        <div class="auth-card">
+
+            <div class="card-header">
+
+                <span class="welcome-tag">
+                    TECHNICIAN PORTAL
+                </span>
+
+                <h2>
+                    Welcome Back
+                </h2>
+
+                <p>
+                    Sign in to manage your assigned
+                    services and jobs.
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 LOGIN FORM
+            ========================================== -->
+
+            <form
+                id="technicianLoginForm"
+                autocomplete="off">
+
+                <!-- Anti Autofill -->
+
+                <input
+                    type="text"
+                    style="display:none"
+                    autocomplete="username">
+
+                <input
+                    type="password"
+                    style="display:none"
+                    autocomplete="current-password">
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✉
+                        </span>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="random_email_field"
+                            placeholder="Enter your email"
+                            autocomplete="off"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Password -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper password-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="random_password_field"
+                            placeholder="Enter your password"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="eye-btn">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Login -->
+
+                <button
+                    type="button"
+                    id="loginBtn"
+                    class="primary-btn">
+
+                    <span>
+                        Login
+                    </span>
+
+                    <span class="btn-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <div class="login-note">
+
+                <span>
+                    🔐
+                </span>
+
+                <span>
+                    Secure Technician Access
+                </span>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
 
+
+<!-- Toast -->
+
 <div id="toast"></div>
+
 
 <script src="js/technician-login.js"></script>
 
 </body>
+
 </html>

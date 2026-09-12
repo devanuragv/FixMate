@@ -1,141 +1,1939 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+/* =====================================================
+   FIXMATE TECHNICIAN LOGIN
+   DARK / ORANGE PREMIUM THEME
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-background:#f1f5f9;
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+
+:root {
+
+    --bg: #0b0b0f;
+
+    --panel: #111116;
+
+    --input: #0d0d12;
+
+    --orange: #ff7100;
+
+    --orange-light: #ff8a1f;
+
+    --white: #ffffff;
+
+    --muted: #8f929d;
+
+    --border: #282830;
+
+    --success: #18c98b;
+
+    --danger: #ff4d5e;
 }
 
-.login-container{
-width:100%;
-display:flex;
-justify-content:center;
+
+html,
+body {
+
+    width: 100%;
+
+    min-height: 100%;
+
 }
 
-.login-card{
-width:420px;
-background:white;
-padding:40px;
-border-radius:24px;
-box-shadow:0 15px 30px rgba(0,0,0,.08);
+
+body {
+
+    min-height: 100vh;
+
+    font-family: "Poppins", sans-serif;
+
+    background: var(--bg);
+
+    color: var(--white);
+
+    overflow-x: hidden;
+
 }
 
-.login-card h2{
-text-align:center;
-font-size:34px;
-font-weight:700;
-color:#0f172a;
-margin-bottom:30px;
+
+/* =====================================================
+   MAIN LAYOUT
+===================================================== */
+
+.auth-wrapper {
+
+    min-height: 100vh;
+
+    display: grid;
+
+    grid-template-columns: 1.05fr 0.95fr;
+
+    background:
+        radial-gradient(
+            circle at 25% 50%,
+            rgba(255, 113, 0, 0.08),
+            transparent 38%
+        ),
+        var(--bg);
+
 }
 
-#email{
-margin-bottom:16px;
+
+/* =====================================================
+   LEFT SIDE
+===================================================== */
+
+.auth-left {
+
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    border-right: 1px solid #202027;
+
+    background:
+        radial-gradient(
+            circle at 50% 48%,
+            rgba(255, 113, 0, 0.12),
+            transparent 36%
+        ),
+        #0b0b0f;
+
 }
 
-.password-container{
-position:relative;
-margin-bottom:24px;
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.brand {
+
+    position: absolute;
+
+    top: 48px;
+
+    left: 70px;
+
+    z-index: 20;
+
 }
 
-#email,
-#password{
-width:100%;
-padding:15px 50px 15px 15px;
-border:1px solid #dbe4f0;
-border-radius:12px;
-background:white;
-font-size:15px;
-color:#0f172a;
+
+.brand h1 {
+
+    font-size: 38px;
+
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+
 }
 
-#email:focus,
-#password:focus{
-outline:none;
-border-color:#2563eb;
-box-shadow:0 0 0 4px rgba(37,99,235,.15);
+
+.brand h1 span {
+
+    color: var(--orange);
+
 }
 
-#email::placeholder,
-#password::placeholder{
-color:#94a3b8;
+
+.brand p {
+
+    margin-top: 9px;
+
+    font-size: 14px;
+
+    color: var(--muted);
+
 }
 
-.eye-btn{
-position:absolute;
-right:15px;
-top:50%;
-transform:translateY(-50%);
-width:32px;
-height:32px;
-border:none;
-background:transparent;
-cursor:pointer;
+
+/* =====================================================
+   BACKGROUND FIXMATE
+===================================================== */
+
+.fixmate-background {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 1;
+
+    white-space: nowrap;
+
+    width: max-content;
+
+    font-size: clamp(90px, 10vw, 150px);
+
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: -6px;
+
+    color: transparent;
+
+    -webkit-text-stroke:
+        1.5px rgba(255, 113, 0, 0.16);
+
+    pointer-events: none;
+
+    user-select: none;
+
 }
 
-#loginBtn{
-width:100%;
-padding:15px;
-border:none;
-border-radius:12px;
-background:linear-gradient(
-135deg,
-#2563eb,
-#06b6d4
-);
-color:white;
-font-size:16px;
-font-weight:600;
-cursor:pointer;
-transition:.3s;
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero-area {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform: translate(-50%, -46%);
+
+    width: 100%;
+
+    height: 650px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 5;
+
 }
 
-#loginBtn:hover{
-transform:translateY(-2px);
-box-shadow:0 12px 30px rgba(37,99,235,.25);
+
+/* =====================================================
+   HANDYMAN
+===================================================== */
+
+.handyman {
+
+    position: relative;
+
+    width: 350px;
+
+    height: 570px;
+
+    transform-origin: center bottom;
+
+    animation:
+        characterFloat 4s ease-in-out infinite;
+
+    z-index: 8;
+
 }
 
-.forgot-password{
-text-align:right;
-margin-bottom:15px;
+
+/* =====================================================
+   HEAD
+===================================================== */
+
+.head {
+
+    position: absolute;
+
+    top: 90px;
+
+    left: 105px;
+
+    width: 140px;
+
+    height: 145px;
+
+    border-radius:
+        48% 48% 46% 46%;
+
+    background: #f5a77f;
+
+    z-index: 7;
+
+    box-shadow:
+        inset -9px -7px 0
+        rgba(190, 90, 55, 0.10);
+
 }
 
-.forgot-password a{
-text-decoration:none;
-color:#2563eb;
-font-size:14px;
-font-weight:600;
+
+.hair {
+
+    position: absolute;
+
+    top: 8px;
+
+    left: 18px;
+
+    width: 104px;
+
+    height: 43px;
+
+    border-radius:
+        55% 55% 30% 30%;
+
+    background: #201917;
+
 }
 
-.toast{
-position:fixed;
-top:25px;
-right:25px;
-padding:15px 25px;
-border-radius:12px;
-color:white;
-font-weight:600;
-opacity:0;
-transform:translateY(-20px);
-transition:.3s;
-z-index:9999;
+
+/* =====================================================
+   EYEBROWS
+===================================================== */
+
+.eyebrow {
+
+    position: absolute;
+
+    top: 55px;
+
+    width: 29px;
+
+    height: 7px;
+
+    border-radius: 10px;
+
+    background: #211a18;
+
 }
 
-.toast.show{
-opacity:1;
-transform:translateY(0);
+
+.eyebrow-left {
+
+    left: 34px;
+
+    transform: rotate(-5deg);
+
 }
 
-.toast.success{
-background:#22c55e;
+
+.eyebrow-right {
+
+    right: 34px;
+
+    transform: rotate(5deg);
+
 }
 
-.toast.error{
-background:#ef4444;
+
+/* =====================================================
+   EYES
+===================================================== */
+
+.eye {
+
+    position: absolute;
+
+    top: 72px;
+
+    width: 15px;
+
+    height: 21px;
+
+    border-radius: 50%;
+
+    background: #171519;
+
+    overflow: hidden;
+
+    animation:
+        blink 5s infinite;
+
+}
+
+
+.eye-left {
+
+    left: 37px;
+
+}
+
+
+.eye-right {
+
+    right: 37px;
+
+}
+
+
+.eye::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: -2px;
+
+    top: -3px;
+
+    width: 20px;
+
+    height: 25px;
+
+    background: #f5a77f;
+
+    transform:
+        translateY(-100%);
+
+    animation:
+        eyelid 5s infinite;
+
+}
+
+
+/* =====================================================
+   NOSE
+===================================================== */
+
+.nose {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 91px;
+
+    width: 11px;
+
+    height: 16px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 50%;
+
+    background: #dc8867;
+
+}
+
+
+/* =====================================================
+   SMILE
+===================================================== */
+
+.smile {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 20px;
+
+    width: 48px;
+
+    height: 22px;
+
+    transform:
+        translateX(-50%);
+
+    border-bottom:
+        6px solid #23191a;
+
+    border-radius:
+        0 0 50% 50%;
+
+}
+
+
+/* =====================================================
+   HELMET
+===================================================== */
+
+.helmet {
+
+    position: absolute;
+
+    top: 48px;
+
+    left: 78px;
+
+    width: 195px;
+
+    height: 83px;
+
+    border-radius:
+        100px 100px 25px 25px;
+
+    background: var(--orange);
+
+    z-index: 10;
+
+    box-shadow:
+        0 10px 25px
+        rgba(0, 0, 0, 0.3);
+
+}
+
+
+.helmet::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: -20px;
+
+    bottom: -9px;
+
+    width: 235px;
+
+    height: 21px;
+
+    border-radius: 20px;
+
+    background: #ed6500;
+
+}
+
+
+.helmet-logo {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 20px;
+
+    transform:
+        translateX(-50%);
+
+    width: 45px;
+
+    height: 39px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    font-size: 20px;
+
+    z-index: 2;
+
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+.body {
+
+    position: absolute;
+
+    top: 210px;
+
+    left: 82px;
+
+    width: 185px;
+
+    height: 185px;
+
+    border-radius:
+        42px 42px 25px 25px;
+
+    background: #171b27;
+
+    z-index: 5;
+
+    box-shadow:
+        inset -12px 0
+        rgba(0, 0, 0, 0.18);
+
+}
+
+
+/* =====================================================
+   SUSPENDERS
+===================================================== */
+
+.suspender {
+
+    position: absolute;
+
+    top: 0;
+
+    width: 21px;
+
+    height: 112px;
+
+    border-radius: 12px;
+
+    background: var(--orange);
+
+    z-index: 4;
+
+}
+
+
+.suspender-left {
+
+    left: 28px;
+
+    transform: rotate(-4deg);
+
+}
+
+
+.suspender-right {
+
+    right: 28px;
+
+    transform: rotate(4deg);
+
+}
+
+
+.suspender-button {
+
+    position: absolute;
+
+    top: 92px;
+
+    width: 15px;
+
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    z-index: 8;
+
+}
+
+
+.button-left {
+
+    left: 31px;
+
+}
+
+
+.button-right {
+
+    right: 31px;
+
+}
+
+
+.shirt-logo {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 94px;
+
+    transform:
+        translateX(-50%);
+
+    white-space: nowrap;
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+}
+
+
+.shirt-logo span {
+
+    color: var(--orange);
+
+}
+
+
+/* =====================================================
+   LEFT ARM
+===================================================== */
+
+.left-arm {
+
+    position: absolute;
+
+    top: 220px;
+
+    left: 49px;
+
+    width: 50px;
+
+    height: 135px;
+
+    border-radius: 30px;
+
+    background: #171b27;
+
+    transform: rotate(18deg);
+
+    z-index: 3;
+
+}
+
+
+.normal-hand {
+
+    position: absolute;
+
+    bottom: -25px;
+
+    left: -4px;
+
+    width: 50px;
+
+    height: 50px;
+
+    border-radius: 50%;
+
+    background: #f5a77f;
+
+}
+
+
+/* =====================================================
+   WAVING ARM
+===================================================== */
+
+.wave-arm {
+
+    position: absolute;
+
+    top: 205px;
+
+    right: 30px;
+
+    width: 52px;
+
+    height: 150px;
+
+    border-radius: 30px;
+
+    background: #171b27;
+
+    transform-origin:
+        top center;
+
+    z-index: 9;
+
+    animation:
+        armWave 4s ease-in-out infinite;
+
+}
+
+
+/* =====================================================
+   FIVE FINGER HAND
+===================================================== */
+
+.wave-hand {
+
+    position: absolute;
+
+    left: -22px;
+
+    top: -70px;
+
+    width: 82px;
+
+    height: 92px;
+
+    transform: rotate(-8deg);
+
+    animation:
+        handWave 4s ease-in-out infinite;
+
+    z-index: 20;
+
+}
+
+
+.palm {
+
+    position: absolute;
+
+    left: 18px;
+
+    bottom: 0;
+
+    width: 48px;
+
+    height: 53px;
+
+    border-radius:
+        45% 45% 40% 40%;
+
+    background: #f5a77f;
+
+}
+
+
+.finger {
+
+    position: absolute;
+
+    bottom: 39px;
+
+    width: 14px;
+
+    border-radius: 12px;
+
+    background: #f5a77f;
+
+    transform-origin:
+        bottom center;
+
+}
+
+
+.finger-1 {
+
+    width: 18px;
+
+    height: 42px;
+
+    left: 4px;
+
+    bottom: 9px;
+
+    transform: rotate(-48deg);
+
+}
+
+
+.finger-2 {
+
+    height: 48px;
+
+    left: 18px;
+
+    transform: rotate(-8deg);
+
+}
+
+
+.finger-3 {
+
+    height: 58px;
+
+    left: 33px;
+
+    transform: rotate(0deg);
+
+}
+
+
+.finger-4 {
+
+    height: 51px;
+
+    left: 47px;
+
+    transform: rotate(7deg);
+
+}
+
+
+.finger-5 {
+
+    height: 40px;
+
+    left: 60px;
+
+    bottom: 40px;
+
+    transform: rotate(20deg);
+
+}
+
+
+/* =====================================================
+   TOOL BELT
+===================================================== */
+
+.tool-belt {
+
+    position: absolute;
+
+    top: 378px;
+
+    left: 70px;
+
+    width: 210px;
+
+    height: 32px;
+
+    border-radius: 8px;
+
+    background: #79502f;
+
+    z-index: 10;
+
+}
+
+
+.belt-buckle {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 4px;
+
+    transform:
+        translateX(-50%);
+
+    width: 28px;
+
+    height: 24px;
+
+    border:
+        4px solid #d59b56;
+
+    border-radius: 5px;
+
+}
+
+
+.tool-box {
+
+    position: absolute;
+
+    right: -18px;
+
+    top: 8px;
+
+    width: 52px;
+
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: var(--orange);
+
+    font-size: 23px;
+
+}
+
+
+/* =====================================================
+   LEGS
+===================================================== */
+
+.leg {
+
+    position: absolute;
+
+    top: 390px;
+
+    width: 63px;
+
+    height: 115px;
+
+    border-radius: 12px;
+
+    background: #171b27;
+
+    z-index: 2;
+
+}
+
+
+.left-leg {
+
+    left: 98px;
+
+}
+
+
+.right-leg {
+
+    right: 77px;
+
+}
+
+
+/* =====================================================
+   SHOES
+===================================================== */
+
+.shoe {
+
+    position: absolute;
+
+    top: 495px;
+
+    width: 88px;
+
+    height: 35px;
+
+    border-radius:
+        25px 25px 12px 12px;
+
+    background: #101117;
+
+    z-index: 4;
+
+    border-bottom:
+        5px solid var(--orange);
+
+}
+
+
+.left-shoe {
+
+    left: 72px;
+
+}
+
+
+.right-shoe {
+
+    right: 57px;
+
+}
+
+
+/* =====================================================
+   TAGLINE
+===================================================== */
+
+.brand-tag {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 48px;
+
+    transform:
+        translateX(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    z-index: 20;
+
+    white-space: nowrap;
+
+    color: #b8bbc4;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.dot {
+
+    width: 9px;
+
+    height: 9px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #18c98b;
+
+    box-shadow:
+        0 0 12px
+        rgba(24, 201, 139, 0.8);
+
+}
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes characterFloat {
+
+    0%,
+    100% {
+
+        margin-top: 0;
+
+    }
+
+    50% {
+
+        margin-top: -8px;
+
+    }
+
+}
+
+
+@keyframes armWave {
+
+    0% {
+
+        transform: rotate(72deg);
+
+    }
+
+    18% {
+
+        transform: rotate(8deg);
+
+    }
+
+    30% {
+
+        transform: rotate(-8deg);
+
+    }
+
+    42% {
+
+        transform: rotate(8deg);
+
+    }
+
+    54% {
+
+        transform: rotate(-8deg);
+
+    }
+
+    68% {
+
+        transform: rotate(8deg);
+
+    }
+
+    82% {
+
+        transform: rotate(72deg);
+
+    }
+
+    100% {
+
+        transform: rotate(72deg);
+
+    }
+
+}
+
+
+@keyframes handWave {
+
+    0%,
+    18% {
+
+        transform: rotate(-8deg);
+
+    }
+
+    30% {
+
+        transform: rotate(18deg);
+
+    }
+
+    42% {
+
+        transform: rotate(-18deg);
+
+    }
+
+    54% {
+
+        transform: rotate(18deg);
+
+    }
+
+    68% {
+
+        transform: rotate(-18deg);
+
+    }
+
+    82%,
+    100% {
+
+        transform: rotate(-8deg);
+
+    }
+
+}
+
+
+@keyframes eyelid {
+
+    0%,
+    43% {
+
+        transform: translateY(-100%);
+
+    }
+
+    45%,
+    48% {
+
+        transform: translateY(0);
+
+    }
+
+    50%,
+    100% {
+
+        transform: translateY(-100%);
+
+    }
+
+}
+
+
+/* =====================================================
+   RIGHT SIDE
+===================================================== */
+
+.auth-right {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 50px;
+
+}
+
+
+/* =====================================================
+   AUTH CARD
+===================================================== */
+
+.auth-card {
+
+    width: 100%;
+
+    max-width: 545px;
+
+    padding: 45px;
+
+    background:
+        rgba(18, 18, 24, 0.96);
+
+    border:
+        1px solid #292932;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 30px 80px
+        rgba(0, 0, 0, 0.45),
+
+        0 0 40px
+        rgba(255, 113, 0, 0.035);
+
+}
+
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+
+.card-header {
+
+    margin-bottom: 36px;
+
+}
+
+
+.welcome-tag {
+
+    display: inline-flex;
+
+    padding: 9px 15px;
+
+    border:
+        1px solid
+        rgba(255, 113, 0, 0.35);
+
+    border-radius: 50px;
+
+    background:
+        rgba(255, 113, 0, 0.07);
+
+    color: var(--orange);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
+
+}
+
+
+.card-header h2 {
+
+    margin-top: 20px;
+
+    font-size: 34px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    letter-spacing: -1.2px;
+
+}
+
+
+.card-header p {
+
+    margin-top: 10px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group {
+
+    margin-bottom: 23px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #e4e4e8;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.input-wrapper {
+
+    position: relative;
+
+}
+
+
+.input-icon {
+
+    position: absolute;
+
+    left: 17px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    color: #8e929e;
+
+    font-size: 15px;
+
+    pointer-events: none;
+
+    z-index: 2;
+
+}
+
+
+.input-wrapper input {
+
+    width: 100%;
+
+    height: 56px;
+
+    padding:
+        0 17px 0 48px;
+
+    outline: none;
+
+    border:
+        1px solid #292932;
+
+    border-radius: 13px;
+
+    background: var(--input);
+
+    color: white;
+
+    font-family:
+        "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    transition: 0.25s ease;
+
+}
+
+
+.input-wrapper input::placeholder {
+
+    color: #656873;
+
+}
+
+
+.input-wrapper input:focus {
+
+    border-color:
+        var(--orange);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255, 113, 0, 0.10);
+
+}
+
+
+/* =====================================================
+   PASSWORD
+===================================================== */
+
+.password-wrapper input {
+
+    padding-right: 55px;
+
+}
+
+
+.eye-btn {
+
+    position: absolute;
+
+    right: 14px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 35px;
+
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    background: transparent;
+
+    color: #8e929e;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+
+    transition: 0.2s ease;
+
+}
+
+
+.eye-btn:hover {
+
+    background:
+        rgba(255, 113, 0, 0.08);
+
+    color: var(--orange);
+
+}
+
+
+/* =====================================================
+   LOGIN BUTTON
+===================================================== */
+
+.primary-btn {
+
+    width: 100%;
+
+    height: 57px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 13px;
+
+    background: var(--orange);
+
+    color: #080808;
+
+    font-family:
+        "Poppins", sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 30px
+        rgba(255, 113, 0, 0.18);
+
+    transition: 0.2s ease;
+
+}
+
+
+.primary-btn:hover {
+
+    background:
+        var(--orange-light);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 16px 35px
+        rgba(255, 113, 0, 0.25);
+
+}
+
+
+.primary-btn:active {
+
+    transform:
+        translateY(0);
+
+}
+
+
+.primary-btn:disabled {
+
+    opacity: 0.85;
+
+    cursor: not-allowed;
+
+    transform: none !important;
+
+}
+
+
+.btn-arrow {
+
+    font-size: 21px;
+
+}
+
+
+/* =====================================================
+   SECURITY NOTE
+===================================================== */
+
+.login-note {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid #282830;
+
+    color: #737681;
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+#toast {
+
+    position: fixed;
+
+    top: 28px;
+
+    right: 28px;
+
+    z-index: 9999;
+
+    min-width: 280px;
+
+    max-width: 390px;
+
+    padding: 15px 20px;
+
+    border-radius: 12px;
+
+    background: #15151c;
+
+    border:
+        1px solid #30303a;
+
+    color: #ffffff;
+
+    font-family:
+        "Poppins", sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    box-shadow:
+        0 15px 40px
+        rgba(0, 0, 0, 0.45);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        translateY(-15px);
+
+    transition:
+        0.3s ease;
+
+}
+
+
+#toast.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translateY(0);
+
+}
+
+
+#toast.success {
+
+    border-color:
+        rgba(24, 201, 139, 0.45);
+
+    box-shadow:
+        0 10px 35px
+        rgba(24, 201, 139, 0.10);
+
+}
+
+
+#toast.error {
+
+    border-color:
+        rgba(255, 77, 94, 0.45);
+
+    box-shadow:
+        0 10px 35px
+        rgba(255, 77, 94, 0.10);
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1100px) {
+
+    .brand {
+
+        left: 45px;
+
+    }
+
+
+    .handyman {
+
+        transform:
+            scale(0.88);
+
+    }
+
+
+    .fixmate-background {
+
+        font-size: 95px;
+
+    }
+
+
+    .auth-right {
+
+        padding: 30px;
+
+    }
+
+
+    .auth-card {
+
+        padding: 35px;
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 800px) {
+
+    .auth-wrapper {
+
+        display: block;
+
+    }
+
+
+    .auth-left {
+
+        min-height: 600px;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid #202027;
+
+    }
+
+
+    .brand {
+
+        top: 30px;
+
+        left: 25px;
+
+    }
+
+
+    .brand h1 {
+
+        font-size: 31px;
+
+    }
+
+
+    .brand p {
+
+        font-size: 12px;
+
+    }
+
+
+    .hero-area {
+
+        top: 315px;
+
+        height: 420px;
+
+    }
+
+
+    .handyman {
+
+        transform:
+            scale(0.72);
+
+    }
+
+
+    .fixmate-background {
+
+        top: 50%;
+
+        font-size: 65px;
+
+        letter-spacing: -3px;
+
+    }
+
+
+    .brand-tag {
+
+        bottom: 30px;
+
+        font-size: 12px;
+
+    }
+
+
+    .auth-right {
+
+        min-height: auto;
+
+        padding:
+            30px 20px 50px;
+
+    }
+
+
+    .auth-card {
+
+        padding:
+            30px 23px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .card-header h2 {
+
+        font-size: 28px;
+
+    }
+
+
+    #toast {
+
+        top: 18px;
+
+        right: 18px;
+
+        left: 18px;
+
+        min-width: auto;
+
+        max-width: none;
+
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 450px) {
+
+    .auth-left {
+
+        min-height: 530px;
+
+    }
+
+
+    .hero-area {
+
+        top: 285px;
+
+    }
+
+
+    .handyman {
+
+        transform:
+            scale(0.60);
+
+    }
+
+
+    .fixmate-background {
+
+        font-size: 50px;
+
+    }
+
+
+    .brand-tag {
+
+        font-size: 11px;
+
+    }
+
+
+    .auth-card {
+
+        padding:
+            27px 20px;
+
+    }
+
+
+    .card-header h2 {
+
+        font-size: 25px;
+
+    }
+
 }
