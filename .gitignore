@@ -1,6 +1,6 @@
 # Firebase secrets
 backend/firebase/serviceAccountKey.json
-
+frontend/js/firebase-config.js
 
 # Environment secrets
 .env
