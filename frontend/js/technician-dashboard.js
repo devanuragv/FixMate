@@ -2168,7 +2168,7 @@ technician.id;
 const response =
 await fetch(
 
-`http://localhost:5000/api/technician/profile/${technicianId}`,
+`/api/technician/profile/${technicianId}`,
 
 
 
@@ -2384,7 +2384,7 @@ return;
 const response =
 await fetch(
 
-`http://localhost:5000/api/technician/change-password/${technician.id}`,
+`/api/technician/change-password/${technician.id}`,
 
 {
 

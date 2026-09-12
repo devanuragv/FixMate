@@ -1,97 +1,538 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+/* =========================================
+   FIXMATE PROFILE PAGE
+   Wide Rectangle - Dark + Orange Theme
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
-background:#f5f7fb;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-padding:30px;
+:root {
+    --bg: #0b0b0f;
+    --panel: #111116;
+    --panel-light: #16161d;
+    --input: #0d0d12;
+    --orange: #ff7100;
+    --orange-light: #ff8a1f;
+    --white: #ffffff;
+    --muted: #8f929d;
+    --border: #282830;
 }
 
-.profile-container{
-width:100%;
-max-width:600px;
+/* =========================================
+   BODY
+========================================= */
+
+body {
+    min-height: 100vh;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(255, 113, 0, 0.08),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0b0b0f 0%,
+            #0d0d12 50%,
+            #09090c 100%
+        );
 }
 
-.profile-card{
-background:white;
-padding:40px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
+/* =========================================
+   PROFILE CONTAINER
+========================================= */
+
+.profile-container {
+    width: 100%;
+    max-width: 1100px;
 }
 
-.profile-header{
-text-align:center;
-margin-bottom:30px;
+/* =========================================
+   PROFILE CARD
+========================================= */
+
+.profile-card {
+    position: relative;
+    width: 100%;
+    padding: 42px 55px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.025),
+            rgba(255, 255, 255, 0)
+        ),
+        var(--panel);
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.55),
+        0 0 45px rgba(255, 113, 0, 0.04);
+
+    overflow: hidden;
 }
 
-.avatar{
-width:90px;
-height:90px;
-background:#2563eb;
-color:white;
-font-size:40px;
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-margin:auto;
-margin-bottom:15px;
+/* Orange top line */
+
+.profile-card::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--orange),
+        var(--orange-light),
+        transparent
+    );
+
+    box-shadow:
+        0 0 20px rgba(255, 113, 0, 0.45);
 }
 
-.profile-header h1{
-color:#0f172a;
+/* =========================================
+   PROFILE HEADER
+========================================= */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+
+    margin-bottom: 35px;
 }
 
-.input-group{
-margin-bottom:18px;
+.profile-header h1 {
+    color: var(--white);
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
-.input-group label{
-display:block;
-margin-bottom:8px;
-font-weight:600;
-color:#334155;
+.profile-header h1::after {
+    content: "";
+
+    display: block;
+
+    width: 45px;
+    height: 3px;
+
+    margin-top: 9px;
+
+    border-radius: 10px;
+
+    background: var(--orange);
+
+    box-shadow:
+        0 0 12px rgba(255, 113, 0, 0.4);
 }
 
-.input-group input{
-width:100%;
-padding:14px;
-border:1px solid #dbeafe;
-border-radius:10px;
-font-size:15px;
+/* =========================================
+   AVATAR
+========================================= */
+
+.avatar {
+    width: 76px;
+    height: 76px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    font-size: 32px;
+    color: var(--white);
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ff8a1f,
+            #ff7100 55%,
+            #c94f00
+        );
+
+    border: 4px solid #17171d;
+
+    box-shadow:
+        0 0 0 1px rgba(255, 113, 0, 0.4),
+        0 12px 30px rgba(255, 113, 0, 0.22),
+        0 0 35px rgba(255, 113, 0, 0.12);
+
+    transition: 0.3s ease;
 }
 
-.save-btn{
-width:100%;
-padding:15px;
-background:#2563eb;
-color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-size:16px;
-font-weight:600;
-margin-top:10px;
+.avatar:hover {
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 0 0 1px rgba(255, 113, 0, 0.7),
+        0 15px 35px rgba(255, 113, 0, 0.3),
+        0 0 45px rgba(255, 113, 0, 0.18);
 }
 
-.save-btn:hover{
-background:#1d4ed8;
+/* =========================================
+   FORM
+========================================= */
+
+#profileForm {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    column-gap: 28px;
+    row-gap: 0;
 }
 
-.back-btn{
-display:block;
-text-align:center;
-margin-top:15px;
-padding:14px;
-background:#0f172a;
-color:white;
-text-decoration:none;
-border-radius:10px;
+/* =========================================
+   INPUT GROUP
+========================================= */
+
+.input-group {
+    margin-bottom: 21px;
+}
+
+/* =========================================
+   LABEL
+========================================= */
+
+.input-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #d7d7dc;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    letter-spacing: 0.2px;
+}
+
+/* =========================================
+   INPUT
+========================================= */
+
+.input-group input {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    color: var(--white);
+    background: var(--input);
+
+    border: 1px solid var(--border);
+    border-radius: 11px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        transform 0.2s ease;
+}
+
+.input-group input::placeholder {
+    color: #666872;
+}
+
+.input-group input:focus {
+    border-color: var(--orange);
+
+    background: #101016;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 113, 0, 0.09),
+        0 0 18px rgba(255, 113, 0, 0.06);
+}
+
+/* =========================================
+   READONLY EMAIL
+========================================= */
+
+.input-group input[readonly] {
+    color: #858893;
+
+    background: #101014;
+
+    cursor: not-allowed;
+
+    border-color: #222229;
+}
+
+/* =========================================
+   BUTTON AREA
+========================================= */
+
+.save-btn {
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 14px 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-light)
+        );
+
+    border: none;
+    border-radius: 11px;
+
+    outline: none;
+
+    cursor: pointer;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+
+    box-shadow:
+        0 10px 25px rgba(255, 113, 0, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.05);
+
+    box-shadow:
+        0 14px 30px rgba(255, 113, 0, 0.28),
+        0 0 20px rgba(255, 113, 0, 0.12);
+}
+
+.save-btn:active {
+    transform: translateY(0);
+}
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-btn {
+    width: 100%;
+
+    margin-top: 8px;
+    padding: 13px 20px;
+
+    display: block;
+
+    text-align: center;
+
+    color: #c7c8ce;
+
+    background: #15151b;
+
+    border: 1px solid var(--border);
+    border-radius: 11px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease;
+}
+
+.back-btn:hover {
+    color: var(--white);
+
+    background: #1b1b22;
+
+    border-color: #3a3a44;
+
+    transform: translateY(-1px);
+}
+
+/* =========================================
+   BUTTONS TAKE FULL WIDTH
+========================================= */
+
+.save-btn,
+.back-btn {
+    grid-column: span 2;
+}
+
+/* =========================================
+   AUTOFILL
+========================================= */
+
+.input-group input:-webkit-autofill,
+.input-group input:-webkit-autofill:hover,
+.input-group input:-webkit-autofill:focus {
+
+    -webkit-text-fill-color: var(--white);
+
+    -webkit-box-shadow:
+        0 0 0 1000px var(--input) inset;
+
+    transition:
+        background-color 5000s ease-in-out 0s;
+}
+
+/* =========================================
+   SELECTION
+========================================= */
+
+::selection {
+    color: white;
+    background: var(--orange);
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0b0b0f;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #303038;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--orange);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 800px) {
+
+    body {
+        padding: 25px 18px;
+        align-items: flex-start;
+    }
+
+    .profile-container {
+        margin-top: 25px;
+    }
+
+    .profile-card {
+        padding: 35px 30px;
+    }
+
+    #profileForm {
+        grid-template-columns: 1fr;
+    }
+
+    .save-btn,
+    .back-btn {
+        grid-column: span 1;
+    }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 15px 12px;
+    }
+
+    .profile-container {
+        margin-top: 10px;
+    }
+
+    .profile-card {
+        padding: 28px 20px;
+        border-radius: 17px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .profile-header h1 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 72px;
+        height: 72px;
+        font-size: 30px;
+    }
+
+    .input-group {
+        margin-bottom: 17px;
+    }
+
+    .input-group input {
+        padding: 13px 14px;
+    }
+
+    .save-btn,
+    .back-btn {
+        padding: 13px;
+    }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
 }

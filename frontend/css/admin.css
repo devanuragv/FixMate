@@ -1,1033 +1,2100 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+/* =========================================
+   FIXMATE ADMIN DASHBOARD
+   Premium Dark + Orange Theme
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
-    background:#f8fafc;
-    padding:30px;
-}
 
-.container{
-    max-width:1400px;
-    margin:auto;
-}
+/* =========================================
+   ROOT COLORS
+========================================= */
 
-h1{
-    font-size:2rem;
-    margin-bottom:30px;
-}
+:root {
 
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
+    --bg: #0b0b0f;
 
-.add-tech-btn{
-background:#2563eb;
-color:white;
-border:none;
-padding:14px 22px;
-border-radius:12px;
-cursor:pointer;
-font-weight:600;
-}
+    --panel: #111116;
 
-.cards{
+    --panel-light: #16161d;
 
-    display:grid;
+    --input: #0d0d12;
 
-    grid-template-columns:
-    repeat(3,1fr);
+    --orange: #ff7100;
 
-    gap:25px;
+    --orange-light: #ff8a1f;
 
-    margin-bottom:30px;
+    --white: #ffffff;
 
-    background:#ffffff;
+    --muted: #8f929d;
 
-    border:2px solid #e2e8f0;
+    --border: #282830;
 
-    border-radius:25px;
+    --green: #22c55e;
 
-    padding:25px;
+    --red: #ef4444;
 
-    box-shadow:
-    0 8px 25px rgba(0,0,0,.05);
+    --blue: #3b82f6;
 
 }
 
-.card{
 
-    background:#f8fafc;
+/* =========================================
+   BODY
+========================================= */
 
-    padding:35px;
+body {
 
-    border-radius:20px;
+    min-height: 100vh;
 
-    text-align:center;
+    padding: 35px 25px;
 
-    border:1px solid #e2e8f0;
-
-    transition:.3s;
-
-}
-
-.card:hover{
-
-    transform:translateY(-5px);
-
-    border-color:#2563eb;
-
-    box-shadow:
-    0 10px 25px rgba(37,99,235,.15);
-
-}
-
-.card h2{
-
-    font-size:3rem;
-
-    font-weight:700;
-
-    color:#2563eb;
-
-    margin-bottom:10px;
-
-}
-
-.card p{
-
-    color:#64748b;
-
-    font-size:1rem;
-
-    font-weight:500;
-
-}
-
-/* =========================
-   Add Technician Section
-========================= */
-
-.section{
-    max-width:550px;
-    margin:0 auto 50px auto;
-}
-
-.section h2{
-
-    font-size:2rem;
-
-    font-weight:800;
-
-    margin-bottom:25px;
+    color: var(--white);
 
     background:
-    linear-gradient(
-        135deg,
-        #2563eb,
-        #06b6d4
-    );
 
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(255, 113, 0, 0.08),
+            transparent 30%
+        ),
 
-    letter-spacing:-0.5px;
+        radial-gradient(
+            circle at 90% 100%,
+            rgba(255, 113, 0, 0.05),
+            transparent 30%
+        ),
 
-    position:relative;
-
-    display:inline-block;
-
+        linear-gradient(
+            135deg,
+            #0b0b0f,
+            #0d0d12,
+            #09090c
+        );
 }
-.section h2::after{
 
-    content:"";
 
-    position:absolute;
+/* =========================================
+   MAIN CONTAINER
+========================================= */
 
-    left:0;
-    bottom:-8px;
+.container {
 
-    width:60%;
+    width: 100%;
 
-    height:4px;
+    max-width: 1400px;
 
-    border-radius:20px;
+    margin: auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.header h1 {
+
+    position: relative;
+
+    color: var(--white);
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+}
+
+
+.header h1::before {
+
+    content: "FIXMATE ADMIN";
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--orange);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================
+   ADD TECHNICIAN BUTTON
+========================================= */
+
+.add-tech-btn {
+
+    padding: 13px 20px;
+
+    color: white;
 
     background:
-    linear-gradient(
-        90deg,
-        #2563eb,
-        #06b6d4
-    );
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-light)
+        );
 
-}
+    border: none;
 
-#technicianForm{
-    background:#fff;
+    border-radius: 11px;
 
-    padding:30px;
+    cursor: pointer;
 
-    border-radius:20px;
+    font-size: 13px;
 
-    display:flex;
-    flex-direction:column;
-
-    gap:15px;
+    font-weight: 700;
 
     box-shadow:
-    0 8px 25px rgba(0,0,0,.06);
+        0 8px 22px
+        rgba(255,113,0,0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
 }
 
-#technicianForm input{
-    width:100%;
 
-    padding:14px 16px;
+.add-tech-btn:hover {
 
-    border:1px solid #dbe4f0;
-
-    border-radius:12px;
-
-    font-size:15px;
-
-    transition:.3s;
-}
-
-#technicianForm input:focus{
-    outline:none;
-
-    border-color:#2563eb;
+    transform: translateY(-2px);
 
     box-shadow:
-    0 0 0 4px rgba(37,99,235,.15);
+        0 12px 28px
+        rgba(255,113,0,0.28);
 }
 
-.password-container{
-    position:relative;
-    width:100%;
-}
 
-.password-container input{
-    padding-right:55px;
-}
+/* =========================================
+   MAIN DASHBOARD CARDS CONTAINER
+========================================= */
 
-.eye-btn{
-    position:absolute;
+.cards {
 
-    top:50%;
-    right:15px;
-
-    transform:translateY(-50%);
-
-    border:none;
-    background:none;
-
-    cursor:pointer;
-
-    font-size:18px;
-}
-
-#technicianForm button[type="submit"]{
-
-    border:none;
-
-    background:#2563eb;
-    color:white;
-
-    padding:15px;
-
-    border-radius:12px;
-
-    font-size:16px;
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-#technicianForm button[type="submit"]:hover{
-
-    background:#1d4ed8;
-
-    transform:translateY(-2px);
-}
-
-/* =========================
-   Technicians
-========================= */
-
-#technicianList{
-
-    display:grid;
+    display: grid;
 
     grid-template-columns:
-    repeat(auto-fit,minmax(320px,1fr));
+        repeat(3, 1fr);
 
-    gap:20px;
+    gap: 20px;
 
-    margin-top:25px;
-}
+    margin-bottom: 25px;
 
-.tech-card{
+    padding: 20px;
 
-    background:white;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.02),
+            rgba(255,255,255,0)
+        ),
+        var(--panel);
 
-    padding:25px;
+    border: 1px solid var(--border);
 
-    border-radius:18px;
+    border-radius: 20px;
 
     box-shadow:
-    0 8px 25px rgba(0,0,0,.06);
+        0 12px 35px
+        rgba(0,0,0,0.25);
 }
 
-.tech-card h3{
-    margin-bottom:12px;
+
+/* =========================================
+   DASHBOARD CARD
+========================================= */
+
+.card {
+
+    position: relative;
+
+    padding: 28px;
+
+    text-align: center;
+
+    background: #0d0d12;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-.tech-card p{
-    margin-bottom:8px;
-    color:#475569;
+
+.card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--orange),
+            transparent
+        );
+
+    opacity: 0;
+
+    transition: 0.25s ease;
 }
 
-.tech-select option:disabled{
 
-color:#ef4444;
+.card:hover {
 
-font-weight:600;
+    transform: translateY(-5px);
 
+    border-color:
+        rgba(255,113,0,0.45);
+
+    box-shadow:
+        0 15px 35px
+        rgba(0,0,0,0.35),
+
+        0 0 25px
+        rgba(255,113,0,0.06);
 }
 
-/* =========================
-   Bookings
-========================= */
 
-#bookingList{
+.card:hover::before {
 
-    display:grid;
+    opacity: 1;
+}
+
+
+.card h2 {
+
+    margin-bottom: 8px;
+
+    color: var(--orange);
+
+    font-size: 42px;
+
+    font-weight: 700;
+}
+
+
+.card p {
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.search-section {
+
+    position: relative;
+
+    margin: 25px 0;
+}
+
+
+#adminSearch {
+
+    width: 100%;
+
+    padding: 15px 20px;
+
+    color: var(--white);
+
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+#adminSearch::placeholder {
+
+    color: #676a75;
+}
+
+
+#adminSearch:focus {
+
+    background: #131318;
+
+    border-color: var(--orange);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255,113,0,0.09);
+}
+
+
+/* =========================================
+   SEARCH RESULTS
+========================================= */
+
+.search-results {
+
+    position: absolute;
+
+    width: 100%;
+
+    margin-top: 6px;
+
+    background: var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 15px 35px
+        rgba(0,0,0,0.45);
+
+    overflow: hidden;
+
+    z-index: 1000;
+}
+
+
+.search-item {
+
+    padding: 14px 18px;
+
+    color: #d7d7dc;
+
+    cursor: pointer;
+
+    border-bottom:
+        1px solid #222229;
+
+    font-size: 13px;
+
+    transition: 0.2s ease;
+}
+
+
+.search-item:last-child {
+
+    border-bottom: none;
+}
+
+
+.search-item:hover {
+
+    color: white;
+
+    background:
+        rgba(255,113,0,0.08);
+}
+
+
+/* =========================================
+   ANALYTICS GRID
+========================================= */
+
+.analytics-grid {
+
+    display: grid;
 
     grid-template-columns:
-    repeat(auto-fit,minmax(350px,1fr));
+        repeat(4, 1fr);
 
-    gap:20px;
+    gap: 18px;
 
-    margin-top:25px;
+    margin-bottom: 30px;
 }
 
-.booking-card{
 
-    background:white;
+.analytics-card {
 
-    padding:25px;
+    padding: 24px;
 
-    border-radius:18px;
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.025),
+            rgba(255,255,255,0)
+        ),
+        var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 17px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.analytics-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color:
+        rgba(255,113,0,0.4);
 
     box-shadow:
-    0 8px 25px rgba(0,0,0,.06);
+        0 12px 30px
+        rgba(0,0,0,0.3);
 }
 
-.booking-card h3{
-    margin-bottom:15px;
+
+.analytics-card h3 {
+
+    margin-bottom: 8px;
+
+    color: var(--orange);
+
+    font-size: 32px;
+
+    font-weight: 700;
 }
 
-.booking-card p{
-    margin-bottom:10px;
-    color:#475569;
+
+.analytics-card p {
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    font-weight: 500;
 }
 
-.booking-filters{
 
-display:flex;
-gap:10px;
+/* =========================================
+   DASHBOARD SECTION
+========================================= */
 
-flex-wrap:wrap;
+.dashboard-section {
 
-margin:20px 0;
+    margin-top: 20px;
 
+    padding: 30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.02),
+            rgba(255,255,255,0)
+        ),
+        var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,0.25);
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-.booking-filters button{
 
-border:none;
+.dashboard-section:not(.hidden) {
 
-padding:10px 18px;
+    border-color:
+        rgba(255,113,0,0.25);
 
-background:#e2e8f0;
+    box-shadow:
+        0 0 0 3px
+        rgba(255,113,0,0.03),
 
-border-radius:10px;
-
-cursor:pointer;
-
-font-weight:600;
-
+        0 15px 40px
+        rgba(0,0,0,0.3);
 }
 
-.booking-filters button:hover{
 
-background:#2563eb;
-color:white;
+.hidden {
 
+    display: none;
 }
 
-.tech-select{
 
-    width:100%;
+/* =========================================
+   SECTION
+========================================= */
 
-    padding:12px;
+.section {
 
-    margin-top:12px;
-    margin-bottom:12px;
+    width: 100%;
 
-    border:1px solid #dbe4f0;
+    max-width: 100%;
 
-    border-radius:10px;
+    margin: 0 auto 30px;
 }
 
-.assign-btn{
 
-    width:100%;
+.section h2 {
 
-    border:none;
+    position: relative;
 
-    background:#2563eb;
+    display: inline-block;
 
-    color:white;
+    margin-bottom: 25px;
 
-    padding:12px;
+    color: var(--white);
 
-    border-radius:10px;
+    font-size: 22px;
 
-    cursor:pointer;
+    font-weight: 700;
 }
 
-/* =========================
-   Section Titles
-========================= */
 
-.section-title{
+.section h2::after {
 
-    margin-top:50px;
-    margin-bottom:20px;
+    content: "";
 
-    font-size:2rem;
+    display: block;
+
+    width: 45px;
+
+    height: 3px;
+
+    margin-top: 8px;
+
+    border-radius: 10px;
+
+    background: var(--orange);
+
+    box-shadow:
+        0 0 12px
+        rgba(255,113,0,0.35);
 }
 
-/* =========================
-   Responsive
-========================= */
 
-@media(max-width:900px){
+/* =========================================
+   TECHNICIAN FORM
+========================================= */
 
-    .cards{
-        grid-template-columns:1fr;
+#technicianForm {
+
+    max-width: 600px;
+
+    margin: auto;
+
+    padding: 28px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    background: #0d0d12;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.25);
+}
+
+
+#technicianForm input,
+#serviceType {
+
+    width: 100%;
+
+    padding: 14px 16px;
+
+    color: var(--white);
+
+    background: var(--input);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+#technicianForm input::placeholder {
+
+    color: #656872;
+}
+
+
+#technicianForm input:focus,
+#serviceType:focus {
+
+    background: #111116;
+
+    border-color: var(--orange);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255,113,0,0.09);
+}
+
+
+/* =========================================
+   PASSWORD
+========================================= */
+
+.password-container {
+
+    position: relative;
+
+    width: 100%;
+}
+
+
+.password-container input {
+
+    padding-right: 55px !important;
+}
+
+
+.eye-btn {
+
+    position: absolute;
+
+    top: 50%;
+
+    right: 14px;
+
+    transform: translateY(-50%);
+
+    padding: 5px;
+
+    color: var(--muted);
+
+    background: transparent;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    transition: 0.2s ease;
+}
+
+
+.eye-btn:hover {
+
+    color: var(--orange);
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+#serviceType {
+
+    appearance: auto;
+
+    cursor: pointer;
+}
+
+
+#serviceType option {
+
+    color: white;
+
+    background: #111116;
+}
+
+
+/* =========================================
+   FORM SUBMIT
+========================================= */
+
+#technicianForm button[type="submit"] {
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin-top: 3px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-light)
+        );
+
+    border: none;
+
+    border-radius: 11px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 22px
+        rgba(255,113,0,0.16);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+
+#technicianForm button[type="submit"]:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(255,113,0,0.25);
+}
+
+
+/* =========================================
+   TECHNICIAN LIST
+========================================= */
+
+#technicianList {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(300px,1fr));
+
+    gap: 18px;
+
+    margin-top: 20px;
+}
+
+
+.tech-card {
+
+    padding: 23px;
+
+    background: #0d0d12;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.tech-card:hover {
+
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(255,113,0,0.35);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0,0,0,0.3);
+}
+
+
+.tech-card h3 {
+
+    margin-bottom: 12px;
+
+    color: var(--white);
+
+    font-size: 17px;
+}
+
+
+.tech-card p {
+
+    margin-bottom: 8px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   TECHNICIAN SELECT
+========================================= */
+
+.tech-select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 12px;
+
+    margin-bottom: 12px;
+
+    color: white;
+
+    background: var(--input);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+
+.tech-select:focus {
+
+    border-color: var(--orange);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255,113,0,0.08);
+}
+
+
+.tech-select option {
+
+    color: white;
+
+    background: #111116;
+}
+
+
+.tech-select option:disabled {
+
+    color: var(--red);
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   TECHNICIAN ACTIONS
+========================================= */
+
+.tech-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+.edit-btn,
+.delete-btn {
+
+    flex: 1;
+
+    padding: 11px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.edit-btn {
+
+    color: white;
+
+    background: var(--orange);
+}
+
+
+.edit-btn:hover {
+
+    background: var(--orange-light);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px
+        rgba(255,113,0,0.18);
+}
+
+
+.delete-btn {
+
+    color: white;
+
+    background: var(--red);
+}
+
+
+.delete-btn:hover {
+
+    background: #dc2626;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px
+        rgba(239,68,68,0.18);
+}
+
+
+/* =========================================
+   BOOKING LIST
+========================================= */
+
+#bookingList {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(320px,1fr));
+
+    gap: 18px;
+
+    margin-top: 20px;
+}
+
+
+/* =========================================
+   BOOKING CARD
+========================================= */
+
+.booking-card {
+
+    padding: 23px;
+
+    background: #0d0d12;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.booking-card:hover {
+
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(255,113,0,0.35);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0,0,0,0.3);
+}
+
+
+.booking-card h3 {
+
+    margin-bottom: 14px;
+
+    color: var(--white);
+
+    font-size: 17px;
+}
+
+
+.booking-card p {
+
+    margin-bottom: 9px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   BOOKING FILTERS
+========================================= */
+
+.booking-filters {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin: 20px 0;
+}
+
+
+.booking-filters button {
+
+    padding: 9px 16px;
+
+    color: #aeb0b9;
+
+    background: #17171d;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.booking-filters button:hover {
+
+    color: white;
+
+    background: var(--orange);
+
+    border-color: var(--orange);
+}
+
+
+/* =========================================
+   ASSIGN BUTTON
+========================================= */
+
+.assign-btn {
+
+    width: 100%;
+
+    padding: 12px;
+
+    color: white;
+
+    background: var(--orange);
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.assign-btn:hover {
+
+    background: var(--orange-light);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(255,113,0,0.18);
+}
+
+
+/* =========================================
+   USERS LIST
+========================================= */
+
+#usersList {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(300px,1fr));
+
+    gap: 18px;
+
+    margin-top: 20px;
+}
+
+
+/* =========================================
+   USER CARDS
+========================================= */
+
+.user-card {
+
+    padding: 23px;
+
+    color: #d5d5da;
+
+    background: #0d0d12;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.user-card:hover {
+
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(255,113,0,0.35);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0,0,0,0.3);
+}
+
+
+/* =========================================
+   MODALS
+========================================= */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,0.78);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 9999;
+
+    animation:
+        fadeIn 0.25s ease;
+}
+
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity: 0;
     }
 
-    h1{
-        font-size:2rem;
+    to {
+
+        opacity: 1;
+    }
+}
+
+
+/* =========================================
+   MODAL CONTENT
+========================================= */
+
+.modal-content {
+
+    position: relative;
+
+    width: 900px;
+
+    max-width: 95%;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 32px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.025),
+            rgba(255,255,255,0)
+        ),
+        var(--panel);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,0.65),
+
+        0 0 35px
+        rgba(255,113,0,0.05);
+
+    animation:
+        slideUp 0.3s ease;
+}
+
+
+@keyframes slideUp {
+
+    from {
+
+        transform:
+            translateY(30px)
+            scale(0.97);
+
+        opacity: 0;
     }
 
-    .section{
-        max-width:100%;
+    to {
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        opacity: 1;
     }
-
 }
 
-.hidden{
-    display:none;
+
+/* =========================================
+   MODAL TITLE
+========================================= */
+
+.modal-content h2 {
+
+    margin-bottom: 25px;
+
+    padding-bottom: 12px;
+
+    color: var(--white);
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 25px;
+
+    font-weight: 700;
 }
 
-/* ================================
-   Service Type Dropdown
-================================ */
 
-#serviceType{
-    width:100%;
+.modal-content h2::after {
 
-    padding:14px 16px;
+    content: "";
 
-    border:1px solid #dbe4f0;
+    display: block;
 
-    border-radius:12px;
+    width: 45px;
 
-    background:white;
+    height: 3px;
 
-    font-size:15px;
+    margin-top: 9px;
 
-    color:#334155;
+    border-radius: 10px;
 
-    cursor:pointer;
-
-    transition:.3s;
+    background: var(--orange);
 }
 
-#serviceType:focus{
 
-    outline:none;
+/* =========================================
+   CLOSE BUTTON
+========================================= */
 
-    border-color:#2563eb;
+.close {
 
-    box-shadow:
-    0 0 0 4px rgba(37,99,235,.15);
+    position: absolute;
 
+    top: 18px;
+
+    right: 22px;
+
+    width: 35px;
+
+    height: 35px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: #999ba4;
+
+    background: #17171d;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-size: 23px;
+
+    line-height: 1;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
 }
 
-/* ================================
-   Technician Action Buttons
-================================ */
 
-.tech-actions{
+.close:hover {
 
-    display:flex;
+    color: white;
 
-    gap:10px;
+    background: var(--red);
 
-    margin-top:15px;
+    border-color: var(--red);
+
+    transform: scale(1.05);
 }
 
-.edit-btn{
 
-    flex:1;
+/* =========================================
+   USER DETAILS
+========================================= */
 
-    border:none;
+#userDetails {
 
-    background:#2563eb;
+    display: flex;
 
-    color:white;
+    flex-direction: column;
 
-    padding:12px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    transition:.3s;
+    gap: 10px;
 }
 
-.edit-btn:hover{
 
-    background:#1d4ed8;
+#userDetails p {
 
-    transform:translateY(-2px);
+    display: flex;
 
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 13px 16px;
+
+    color: #bfc0c7;
+
+    background: #0d0d12;
+
+    border: 1px solid var(--border);
+
+    border-left:
+        3px solid var(--orange);
+
+    border-radius: 10px;
+
+    font-size: 13px;
 }
 
-.delete-btn{
 
-    flex:1;
+#userDetails strong {
 
-    border:none;
+    color: var(--white);
 
-    background:#ef4444;
-
-    color:white;
-
-    padding:12px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    transition:.3s;
+    font-weight: 600;
 }
 
-.delete-btn:hover{
 
-    background:#dc2626;
+#userDetails hr {
 
-    transform:translateY(-2px);
+    margin: 15px 0;
 
+    border: none;
+
+    height: 1px;
+
+    background: var(--border);
 }
 
-/* ================================
-   Dashboard Section Container
-================================ */
 
-.dashboard-section{
+/* =========================================
+   BOOKING SUMMARY
+========================================= */
 
-    background:#ffffff;
+.booking-summary {
 
-    border:2px solid #e2e8f0;
+    margin-top: 15px;
 
-    border-radius:25px;
+    padding: 18px;
 
-    padding:30px;
+    background:
+        rgba(255,113,0,0.05);
 
-    margin-top:20px;
+    border:
+        1px solid
+        rgba(255,113,0,0.18);
 
-    box-shadow:
-    0 8px 25px rgba(0,0,0,.05);
-
-    transition:.3s;
+    border-radius: 14px;
 }
 
-/* Active Section Glow */
 
-.dashboard-section:not(.hidden){
+.booking-summary h3 {
 
-    border-color:#2563eb;
+    margin-bottom: 12px;
 
-    box-shadow:
-    0 0 0 5px rgba(37,99,235,.08),
-    0 10px 30px rgba(0,0,0,.08);
+    color: var(--orange-light);
 
+    font-size: 17px;
 }
 
-.search-section{
 
-margin:25px 0;
+.booking-summary p {
 
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 10px;
+
+    padding: 12px 15px;
+
+    color: #c5c6cc;
+
+    background: #111116 !important;
+
+    border:
+        1px solid
+        var(--border) !important;
+
+    border-left:
+        3px solid
+        var(--green) !important;
+
+    border-radius: 10px;
+
+    box-shadow: none;
 }
 
-#adminSearch{
 
-width:100%;
+/* =========================================
+   VIEW BUTTON
+========================================= */
 
-padding:15px 20px;
+.view-btn {
 
-border:2px solid #e2e8f0;
+    width: 100%;
 
-border-radius:15px;
+    margin-top: 15px;
 
-font-size:16px;
+    padding: 12px;
 
-outline:none;
+    color: white;
 
-transition:.3s;
+    background: var(--orange);
 
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    transition: 0.2s ease;
 }
 
-#adminSearch:focus{
 
-border-color:#2563eb;
+.view-btn:hover {
 
-box-shadow:
-0 0 0 4px
-rgba(37,99,235,.1);
+    background: var(--orange-light);
 
+    transform: translateY(-2px);
 }
 
-/* =========================
-User Details Modal
-========================= */
 
-.modal{
+/* =========================================
+   USER DETAILS LAYOUT
+========================================= */
 
-display:none;
-position:fixed;
+.user-details-layout {
 
-top:0;
-left:0;
+    display: flex;
 
-width:100%;
-height:100%;
+    gap: 20px;
 
-background:rgba(15,23,42,.75);
-
-backdrop-filter:blur(6px);
-
-justify-content:center;
-align-items:center;
-
-z-index:9999;
-
-animation:fadeIn .3s ease;
-
+    margin-top: 20px;
 }
 
-@keyframes fadeIn{
 
-from{
-opacity:0;
+.user-info,
+.user-stats {
+
+    flex: 1;
+
+    padding: 20px;
+
+    background: #0d0d12;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
 }
 
-to{
-opacity:1;
+
+.user-stats {
+
+    background:
+        rgba(255,113,0,0.04);
+
+    border-color:
+        rgba(255,113,0,0.16);
 }
 
-}
-
-.modal-content{
-
-background:#ffffff;
-
-width:900px;
-max-width:95%;
-
-padding:35px;
-
-border-radius:25px;
-
-box-shadow:
-0 25px 50px rgba(0,0,0,.25);
-
-position:relative;
-
-animation:slideUp .3s ease;
-
-}
-
-@keyframes slideUp{
-
-from{
-transform:translateY(30px);
-opacity:0;
-}
-
-to{
-transform:translateY(0);
-opacity:1;
-}
-
-}
-
-.modal-content h2{
-
-font-size:30px;
-font-weight:700;
-
-color:#2563eb;
-
-margin-bottom:25px;
-
-border-bottom:3px solid #e2e8f0;
-
-padding-bottom:12px;
-
-}
-
-.close{
-
-position:absolute;
-
-right:25px;
-top:20px;
-
-font-size:30px;
-font-weight:700;
-
-cursor:pointer;
-
-color:#64748b;
-
-transition:.3s;
-
-}
-
-.close:hover{
-
-color:#ef4444;
-transform:scale(1.15);
-
-}
-
-#userDetails{
-
-display:flex;
-flex-direction:column;
-gap:12px;
-
-}
-
-#userDetails p{
-
-display:flex;
-
-justify-content:space-between;
-
-padding:12px 16px;
-
-background:#f8fafc;
-
-border-radius:12px;
-
-font-size:15px;
-
-border-left:4px solid #2563eb;
-
-}
-
-#userDetails strong{
-
-color:#0f172a;
-font-weight:600;
-
-}
-
-#userDetails hr{
-
-margin:15px 0;
-
-border:none;
-
-height:2px;
-
-background:#e2e8f0;
-
-}
-
-.booking-summary{
-
-margin-top:15px;
-
-background:#eff6ff;
-
-padding:18px;
-
-border-radius:15px;
-
-border:1px solid #bfdbfe;
-
-}
-
-.booking-summary h3{
-
-color:#2563eb;
-
-margin-bottom:12px;
-
-font-size:18px;
-
-}
-
-.booking-summary p{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-background:white !important;
-
-border-left:4px solid #10b981 !important;
-
-padding:12px 15px;
-
-margin-bottom:12px;
-
-border-radius:10px;
-
-box-shadow:
-0 2px 8px rgba(0,0,0,.05);
-
-}
-
-.view-btn{
-
-margin-top:15px;
-
-width:100%;
-
-padding:12px;
-
-border:none;
-
-border-radius:10px;
-
-background:#2563eb;
-
-color:white;
-
-cursor:pointer;
-
-}
-
-.user-details-layout{
-
-display:flex;
-
-gap:25px;
-
-margin-top:20px;
-
-}
-
-.user-info{
-
-flex:1;
-
-background:#f8fafc;
-
-padding:20px;
-
-border-radius:15px;
-
-border:1px solid #e2e8f0;
-
-}
-
-.user-stats{
-
-flex:1;
-
-background:#eff6ff;
-
-padding:20px;
-
-border-radius:15px;
-
-border:1px solid #bfdbfe;
-
-}
 
 .user-info h3,
-.user-stats h3{
+.user-stats h3 {
 
-margin-bottom:15px;
+    margin-bottom: 15px;
 
-color:#2563eb;
+    color: var(--orange);
 
-font-size:18px;
+    font-size: 17px;
+}
+
+
+.user-info p {
+
+    margin-bottom: 10px;
+
+    padding: 10px;
+
+    color: #c2c3c9;
+
+    background: #111116;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    font-size: 13px;
+}
+
+
+.user-stats p {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    padding: 10px 14px;
+
+    color: #c2c3c9;
+
+    background: #111116;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================
+   SECTION TITLE
+========================================= */
+
+.section-title {
+
+    margin-top: 50px;
+
+    margin-bottom: 20px;
+
+    color: var(--white);
+
+    font-size: 25px;
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+
+    width: 7px;
+}
+
+
+::-webkit-scrollbar-track {
+
+    background: #0b0b0f;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background: #303038;
+
+    border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: var(--orange);
+}
+
+
+/* =========================================
+   SELECTION
+========================================= */
+
+::selection {
+
+    color: white;
+
+    background: var(--orange);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .analytics-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
 
 }
 
-.user-info p{
 
-margin-bottom:12px;
+@media (max-width: 900px) {
 
-padding:10px;
+    .cards {
 
-background:white;
+        grid-template-columns: 1fr;
+    }
 
-border-radius:10px;
 
-}
+    .analytics-grid {
 
-.user-stats p{
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
 
-display:flex;
 
-justify-content:space-between;
+    .user-details-layout {
 
-margin-bottom:12px;
-
-padding:10px 14px;
-
-background:white;
-
-border-radius:10px;
-
-font-weight:500;
+        flex-direction: column;
+    }
 
 }
 
-/* =========================
-Analytics Dashboard
-========================= */
 
-.analytics-grid{
+@media (max-width: 650px) {
 
-display:grid;
+    body {
 
-grid-template-columns:
-repeat(4,1fr);
+        padding: 22px 15px;
+    }
 
-gap:20px;
 
-margin-bottom:30px;
+    .header {
 
-}
+        flex-direction: column;
 
-.analytics-card{
+        align-items: flex-start;
+    }
 
-background:white;
 
-padding:25px;
+    .header h1 {
 
-cursor:pointer;
+        font-size: 26px;
+    }
 
-border-radius:20px;
 
-text-align:center;
+    .add-tech-btn {
 
-border:1px solid #e2e8f0;
+        width: 100%;
+    }
 
-box-shadow:
-0 8px 25px rgba(0,0,0,.05);
 
-transition:.3s;
+    .cards {
 
-}
+        padding: 15px;
+    }
 
-.analytics-card h3{
 
-font-size:2.5rem;
+    .analytics-grid {
 
-color:#2563eb;
+        grid-template-columns: 1fr;
+    }
 
-margin-bottom:10px;
 
-}
+    .dashboard-section {
 
-.analytics-card p{
+        padding: 20px 15px;
 
-color:#64748b;
+        border-radius: 16px;
+    }
 
-font-weight:500;
 
-}
+    #technicianForm {
 
-.analytics-card:hover{
+        padding: 20px 15px;
+    }
 
-transform:translateY(-5px);
 
-box-shadow:
-0 12px 30px rgba(37,99,235,.15);
+    #technicianList,
+    #bookingList,
+    #usersList {
 
-border:1px solid #2563eb;
+        grid-template-columns: 1fr;
+    }
 
-}
 
-.search-section{
-position:relative;
-}
+    .booking-filters {
 
-.search-results{
+        gap: 6px;
+    }
 
-position:absolute;
 
-width:100%;
+    .booking-filters button {
 
-background:white;
+        flex: 1;
 
-border-radius:12px;
+        min-width: 80px;
+    }
 
-box-shadow:
-0 8px 20px rgba(0,0,0,.12);
 
-margin-top:5px;
+    .modal-content {
 
-overflow:hidden;
+        padding: 25px 18px;
 
-z-index:1000;
+        max-width: 96%;
+    }
 
-}
 
-.search-item{
+    #userDetails p {
 
-padding:14px 18px;
+        flex-direction: column;
 
-cursor:pointer;
-
-border-bottom:
-1px solid #e5e7eb;
+        gap: 4px;
+    }
 
 }
 
-.search-item:hover{
 
-background:#eff6ff;
+@media (max-width: 420px) {
+
+    body {
+
+        padding: 18px 10px;
+    }
+
+
+    .header h1 {
+
+        font-size: 23px;
+    }
+
+
+    .card {
+
+        padding: 23px;
+    }
+
+
+    .card h2 {
+
+        font-size: 36px;
+    }
+
+
+    .analytics-card {
+
+        padding: 21px;
+    }
+
+
+    .section h2 {
+
+        font-size: 20px;
+    }
+
+
+    .tech-actions {
+
+        flex-direction: column;
+    }
+
+}
+
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation: none !important;
+
+        transition: none !important;
+    }
+}
+
+/* =====================================================
+   COMPLETED SERVICE REVIEW
+===================================================== */
+
+.completed-service-box {
+
+    margin-top: 18px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid #282830;
+
+}
+
+
+.completed-text {
+
+    color: #55d88a;
+
+    font-weight: 600;
+
+    margin-bottom: 14px;
+
+}
+
+
+/* =====================================================
+   Customer Review
+===================================================== */
+
+.service-review {
+
+    margin-top: 12px;
+
+    padding: 15px;
+
+    background: #111116;
+
+    border: 1px solid #282830;
+
+    border-radius: 12px;
+
+}
+
+
+.service-rating {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+    color: #ffffff;
+
+}
+
+
+.service-rating strong {
+
+    color: #ff7100;
+
+}
+
+
+.service-rating span {
+
+    color: #ffffff;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   Feedback
+===================================================== */
+
+.service-feedback {
+
+    border-top: 1px solid #282830;
+
+    padding-top: 12px;
+
+}
+
+
+.service-feedback strong {
+
+    display: block;
+
+    color: #ffffff;
+
+    margin-bottom: 8px;
+
+}
+
+
+.service-feedback p {
+
+    margin: 0;
+
+    color: #8f929d;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =====================================================
+   No Review
+===================================================== */
+
+.service-no-review {
+
+    margin-top: 12px;
+
+    padding: 13px 15px;
+
+    background: #0d0d12;
+
+    border: 1px solid #282830;
+
+    border-radius: 10px;
+
+}
+
+
+.service-no-review p {
+
+    margin: 5px 0;
+
+    color: #8f929d;
+
+    font-size: 13px;
+
+}
+
+
+.service-no-review span {
+
+    color: #ffffff;
 
 }

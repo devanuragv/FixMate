@@ -1,1 +1,14 @@
-firebase/serviceAccountKey.json
+# Firebase secrets
+backend/firebase/serviceAccountKey.json
+frontend/js/firebase-config.js
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log

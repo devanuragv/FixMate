@@ -8,6 +8,10 @@
 
     <link rel="stylesheet" href="css/booking.css">
 
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 </head>
@@ -59,79 +63,131 @@
 
         <div class="booking-form">
 
-            <h2>Create Booking</h2>
+    <h2>Create Booking</h2>
 
-            <form id="bookingForm">
+    <form id="bookingForm">
 
-                <input
-                    type="text"
-                    id="service"
-                    placeholder="Selected Service"
-                    readonly
-                    required>
+        <!-- SERVICE + LOCATION BUTTON -->
+        <div class="service-location-row">
 
-                <textarea
-                    id="issue"
-                    placeholder="Describe your issue"
-                    required></textarea>
+            <input
+                type="text"
+                id="service"
+                placeholder="Selected Service"
+                readonly
+                required>
 
-                    <input
-                        type="text"
-                        id="customerName"
-                        placeholder="Full Name"
-                        required>
+            <button
+                type="button"
+                id="detectLocationBtn"
+                class="detect-location-btn">
 
-                        <input
-                        type="tel"
-                        id="customerPhone"
-                        placeholder="Phone Number"
-                        required>
+                <span class="location-icon">📍</span>
 
-                        <input
-                        type="text"
-                        id="city"
-                        placeholder="City"
-                        required>
+                <span id="detectLocationText">
+                    Detect My Location
+                </span>
 
-                        <input
-                        type="text"
-                        id="state"
-                        placeholder="State"
-                        required>
+            </button>
 
-                        <input
-                        type="text"
-                        id="pincode"
-                        placeholder="Pincode"
-                        required>
+        </div>
 
-                <input
-                    type="text"
-                    id="location"
-                    placeholder="Address / Location"
-                    required>
 
-                <input
-                    type="date"
-                    id="bookingDate"
-                    required>
+        <!-- ISSUE -->
+        <textarea
+            id="issue"
+            placeholder="Describe your issue"
+            required></textarea>
 
-                <input
-                    type="time"
-                    id="bookingTime"
-                    required>
 
-                <button type="submit">
-                    Book Service
-                </button>
+        <!-- CUSTOMER DETAILS -->
+        <input
+            type="text"
+            id="customerName"
+            placeholder="Full Name"
+            required>
 
-            </form>
+        <input
+            type="tel"
+            id="customerPhone"
+            placeholder="Phone Number"
+            required>
+
+        <input
+            type="email"
+            id="customerEmail"
+            placeholder="Email Address"
+            required>
+
+
+        <!-- HOUSE / OFFICE + CITY -->
+        <input
+            type="text"
+            id="houseNumber"
+            placeholder="House / Flat / Office No."
+            required>
+
+        <input
+            type="text"
+            id="city"
+            placeholder="City"
+            required>
+
+
+        <!-- STATE + PINCODE -->
+        <input
+            type="text"
+            id="state"
+            placeholder="State"
+            required>
+
+        <input
+            type="text"
+            id="pincode"
+            placeholder="Pincode"
+            required>
+
+
+        <!-- ADDRESS + DATE -->
+        <input
+            type="text"
+            id="location"
+            placeholder="Address / Location"
+            required>
+
+      <input
+    type="text"
+    id="bookingDate"
+    class="booking-picker-input"
+    placeholder="Select Date"
+    autocomplete="off"
+    required>
+
+
+        <!-- TIME -->
+        <input
+    type="text"
+    id="bookingTime"
+    class="booking-picker-input"
+    placeholder="Select Time"
+    autocomplete="off"
+    required>
+
+
+        <button type="submit">
+            Book Service
+        </button>
+
+    </form>
+
 
         </div>
 
     </div>
 
-    <script src="js/booking.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script src="js/booking.js"></script>
 
 </body>
 

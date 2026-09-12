@@ -179,18 +179,85 @@ pendingServices;
             ${booking.technician || "Not Assigned"}
           </p>
 
-          ${
-            booking.status === "Completed"
-            ?
-            `
-            <p class="completed-text">
+         ${
+  booking.status === "Completed"
+  ?
+  `
+  <div class="completed-service-box">
 
-            ✅ Service Completed
+    <p class="completed-text">
 
-            </p>
-            `
-            :
-            `
+      ✅ Service Completed
+
+    </p>
+
+
+    ${
+      booking.reviewSubmitted
+      ?
+      `
+
+      <div class="service-review">
+
+        <div class="service-rating">
+
+          <strong>
+            ⭐ Customer Rating:
+          </strong>
+
+          <span>
+            ${booking.userRating || 0}/5
+          </span>
+
+        </div>
+
+
+        <div class="service-feedback">
+
+          <strong>
+            💬 Customer Feedback
+          </strong>
+
+          <p>
+            ${
+              booking.review ||
+              "No written feedback provided."
+            }
+          </p>
+
+        </div>
+
+      </div>
+
+      `
+      :
+      `
+
+      <div class="service-no-review">
+
+        <p>
+          ⭐ Customer Rating:
+          <span>
+            Not Rated
+          </span>
+        </p>
+
+        <p>
+          💬 Customer Feedback:
+          <span>
+            No feedback submitted yet.
+          </span>
+        </p>
+
+      </div>
+
+      `
+    }
+
+  </div>
+  `
+  :
+  `
             <select
             id="tech-${booking.id}"
             class="tech-select">

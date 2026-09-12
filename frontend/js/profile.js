@@ -64,6 +64,11 @@ document.getElementById(
 ).value =
 data.user.pincode || "";
 
+document.getElementById(
+"location"
+).value =
+data.user.location || "";
+
 }
 
 }catch(error){
