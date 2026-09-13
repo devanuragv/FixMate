@@ -12,6 +12,85 @@ Cleaner: 300
 
 };
 
+// =====================================================
+// GET BOOKING CREATED TIME
+// =====================================================
+
+function getBookingCreatedTime(booking) {
+
+    if (!booking) {
+        return 0;
+    }
+
+    const createdAt =
+        booking.createdAt;
+
+    // =========================================
+    // FIRESTORE TIMESTAMP
+    // Supports:
+    // seconds / nanoseconds
+    // _seconds / _nanoseconds
+    // =========================================
+
+    if (
+        createdAt &&
+        typeof createdAt === "object"
+    ) {
+
+        const seconds =
+            createdAt.seconds ??
+            createdAt._seconds;
+
+        const nanoseconds =
+            createdAt.nanoseconds ??
+            createdAt._nanoseconds ??
+            0;
+
+        if (
+            seconds !== undefined &&
+            seconds !== null
+        ) {
+
+            return (
+                Number(seconds) * 1000 +
+                Number(nanoseconds) / 1000000
+            );
+
+        }
+    }
+
+    // =========================================
+    // NORMAL ISO / JAVASCRIPT DATE
+    // =========================================
+
+    if (
+        createdAt &&
+        typeof createdAt === "string"
+    ) {
+
+        const time =
+            new Date(createdAt).getTime();
+
+        if (!isNaN(time)) {
+            return time;
+        }
+    }
+
+    // =========================================
+    // NUMBER TIMESTAMP
+    // =========================================
+
+    if (
+        createdAt &&
+        typeof createdAt === "number"
+    ) {
+
+        return createdAt;
+    }
+
+    return 0;
+}
+
 // ================================
 // Authentication Check
 // ================================
@@ -179,9 +258,30 @@ return;
 }
 
 const jobs =
-data.jobs || [];
+    data.jobs || [];
 
-allJobs = jobs;
+// =====================================================
+// NEWEST REQUEST FIRST
+// Sort by createdAt, NOT bookingDate
+// =====================================================
+
+allJobs = [...jobs];
+
+allJobs.sort((a, b) => {
+
+    const dateA =
+        getBookingCreatedTime(a);
+
+    const dateB =
+        getBookingCreatedTime(b);
+
+    // Bookings with valid createdAt first
+    if (dateA === 0 && dateB === 0) return 0;
+    if (dateA === 0) return 1;
+    if (dateB === 0) return -1;
+
+    return dateB - dateA;
+});
 
 document.getElementById(
 "totalJobs"
@@ -218,7 +318,7 @@ return;
 }
 
 renderJobs(
-jobs
+allJobs
 );
 
 }
@@ -322,75 +422,76 @@ View Details
 </button>
 
 ${
-job.status === "Completed"
-?
-`
-<button
-disabled
-style="
-background:#16a34a;
-cursor:not-allowed;
-">
-
-Completed
-
-</button>
-`
-:
-currentStatus === "Offline"
-?
-`
-<button
-disabled
-style="
-background:#9ca3af;
-cursor:not-allowed;
-">
-
-Offline Mode
-
-</button>
-`
-:
-job.status === "Assigned"
-?
-`
-<button
-onclick="
-updateStatus(
-'${job.id}',
-'In Progress'
-)
-">
-
-Start Job
-
-</button>
-`
-:
-job.status === "In Progress"
-?
-`
-<button
-onclick="
-updateStatus(
-'${job.id}',
-'Completed'
-)
-">
-
-Complete Job
-
-</button>
-`
-:
-`
-<button disabled>
-
-Completed
-
-</button>
-`
+    job.status === "Completed"
+    ?
+    `
+    <button
+        disabled
+        style="
+            background:#16a34a;
+            color:#ffffff;
+            cursor:not-allowed;
+        ">
+        Completed
+    </button>
+    `
+    :
+    job.status === "Cancelled"
+    ?
+    `
+    <button
+        disabled
+        style="
+            background:#dc2626;
+            color:#ffffff;
+            cursor:not-allowed;
+            border:1px solid #ef4444;
+        ">
+        Cancelled
+    </button>
+    `
+    :
+    currentStatus === "Offline"
+    ?
+    `
+    <button
+        disabled
+        style="
+            background:#9ca3af;
+            cursor:not-allowed;
+        ">
+        Offline Mode
+    </button>
+    `
+    :
+    job.status === "Assigned"
+    ?
+    `
+    <button
+        onclick="
+            updateStatus(
+                '${job.id}',
+                'In Progress'
+            )
+        ">
+        Start Job
+    </button>
+    `
+    :
+    job.status === "In Progress"
+    ?
+    `
+    <button
+        onclick="openOtpModal('${job.id}')">
+        Complete Job
+    </button>
+    `
+    :
+    `
+    <button disabled>
+        Completed
+    </button>
+    `
 }
 
 </div>
@@ -403,6 +504,293 @@ container.innerHTML =
 html;
 
 }
+
+// =========================================
+// CUSTOMER OTP VERIFICATION
+// =========================================
+
+let otpBookingId = null;
+
+
+// Open OTP Modal
+function openOtpModal(bookingId) {
+
+    otpBookingId = bookingId;
+
+    const modal =
+        document.getElementById("otpModal");
+
+    const input =
+        document.getElementById("customerOtp");
+
+    const error =
+        document.getElementById("otpError");
+
+    if (!modal || !input) {
+        console.error("OTP modal elements not found");
+        return;
+    }
+
+    input.value = "";
+
+    if (error) {
+        error.textContent = "";
+    }
+
+    modal.style.display = "flex";
+
+    setTimeout(() => {
+        input.focus();
+    }, 100);
+}
+
+
+// Close OTP Modal
+function closeOtpModal() {
+
+    const modal =
+        document.getElementById("otpModal");
+
+    const input =
+        document.getElementById("customerOtp");
+
+    const error =
+        document.getElementById("otpError");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+
+    if (input) {
+        input.value = "";
+    }
+
+    if (error) {
+        error.textContent = "";
+    }
+
+    otpBookingId = null;
+}
+
+
+// Verify OTP and Complete Job
+async function verifyCustomerOtp() {
+
+    const input =
+        document.getElementById("customerOtp");
+
+    const error =
+        document.getElementById("otpError");
+
+    const verifyBtn =
+        document.getElementById("verifyOtpBtn");
+
+    const otp =
+        input.value.trim();
+
+    if (!otp) {
+
+        error.textContent =
+            "Please enter the customer OTP.";
+
+        input.focus();
+
+        return;
+    }
+
+    if (!/^\d{4}$/.test(otp)) {
+
+        error.textContent =
+            "OTP must be exactly 4 digits.";
+
+        input.focus();
+
+        return;
+    }
+
+    if (!otpBookingId) {
+
+        error.textContent =
+            "Booking information is missing.";
+
+        return;
+    }
+
+    try {
+
+        verifyBtn.disabled = true;
+
+        verifyBtn.innerHTML = `
+            <i class="fas fa-spinner fa-spin"></i>
+            Verifying...
+        `;
+
+        const response =
+            await fetch(
+                `/api/technician/status/${otpBookingId}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        Authorization:
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+
+                        status: "Completed",
+
+                        otp: otp,
+
+                        completedAt:
+                            new Date()
+                                .toLocaleDateString(
+                                    "en-CA",
+                                    {
+                                        timeZone:
+                                            "Asia/Kolkata"
+                                    }
+                                )
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (data.success) {
+
+            closeOtpModal();
+
+            showToast(
+                data.message ||
+                "Job Completed Successfully",
+                "success"
+            );
+
+            await loadJobs();
+
+            loadEarnings();
+
+        } else {
+
+            error.textContent =
+                data.message ||
+                "Invalid Customer OTP.";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "OTP verification error:",
+            error
+        );
+
+        error.textContent =
+            "Unable to verify OTP. Please try again.";
+
+    } finally {
+
+        verifyBtn.disabled = false;
+
+        verifyBtn.innerHTML = `
+            <i class="fas fa-check"></i>
+            Verify & Complete
+        `;
+    }
+}
+
+
+// =========================================
+// OTP MODAL EVENTS
+// =========================================
+
+document
+    .getElementById("verifyOtpBtn")
+    ?.addEventListener(
+        "click",
+        verifyCustomerOtp
+    );
+
+
+document
+    .getElementById("closeOtpModal")
+    ?.addEventListener(
+        "click",
+        closeOtpModal
+    );
+
+
+document
+    .getElementById("cancelOtpBtn")
+    ?.addEventListener(
+        "click",
+        closeOtpModal
+    );
+
+
+// Close when clicking outside
+document.addEventListener(
+    "click",
+    (event) => {
+
+        const modal =
+            document.getElementById("otpModal");
+
+        if (
+            modal &&
+            event.target === modal
+        ) {
+            closeOtpModal();
+        }
+
+    }
+);
+
+
+// Only allow digits
+document
+    .getElementById("customerOtp")
+    ?.addEventListener(
+        "input",
+        function () {
+
+            this.value =
+                this.value
+                    .replace(/\D/g, "")
+                    .slice(0, 4);
+
+            const error =
+                document.getElementById(
+                    "otpError"
+                );
+
+            if (error) {
+                error.textContent = "";
+            }
+        }
+    );
+
+
+// Enter key = Verify
+document
+    .getElementById("customerOtp")
+    ?.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+                verifyCustomerOtp();
+            }
+
+        }
+    );
 
 // ================================
 // Update Job Status

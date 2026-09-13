@@ -186,6 +186,72 @@ id="earningModalBody">
 
 </div>
 
+<!-- Customer OTP Verification Modal -->
+<div id="otpModal" class="modal otp-modal">
+
+    <div class="modal-content otp-modal-content">
+
+        <button
+            type="button"
+            class="otp-close-btn"
+            id="closeOtpModal"
+            aria-label="Close">
+            &times;
+        </button>
+
+        <div class="otp-icon">
+            <i class="fas fa-shield-halved"></i>
+        </div>
+
+        <h2>Complete Job</h2>
+
+        <p class="otp-title">
+            Customer Verification Required
+        </p>
+
+        <p class="otp-description">
+            Ask the customer for their 4-digit service OTP
+            to complete this job.
+        </p>
+
+        <div class="otp-input-group">
+
+            <input
+                type="text"
+                id="customerOtp"
+                maxlength="4"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="••••"
+                aria-label="Customer OTP">
+
+        </div>
+
+        <p id="otpError" class="otp-error"></p>
+
+        <div class="otp-actions">
+
+            <button
+                type="button"
+                class="otp-cancel-btn"
+                id="cancelOtpBtn">
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="otp-verify-btn"
+                id="verifyOtpBtn">
+                <i class="fas fa-check"></i>
+                Verify & Complete
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
     <!-- Main Content -->
 
     <main class="main-content">

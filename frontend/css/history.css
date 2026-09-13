@@ -2740,3 +2740,197 @@ body.booking-details-open {
 .timeline-item.cancelled .timeline-content span {
     color: #a8a8b0;
 }
+
+/* =========================================
+   SERVICE OTP CARD
+========================================= */
+
+.status-otp-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 28px;
+    align-items: start;
+}
+
+
+/* LEFT TRACKING */
+
+.status-tracking-column {
+    min-width: 0;
+}
+
+
+/* OTP CARD */
+
+.service-otp-card {
+    position: sticky;
+    top: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 26px 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 113, 0, 0.10),
+            rgba(17, 17, 22, 0.96)
+        );
+
+    border: 1px solid rgba(255, 113, 0, 0.30);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.28),
+        0 0 25px rgba(255, 113, 0, 0.07);
+}
+
+
+/* OTP ICON */
+
+.service-otp-icon {
+    width: 52px;
+    height: 52px;
+
+    margin-bottom: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(255, 113, 0, 0.13);
+
+    border: 1px solid rgba(255, 113, 0, 0.35);
+
+    color: #ff7100;
+
+    font-size: 21px;
+}
+
+
+/* CONTENT */
+
+.service-otp-content {
+    width: 100%;
+
+    text-align: center;
+}
+
+
+.service-otp-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #ff7100;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+
+.service-otp-content h4 {
+    margin: 0 0 8px;
+
+    color: #ffffff;
+
+    font-size: 17px;
+    font-weight: 600;
+}
+
+
+.service-otp-content p {
+    margin: 0 auto 18px;
+
+    color: #8f929d;
+
+    font-size: 11px;
+
+    line-height: 1.55;
+}
+
+
+/* OTP NUMBER */
+
+.service-otp-code {
+    width: 100%;
+
+    padding: 12px 10px;
+
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+
+    background: #0d0d12;
+
+    border: 1px solid #ff7100;
+
+    color: #ff7100;
+
+    font-size: 29px;
+    font-weight: 700;
+
+    letter-spacing: 8px;
+
+    text-align: center;
+
+    box-shadow:
+        inset 0 0 18px rgba(255, 113, 0, 0.05);
+}
+
+
+/* NOTE */
+
+.service-otp-note {
+    display: block;
+
+    color: #686b76;
+
+    font-size: 10px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+    .status-otp-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .service-otp-card {
+        position: relative;
+        top: auto;
+
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .status-otp-layout {
+        gap: 20px;
+    }
+
+    .service-otp-card {
+        padding: 22px 18px;
+    }
+
+    .service-otp-code {
+        font-size: 26px;
+        letter-spacing: 6px;
+    }
+
+}

@@ -1118,3 +1118,244 @@ input:checked + .slider:before{transform:translateX(24px);}
         animation:none!important;
     }
 }
+
+/* =========================================
+   CUSTOMER OTP VERIFICATION MODAL
+========================================= */
+
+.otp-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(7px);
+}
+
+.otp-modal-content {
+    position: relative;
+
+    width: 100%;
+    max-width: 430px;
+
+    padding: 38px 32px;
+
+    background: #111116;
+    border: 1px solid #282830;
+    border-radius: 22px;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.55),
+        0 0 35px rgba(255, 113, 0, 0.12);
+
+    animation: otpModalIn 0.25s ease;
+}
+
+@keyframes otpModalIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+.otp-close-btn {
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #ff7100;
+    border-radius: 50%;
+
+    background: #111116;
+    color: #ff7100;
+
+    font-size: 23px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s ease;
+}
+
+.otp-close-btn:hover {
+    background: #ff7100;
+    color: #0b0b0f;
+    transform: rotate(90deg);
+}
+
+.otp-icon {
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 113, 0, 0.12);
+    border: 1px solid rgba(255, 113, 0, 0.35);
+
+    color: #ff7100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 27px;
+}
+
+.otp-modal-content h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.otp-title {
+    margin: 8px 0 5px;
+
+    color: #ff7100;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.otp-description {
+    max-width: 330px;
+
+    margin: 0 auto 24px;
+
+    color: #8f929d;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.otp-input-group {
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 10px;
+}
+
+#customerOtp {
+    width: 190px;
+    height: 58px;
+
+    border: 1px solid #282830;
+    border-radius: 14px;
+
+    outline: none;
+
+    background: #0d0d12;
+    color: #ffffff;
+
+    text-align: center;
+
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: 10px;
+
+    transition: 0.2s ease;
+}
+
+#customerOtp:focus {
+    border-color: #ff7100;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 113, 0, 0.12);
+}
+
+#customerOtp::placeholder {
+    color: #555761;
+    letter-spacing: 7px;
+}
+
+.otp-error {
+    min-height: 20px;
+
+    margin: 5px 0 15px;
+
+    color: #ff5b5b;
+
+    font-size: 13px;
+}
+
+.otp-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.otp-cancel-btn,
+.otp-verify-btn {
+    flex: 1;
+
+    min-height: 46px;
+
+    border-radius: 12px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.otp-cancel-btn {
+    border: 1px solid #282830;
+
+    background: #0d0d12;
+    color: #ffffff;
+}
+
+.otp-cancel-btn:hover {
+    border-color: #555761;
+}
+
+.otp-verify-btn {
+    border: 1px solid #ff7100;
+
+    background: #ff7100;
+    color: #0b0b0f;
+}
+
+.otp-verify-btn:hover {
+    background: #ff8a1f;
+}
+
+@media (max-width: 500px) {
+
+    .otp-modal-content {
+        padding: 32px 20px;
+    }
+
+    .otp-actions {
+        flex-direction: column;
+    }
+
+}

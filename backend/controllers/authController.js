@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import {
@@ -28,16 +29,20 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+const hashedPassword = await bcrypt.hash(password, 10);
 
-    const userRef = await db.collection("users").add({
-      name,
-      email,
-      phone: phone || "",
-      password: hashedPassword,
-      role: "customer",
-      createdAt: new Date()
-    });
+const serviceOtp =
+    crypto.randomInt(1000, 10000).toString();
+
+const userRef = await db.collection("users").add({
+  name,
+  email,
+  phone: phone || "",
+  password: hashedPassword,
+  role: "customer",
+  serviceOtp,
+  createdAt: new Date()
+});
 
     res.status(201).json({
       success: true,
@@ -240,6 +245,23 @@ export const googleLogin = async (req, res) => {
       const existingUser =
         userDoc.data();
 
+        // Generate OTP for older Google customers
+// who don't already have one
+if (!existingUser.serviceOtp) {
+
+      const serviceOtp =
+        crypto.randomInt(1000, 10000).toString();
+
+      await userDoc.ref.update({
+
+        serviceOtp,
+
+        updatedAt: new Date()
+
+      });
+
+}
+
       /*
        * Don't allow Google to silently
        * turn an admin/other role into a customer.
@@ -287,16 +309,16 @@ export const googleLogin = async (req, res) => {
       const userRef =
         db.collection("users").doc();
 
+      // Generate permanent 4-digit OTP
+      const serviceOtp =
+        crypto.randomInt(1000, 10000).toString();
+
       await userRef.set({
 
         name,
 
         email,
 
-        /*
-         * Google users don't use the
-         * existing bcrypt password login.
-         */
         password: "",
 
         phone: "",
@@ -308,6 +330,9 @@ export const googleLogin = async (req, res) => {
         authProvider: "google",
 
         profileImage: picture,
+
+        // Same OTP will be used for all services
+        serviceOtp,
 
         createdAt: new Date(),
 

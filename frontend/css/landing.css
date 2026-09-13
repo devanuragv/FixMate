@@ -1155,3 +1155,241 @@ button, input, select { font-family: inherit; font-size: inherit; }
   .footer-row { flex-direction: column; text-align: center; }
   .deck-stage { height: 520px; }
 }
+
+
+/* =====================================================
+   CUSTOMER ACCOUNT AVATAR + SIDE DRAWER
+   ===================================================== */
+.customer-avatar-btn[hidden],
+.btn-modern-login[hidden],
+.customer-drawer-backdrop[hidden] {
+  display: none !important;
+}
+
+.customer-avatar-btn {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 107, 0, 0.45);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ff7100, #ff5500);
+  color: #fff;
+  font: 800 0.95rem/1 "Plus Jakarta Sans", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 107, 0, 0.25);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.customer-avatar-btn:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(255, 107, 0, 0.38);
+}
+
+.customer-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  background: rgba(0, 0, 0, 0.62);
+  opacity: 0;
+  transition: opacity .22s ease;
+  backdrop-filter: blur(3px);
+}
+.customer-drawer-backdrop.active { opacity: 1; }
+
+.customer-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9998;
+  width: min(380px, 88vw);
+  height: 100vh;
+  padding: 28px 22px 22px;
+  background: #111116;
+  border-left: 1px solid #282830;
+  box-shadow: -20px 0 70px rgba(0,0,0,.55);
+  transform: translateX(105%);
+  transition: transform .25s cubic-bezier(.16,1,.3,1);
+  display: flex;
+  flex-direction: column;
+}
+.customer-drawer.active { transform: translateX(0); }
+
+.customer-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 6px 4px 24px;
+  border-bottom: 1px solid #282830;
+}
+.customer-drawer-kicker {
+  color: #ff7100;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+.customer-drawer-head h3 {
+  margin: 7px 0 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.customer-drawer-close {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border: 1px solid #282830;
+  border-radius: 12px;
+  background: #0d0d12;
+  color: #fff;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  transition: .2s ease;
+}
+.customer-drawer-close:hover {
+  border-color: rgba(255,107,0,.55);
+  color: #ff7100;
+}
+
+.customer-drawer-nav {
+  display: grid;
+  gap: 8px;
+  padding: 22px 0;
+}
+.customer-drawer-nav a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  color: #d9d9df;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: .2s ease;
+}
+.customer-drawer-nav a i {
+  width: 20px;
+  color: #ff7100;
+  text-align: center;
+}
+.customer-drawer-nav a:hover {
+  background: rgba(255,107,0,.08);
+  border-color: rgba(255,107,0,.22);
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.customer-drawer-logout {
+  margin-top: auto;
+  width: 100%;
+  min-height: 52px;
+  border: 1px solid rgba(255, 77, 94, .22);
+  border-radius: 14px;
+  background: rgba(255, 77, 94, .06);
+  color: #ff6b78;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font: 700 14px "Plus Jakarta Sans", sans-serif;
+  cursor: pointer;
+  transition: .2s ease;
+}
+.customer-drawer-logout:hover {
+  background: rgba(255,77,94,.11);
+  border-color: rgba(255,77,94,.4);
+}
+
+body.customer-drawer-open { overflow: hidden; }
+
+@media (max-width: 600px) {
+  .customer-avatar-btn { width: 42px; height: 42px; }
+  .customer-drawer { width: min(350px, 92vw); }
+}
+
+/* =====================================================
+   CUSTOMER DRAWER - CLOSE BUTTON
+===================================================== */
+
+.customer-drawer-close {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+
+    border: 1px solid #282830;
+    border-radius: 14px;
+
+    background: #111116;
+    color: #ffffff;
+
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.customer-drawer-close:hover {
+    background: rgba(255, 113, 0, 0.12);
+    border-color: #ff7100;
+    color: #ff7100;
+
+    transform: rotate(90deg);
+
+    box-shadow:
+        0 0 20px rgba(255, 113, 0, 0.18);
+}
+
+.customer-drawer-close:active {
+    transform: rotate(90deg) scale(0.94);
+}
+
+.customer-drawer-close:focus-visible {
+    outline: none;
+    border-color: #ff7100;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 113, 0, 0.15);
+}
+
+
+/* =====================================================
+   CUSTOMER DRAWER GREETING
+===================================================== */
+
+.customer-drawer-kicker {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #ff7100;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+    text-transform: none;
+}

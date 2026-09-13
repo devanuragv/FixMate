@@ -43,16 +43,17 @@
         <span>Partner Portal</span>
       </a>  -->
 
-      <!-- Customer Login -->
-      <a href="
-        login.html"
-         class="btn-modern-login"
-         style="text-decoration: none;">
+      <!-- Customer Authentication -->
+      <a href="login.html" class="btn-modern-login" id="customerSignIn" style="text-decoration: none;">
         <span>Sign In</span>
         <div class="login-arrow-icon">
           <i class="fas fa-arrow-right"></i>
         </div>
       </a>
+
+      <button type="button" class="customer-avatar-btn" id="customerAvatarBtn" aria-label="Open customer menu" aria-expanded="false" hidden>
+        <span id="customerAvatarInitial">D</span>
+      </button>
 
     </div>
   </div>
@@ -730,41 +731,30 @@
     </div>
   </div>
 
-  <!-- MULTI-ROLE LOGIN MODAL -->
-  <div class="modal-backdrop" id="authModal">
-    <div class="modal-box">
-      <button class="btn-close" onclick="closeLoginModal()">&times;</button>
-      
-      <div class="modal-head">
-        <h3 id="authModalTitle">Sign In</h3>
-        <p id="authModalSubtitle">Choose portal to access</p>
+  <!-- CUSTOMER SIDE DRAWER -->
+  <div class="customer-drawer-backdrop" id="customerDrawerBackdrop" hidden></div>
+  <aside class="customer-drawer" id="customerDrawer" aria-hidden="true">
+    <div class="customer-drawer-head">
+      <div>
+        <span class="customer-drawer-kicker">Hello</span>
+        <h3 id="customerDrawerName">My Account</h3>
       </div>
-
-      <div class="auth-role-tabs">
-        <button class="role-btn active" id="btnCustomer" onclick="switchAuthRole('customer')">Customer</button>
-        <button class="role-btn" id="btnTechnician" onclick="switchAuthRole('technician')">Technician</button>
-        <button class="role-btn" id="btnAdmin" onclick="switchAuthRole('admin')">Admin</button>
-      </div>
-
-      <form class="auth-form" onsubmit="submitAuth(event)">
-        <div class="form-row">
-          <label id="authIdLabel">Mobile or Email</label>
-          <input type="text" id="authIdInput" placeholder="Enter mobile or email" required />
-        </div>
-        <div class="form-row">
-          <label>Password</label>
-          <input type="password" placeholder="Enter password" required />
-        </div>
-        <div class="form-row" id="adminCodeRow" style="display:none;">
-          <label>Admin Security Code</label>
-          <input type="password" placeholder="6-digit passcode" />
-        </div>
-        <button type="submit" class="btn-orange full-width" id="authSubmitBtn">
-          Sign In
-        </button>
-      </form>
+      <button type="button" class="customer-drawer-close" id="customerDrawerClose" aria-label="Close menu">&times;</button>
     </div>
-  </div>
+
+    <nav class="customer-drawer-nav" aria-label="Customer navigation">
+      <a href="dashboard.html"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="booking.html"><i class="fas fa-calendar-plus"></i><span>Book Service</span></a>
+      <a href="history.html"><i class="fas fa-clock-rotate-left"></i><span>Booking History</span></a>
+      <a href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a>
+      <a href="customer-support.html"><i class="fas fa-headset"></i><span>Customer Support</span></a>
+    </nav>
+
+    <button type="button" class="customer-drawer-logout" id="customerDrawerLogout">
+      <i class="fas fa-right-from-bracket"></i>
+      <span>Logout</span>
+    </button>
+  </aside>
 
   <!-- MINIMAL FOOTER -->
   <footer class="compact-footer">
@@ -786,5 +776,87 @@
   <div class="toast-box" id="toast"></div>
 
   <script src="js/landing.js"></script>
+
+  <script>
+    /* =====================================================
+       FIXMATE CUSTOMER NAVIGATION
+       Uses the existing localStorage auth state.
+       No backend/API changes.
+    ===================================================== */
+    (() => {
+      const signIn = document.getElementById("customerSignIn");
+      const avatarBtn = document.getElementById("customerAvatarBtn");
+      const avatarInitial = document.getElementById("customerAvatarInitial");
+      const drawer = document.getElementById("customerDrawer");
+      const backdrop = document.getElementById("customerDrawerBackdrop");
+      const closeBtn = document.getElementById("customerDrawerClose");
+      const logoutBtn = document.getElementById("customerDrawerLogout");
+      const drawerName = document.getElementById("customerDrawerName");
+
+      let user = null;
+      try {
+        user = JSON.parse(localStorage.getItem("user") || "null");
+      } catch (error) {
+        user = null;
+      }
+
+      const token = localStorage.getItem("fixmateToken");
+      const isLoggedIn = Boolean(token && user);
+
+      function getInitial(name) {
+        const value = String(name || "D").trim();
+        return (value.charAt(0) || "D").toUpperCase();
+      }
+
+      function openDrawer() {
+        if (!drawer || !backdrop) return;
+        drawer.classList.add("active");
+        backdrop.hidden = false;
+        requestAnimationFrame(() => backdrop.classList.add("active"));
+        drawer.setAttribute("aria-hidden", "false");
+        avatarBtn?.setAttribute("aria-expanded", "true");
+        document.body.classList.add("customer-drawer-open");
+      }
+
+      function closeDrawer() {
+        if (!drawer || !backdrop) return;
+        drawer.classList.remove("active");
+        backdrop.classList.remove("active");
+        drawer.setAttribute("aria-hidden", "true");
+        avatarBtn?.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("customer-drawer-open");
+        setTimeout(() => { backdrop.hidden = true; }, 220);
+      }
+
+      if (isLoggedIn) {
+        const name = user.name || user.fullName || user.email || "Customer";
+        if (signIn) signIn.hidden = true;
+        if (avatarBtn) {
+          avatarBtn.hidden = false;
+          avatarBtn.title = name;
+        }
+        if (avatarInitial) avatarInitial.textContent = getInitial(name);
+        if (drawerName) drawerName.textContent = name;
+      } else {
+        if (signIn) signIn.hidden = false;
+        if (avatarBtn) avatarBtn.hidden = true;
+      }
+
+      avatarBtn?.addEventListener("click", openDrawer);
+      closeBtn?.addEventListener("click", closeDrawer);
+      backdrop?.addEventListener("click", closeDrawer);
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeDrawer();
+      });
+
+      logoutBtn?.addEventListener("click", () => {
+        localStorage.removeItem("fixmateToken");
+        localStorage.removeItem("user");
+        closeDrawer();
+        window.location.href = "index.html";
+      });
+    })();
+  </script>
 </body>
 </html>

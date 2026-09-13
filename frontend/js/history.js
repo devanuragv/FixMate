@@ -6,6 +6,7 @@ if (!token) {
     window.location.href = "login.html";
 }
 
+
 // =====================================================
 // GET BOOKING CREATED TIME
 // =====================================================
@@ -16,21 +17,51 @@ function getBookingCreatedTime(booking) {
         return 0;
     }
 
-    const createdAt =
-        booking.createdAt;
+    const createdAt = booking.createdAt;
 
-    // Firestore Timestamp object
+    // =================================================
+    // FIRESTORE TIMESTAMP
+    // Supports both:
+    // seconds / nanoseconds
+    // _seconds / _nanoseconds
+    // =================================================
+
     if (
         createdAt &&
-        typeof createdAt === "object" &&
-        createdAt.seconds
+        typeof createdAt === "object"
     ) {
 
-        return Number(createdAt.seconds) * 1000;
+        const seconds =
+            createdAt.seconds ??
+            createdAt._seconds;
+
+        const nanoseconds =
+            createdAt.nanoseconds ??
+            createdAt._nanoseconds ??
+            0;
+
+        if (
+            seconds !== undefined &&
+            seconds !== null
+        ) {
+
+            return (
+                Number(seconds) * 1000 +
+                Number(nanoseconds) / 1000000
+            );
+
+        }
     }
 
-    // Normal date / ISO string
-    if (createdAt) {
+
+    // =================================================
+    // NORMAL ISO / JAVASCRIPT DATE STRING
+    // =================================================
+
+    if (
+        createdAt &&
+        typeof createdAt === "string"
+    ) {
 
         const time =
             new Date(createdAt).getTime();
@@ -40,21 +71,30 @@ function getBookingCreatedTime(booking) {
         }
     }
 
-    // Fallback to service appointment date/time
-    if (booking.bookingDate) {
 
-        const dateTime =
-            `${booking.bookingDate} ${
-                booking.bookingTime || "00:00"
-            }`;
+    // =================================================
+    // NUMBER TIMESTAMP
+    // =================================================
 
-        const time =
-            new Date(dateTime).getTime();
+    if (
+        createdAt &&
+        typeof createdAt === "number"
+    ) {
 
-        if (!isNaN(time)) {
-            return time;
-        }
+        return createdAt;
     }
+
+
+    // =================================================
+    // IMPORTANT
+    //
+    // DO NOT use bookingDate / bookingTime here.
+    //
+    // bookingDate = technician visit date
+    // createdAt   = request creation date
+    //
+    // These are completely different things.
+    // =================================================
 
     return 0;
 }
@@ -72,7 +112,9 @@ function formatBookingDateTime(value) {
 
     let date;
 
+
     // Firestore Timestamp
+
     if (
         typeof value === "object" &&
         value.seconds
@@ -84,6 +126,7 @@ function formatBookingDateTime(value) {
             );
 
     }
+
     else {
 
         date =
@@ -91,9 +134,11 @@ function formatBookingDateTime(value) {
 
     }
 
+
     if (isNaN(date.getTime())) {
         return "Not available";
     }
+
 
     return date.toLocaleString(
         "en-IN",
@@ -109,20 +154,31 @@ function formatBookingDateTime(value) {
 
 }
 
+
 // =====================================================
 // SERVICE ICONS
 // =====================================================
 
 const SERVICE_ICONS = {
+
     Electrician: "⚡",
+
     Plumber: "🔧",
+
     Carpenter: "🪚",
+
     Painter: "🎨",
+
     "AC Repair": "❄️",
+
     "Appliance Repair": "🔌",
+
     Cleaner: "🧹",
+
     Mechanic: "🔩",
+
     "Pest Control": "🐜"
+
 };
 
 
@@ -150,45 +206,103 @@ async function loadBookings() {
             }
         );
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
 
         if (!response.ok) {
-            console.log("Bookings error:", data);
+
+            console.log(
+                "Bookings error:",
+                data
+            );
+
             return;
         }
 
+
         if (data.success) {
 
-            allBookings = data.bookings || [];
+            allBookings =
+                data.bookings || [];
 
-            console.log("🔥 FIXMATE BOOKINGS FROM BACKEND:", allBookings);
 
-allBookings.forEach((booking) => {
-    console.log(
-        "📌 BOOKING:",
-        booking.id,
-        "STATUS:",
-        booking.status,
-        "STATUS HISTORY:",
-        booking.statusHistory
-    );
-});
+            console.log(
+                "🔥 FIXMATE BOOKINGS FROM BACKEND:",
+                allBookings
+            );
 
-// Newest booking first
-allBookings.sort((a, b) => {
 
-    const dateA =
-        getBookingCreatedTime(a);
+            allBookings.forEach((booking) => {
 
-    const dateB =
-        getBookingCreatedTime(b);
+                console.log(
+                    "📌 BOOKING:",
+                    booking.id,
+                    "STATUS:",
+                    booking.status,
+                    "STATUS HISTORY:",
+                    booking.statusHistory
+                );
 
-    return dateB - dateA;
+            });
 
-});
+
+            // =================================================
+            // NEWEST REQUEST FIRST
+            //
+            // Sort by CREATED TIME.
+            //
+            // This means:
+            // latest request = first card
+            //
+            // It does NOT sort by:
+            // bookingDate
+            // bookingTime
+            // =================================================
+
+            allBookings.sort((a, b) => {
+
+                const dateA =
+                    getBookingCreatedTime(a);
+
+                const dateB =
+                    getBookingCreatedTime(b);
+
+
+                // Bookings with a valid createdAt
+                // always come before bookings
+                // without createdAt.
+
+                if (
+                    dateA === 0 &&
+                    dateB === 0
+                ) {
+                    return 0;
+                }
+
+
+                if (dateA === 0) {
+                    return 1;
+                }
+
+
+                if (dateB === 0) {
+                    return -1;
+                }
+
+
+                // NEWEST FIRST
+
+                return dateB - dateA;
+
+            });
+
 
             const container =
-                document.getElementById("bookingContainer");
+                document.getElementById(
+                    "bookingContainer"
+                );
 
 
             // -----------------------------------------
@@ -198,10 +312,19 @@ allBookings.sort((a, b) => {
             if (allBookings.length === 0) {
 
                 container.innerHTML = `
+
                     <div class="no-bookings">
-                        <h2>No Bookings Found</h2>
-                        <p>You haven't booked any service yet.</p>
+
+                        <h2>
+                            No Bookings Found
+                        </h2>
+
+                        <p>
+                            You haven't booked any service yet.
+                        </p>
+
                     </div>
+
                 `;
 
                 return;
@@ -214,59 +337,85 @@ allBookings.sort((a, b) => {
 
             let html = "";
 
-            allBookings.forEach((booking, index) => {
 
-                const icon =
-                    SERVICE_ICONS[booking.service] || "🛠️";
+            allBookings.forEach(
+                (booking, index) => {
 
-                const date =
-                    formatBookingDate(booking.bookingDate);
-
-                const issue =
-                    booking.issue || "Service request";
+                    const icon =
+                        SERVICE_ICONS[
+                            booking.service
+                        ] || "🛠️";
 
 
-                html += `
-                    <div
-                        class="booking-card"
-                        onclick="openBookingDetails('${booking.id}')"
-                        role="button"
-                        tabindex="0"
-                        data-booking-id="${booking.id}"
-                    >
+                    const date =
+                        formatBookingDate(
+                            booking.bookingDate
+                        );
 
-                        <div class="history-card-top">
 
-                            <div class="history-service">
+                    const issue =
+                        booking.issue ||
+                        "Service request";
 
-                                <div class="service-icon">
-                                    ${icon}
+
+                    html += `
+
+                        <div
+                            class="booking-card"
+                            onclick="openBookingDetails('${booking.id}')"
+                            role="button"
+                            tabindex="0"
+                            data-booking-id="${booking.id}"
+                        >
+
+
+                            <div class="history-card-top">
+
+
+                                <div class="history-service">
+
+
+                                    <div class="service-icon">
+                                        ${icon}
+                                    </div>
+
+
+                                    <h3>
+                                        ${escapeHTML(
+                                            booking.service ||
+                                            "Service"
+                                        )}
+                                    </h3>
+
+
                                 </div>
 
-                                <h3>
-                                    ${escapeHTML(booking.service || "Service")}
-                                </h3>
+
+                                <div class="history-date">
+                                    ${escapeHTML(date)}
+                                </div>
+
 
                             </div>
 
 
-                            <div class="history-date">
-                                ${escapeHTML(date)}
+                            <div class="history-issue">
+
+                                ${escapeHTML(issue)}
+
                             </div>
 
+
                         </div>
 
+                    `;
 
-                        <div class="history-issue">
-                            ${escapeHTML(issue)}
-                        </div>
-
-                    </div>
-                `;
-            });
+                }
+            );
 
 
-            container.innerHTML = html;
+            container.innerHTML =
+                html;
 
 
             // -----------------------------------------
@@ -274,31 +423,42 @@ allBookings.sort((a, b) => {
             // -----------------------------------------
 
             document
-                .querySelectorAll(".booking-card")
+                .querySelectorAll(
+                    ".booking-card"
+                )
                 .forEach(card => {
 
-                    card.addEventListener("keydown", event => {
+                    card.addEventListener(
+                        "keydown",
+                        event => {
 
-                        if (
-                            event.key === "Enter" ||
-                            event.key === " "
-                        ) {
+                            if (
+                                event.key === "Enter" ||
+                                event.key === " "
+                            ) {
 
-                            event.preventDefault();
+                                event.preventDefault();
 
-                            const bookingId =
-                                card.dataset.bookingId;
 
-                            openBookingDetails(bookingId);
+                                const bookingId =
+                                    card.dataset.bookingId;
+
+
+                                openBookingDetails(
+                                    bookingId
+                                );
+
+                            }
+
                         }
-
-                    });
+                    );
 
                 });
 
         }
 
     }
+
 
     catch (error) {
 
@@ -322,13 +482,17 @@ function formatBookingDate(dateString) {
         return "Date not available";
     }
 
+
     try {
 
-        const date = new Date(dateString);
+        const date =
+            new Date(dateString);
+
 
         if (isNaN(date.getTime())) {
             return dateString;
         }
+
 
         return date.toLocaleDateString(
             "en-IN",
@@ -340,6 +504,7 @@ function formatBookingDate(dateString) {
         );
 
     }
+
 
     catch (error) {
 
@@ -356,16 +521,42 @@ function formatBookingDate(dateString) {
 
 function escapeHTML(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
         return "";
+
     }
 
+
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
@@ -378,7 +569,9 @@ async function openBookingDetails(bookingId) {
 
     const booking =
         allBookings.find(
-            item => String(item.id) === String(bookingId)
+            item =>
+                String(item.id) ===
+                String(bookingId)
         );
 
 
@@ -394,7 +587,10 @@ async function openBookingDetails(bookingId) {
 
 
     const existing =
-        document.getElementById("bookingDetailsOverlay");
+        document.getElementById(
+            "bookingDetailsOverlay"
+        );
+
 
     if (existing) {
         existing.remove();
@@ -402,131 +598,208 @@ async function openBookingDetails(bookingId) {
 
 
     const icon =
-        SERVICE_ICONS[booking.service] || "🛠️";
+        SERVICE_ICONS[
+            booking.service
+        ] || "🛠️";
 
 
     const status =
-        normalizeStatus(booking.status);
+        normalizeStatus(
+            booking.status
+        );
 
 
     const statusLabel =
-        getStatusLabel(status);
+        getStatusLabel(
+            status
+        );
 
 
     const statusClass =
-        getStatusClass(status);
+        getStatusClass(
+            status
+        );
 
 
     const timeline =
-    createBookingTimeline(
-        status,
-        booking
-    );
+        createBookingTimeline(
+            status,
+            booking
+        );
 
-
-    let technicianName =
-    booking.technician ||
-    "Technician not assigned";
-
-let technicianPhone = "";
-let technicianRating = null;
-let totalReviews = null;
-let technicianService = "";
-let technicianExperience = "";
-
-
-// =========================================
-// LOAD PUBLIC TECHNICIAN PROFILE
+        // =========================================
+// LOAD CUSTOMER SERVICE OTP
 // =========================================
 
-if (booking.technicianId) {
+let serviceOtp = "";
 
-    try {
+try {
 
-        const technicianResponse = await fetch(
-            `${API_URL}/technician/public-profile/${booking.technicianId}`,
+    const profileResponse =
+        await fetch(
+            `${API_URL}/users/profile`,
             {
+                method: "GET",
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization:
+                        `Bearer ${token}`
                 }
             }
         );
 
-        const technicianData =
-            await technicianResponse.json();
+    if (profileResponse.ok) {
 
-        if (
-            technicianResponse.ok &&
-            technicianData.success &&
-            technicianData.technician
-        ) {
+        const profileData =
+            await profileResponse.json();
 
-            const technician =
-                technicianData.technician;
+        const customer =
+            profileData.user ||
+            profileData.data ||
+            profileData;
 
-            technicianName =
-                technician.name ||
-                technicianName;
-
-            technicianPhone =
-                technician.phone ||
-                "";
-
-            technicianRating =
-                technician.rating ??
-                null;
-
-            totalReviews =
-                technician.totalReviews ??
-                null;
-
-            technicianService =
-                technician.serviceType ||
-                "";
-
-            technicianExperience =
-                technician.experience ||
-                "";
-        }
-
+        serviceOtp =
+            customer.serviceOtp ||
+            "";
     }
-    catch (error) {
 
-        console.log(
-            "Technician profile error:",
-            error
-        );
+}
+catch (error) {
 
-    }
+    console.log(
+        "Service OTP loading error:",
+        error
+    );
 
 }
 
 
-// =========================================
-// CREATE TECHNICIAN SECTION
-// =========================================
+    let technicianName =
+        booking.technician ||
+        "Technician not assigned";
 
-const technicianSection =
-    createTechnicianSection(
-        booking,
-        technicianName,
-        technicianPhone,
-        technicianRating,
-        totalReviews,
-        technicianService,
-        technicianExperience
-    );
+
+    let technicianPhone = "";
+
+    let technicianRating = null;
+
+    let totalReviews = null;
+
+    let technicianService = "";
+
+    let technicianExperience = "";
+
+
+    // =========================================
+    // LOAD PUBLIC TECHNICIAN PROFILE
+    // =========================================
+
+    if (booking.technicianId) {
+
+        try {
+
+            const technicianResponse =
+                await fetch(
+                    `${API_URL}/technician/public-profile/${booking.technicianId}`,
+                    {
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            const technicianData =
+                await technicianResponse.json();
+
+
+            if (
+                technicianResponse.ok &&
+                technicianData.success &&
+                technicianData.technician
+            ) {
+
+                const technician =
+                    technicianData.technician;
+
+
+                technicianName =
+                    technician.name ||
+                    technicianName;
+
+
+                technicianPhone =
+                    technician.phone ||
+                    "";
+
+
+                technicianRating =
+                    technician.rating ??
+                    null;
+
+
+                totalReviews =
+                    technician.totalReviews ??
+                    null;
+
+
+                technicianService =
+                    technician.serviceType ||
+                    "";
+
+
+                technicianExperience =
+                    technician.experience ||
+                    "";
+
+            }
+
+        }
+
+
+        catch (error) {
+
+            console.log(
+                "Technician profile error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    // =========================================
+    // CREATE TECHNICIAN SECTION
+    // =========================================
+
+    const technicianSection =
+        createTechnicianSection(
+            booking,
+            technicianName,
+            technicianPhone,
+            technicianRating,
+            totalReviews,
+            technicianService,
+            technicianExperience
+        );
 
 
     const reviewSection =
-        createReviewSection(booking);
+        createReviewSection(
+            booking
+        );
 
 
     const overlay =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     overlay.id =
         "bookingDetailsOverlay";
+
 
     overlay.className =
         "booking-details-overlay";
@@ -545,13 +818,19 @@ const technicianSection =
 
             <div class="details-header">
 
+
                 <button
                     type="button"
                     class="details-back-btn"
                     onclick="closeBookingDetails()"
                 >
+
                     ←
-                    <span>My Bookings</span>
+
+                    <span>
+                        My Bookings
+                    </span>
+
                 </button>
 
 
@@ -561,8 +840,11 @@ const technicianSection =
                     onclick="closeBookingDetails()"
                     aria-label="Close"
                 >
+
                     ×
+
                 </button>
+
 
             </div>
 
@@ -573,6 +855,7 @@ const technicianSection =
 
             <div class="booking-detail-hero">
 
+
                 <div class="detail-service-icon">
                     ${icon}
                 </div>
@@ -580,23 +863,30 @@ const technicianSection =
 
                 <div class="detail-service-info">
 
+
                     <span class="detail-label">
                         FIXMATE SERVICE
                     </span>
 
+
                     <h2>
                         ${escapeHTML(
-                            booking.service || "Service"
+                            booking.service ||
+                            "Service"
                         )}
                     </h2>
 
+
                     <p>
                         ${escapeHTML(
-                            booking.issue || "Service request"
+                            booking.issue ||
+                            "Service request"
                         )}
                     </p>
 
+
                 </div>
+
 
             </div>
 
@@ -606,6 +896,7 @@ const technicianSection =
             ====================================== -->
 
             <section class="detail-section">
+
 
                 <div class="section-heading">
 
@@ -618,25 +909,94 @@ const technicianSection =
                 </div>
 
 
-                <div class="
-                    current-status
-                    ${statusClass}
-                ">
+                <div class="status-otp-layout">
 
-                    <span class="status-dot"></span>
+    <!-- BOOKING TRACKING -->
 
-                    <span>
-                        ${escapeHTML(statusLabel)}
-                    </span>
+    <div class="status-tracking-column">
+
+        <div class="
+            current-status
+            ${statusClass}
+        ">
+
+            <span class="status-dot"></span>
+
+            <span>
+                ${escapeHTML(
+                    statusLabel
+                )}
+            </span>
+
+        </div>
+
+
+        <div class="booking-timeline">
+
+            ${timeline}
+
+        </div>
+
+    </div>
+
+
+    <!-- SERVICE OTP -->
+
+    ${
+        status !== "completed" &&
+        status !== "cancelled"
+        ?
+        `
+
+        <div class="service-otp-card">
+
+            <div class="service-otp-icon">
+                🔐
+            </div>
+
+            <div class="service-otp-content">
+
+                <span class="service-otp-label">
+                    SERVICE OTP
+                </span>
+
+                <h4>
+                    Your Verification Code
+                </h4>
+
+                <p>
+                    Share this code with your
+                    technician after the service
+                    is completed.
+                </p>
+
+                <div class="service-otp-code">
+
+                    ${
+                        serviceOtp
+                            ? escapeHTML(
+                                String(serviceOtp)
+                            )
+                            : "----"
+                    }
 
                 </div>
 
+                <span class="service-otp-note">
+                    🔒 Keep this code private
+                </span>
 
-                <div class="booking-timeline">
+            </div>
 
-                    ${timeline}
+        </div>
 
-                </div>
+        `
+        :
+        ""
+    }
+
+</div>
+
 
             </section>
 
@@ -654,6 +1014,7 @@ const technicianSection =
 
             <section class="detail-section">
 
+
                 <div class="section-heading">
 
                     <span class="section-line"></span>
@@ -667,63 +1028,82 @@ const technicianSection =
 
                 <div class="details-grid">
 
+
                     <div class="detail-box">
+
 
                         <span class="detail-box-icon">
                             🔧
                         </span>
 
+
                         <div>
+
 
                             <small>
                                 Service
                             </small>
 
+
                             <strong>
                                 ${escapeHTML(
-                                    booking.service || "N/A"
+                                    booking.service ||
+                                    "N/A"
                                 )}
                             </strong>
 
+
                         </div>
+
 
                     </div>
 
 
                     <div class="detail-box">
+
 
                         <span class="detail-box-icon">
                             📝
                         </span>
 
+
                         <div>
+
 
                             <small>
                                 Issue
                             </small>
 
+
                             <strong>
                                 ${escapeHTML(
-                                    booking.issue || "N/A"
+                                    booking.issue ||
+                                    "N/A"
                                 )}
                             </strong>
 
+
                         </div>
+
 
                     </div>
 
 
                     <div class="detail-box">
 
+
                         <span class="detail-box-icon">
                             📅
                         </span>
 
+
                         <div>
+
 
                             <small>
                                 Date
                             </small>
+
 
                             <strong>
                                 ${escapeHTML(
@@ -733,30 +1113,39 @@ const technicianSection =
                                 )}
                             </strong>
 
+
                         </div>
+
 
                     </div>
 
 
                     <div class="detail-box">
 
+
                         <span class="detail-box-icon">
                             ⏰
                         </span>
 
+
                         <div>
+
 
                             <small>
                                 Time
                             </small>
 
+
                             <strong>
                                 ${escapeHTML(
-                                    booking.bookingTime || "N/A"
+                                    booking.bookingTime ||
+                                    "N/A"
                                 )}
                             </strong>
 
+
                         </div>
+
 
                     </div>
 
@@ -767,6 +1156,7 @@ const technicianSection =
                         booking.amount
                         ?
                         `
+
                         <div class="detail-box">
 
                             <span class="detail-box-icon">
@@ -790,12 +1180,15 @@ const technicianSection =
                             </div>
 
                         </div>
+
                         `
                         :
                         ""
                     }
 
+
                 </div>
+
 
             </section>
 
@@ -805,6 +1198,7 @@ const technicianSection =
             ====================================== -->
 
             <section class="detail-section">
+
 
                 <div class="section-heading">
 
@@ -819,11 +1213,14 @@ const technicianSection =
 
                 <div class="address-card">
 
+
                     <div class="address-icon">
                         📍
                     </div>
 
+
                     <div class="address-content">
+
 
                         <strong>
                             ${escapeHTML(
@@ -832,13 +1229,16 @@ const technicianSection =
                             )}
                         </strong>
 
+
                         ${
                             booking.city ||
                             booking.state ||
                             booking.pincode
                             ?
                             `
+
                             <p>
+
                                 ${escapeHTML(
                                     [
                                         booking.city,
@@ -848,15 +1248,20 @@ const technicianSection =
                                     .filter(Boolean)
                                     .join(", ")
                                 )}
+
                             </p>
+
                             `
                             :
                             ""
                         }
 
+
                     </div>
 
+
                 </div>
+
 
             </section>
 
@@ -866,6 +1271,7 @@ const technicianSection =
             ====================================== -->
 
             <section class="detail-section">
+
 
                 <div class="section-heading">
 
@@ -880,11 +1286,13 @@ const technicianSection =
 
                 <div class="customer-detail-card">
 
+
                     <div class="customer-detail-row">
 
                         <span>
                             Name
                         </span>
+
 
                         <strong>
                             ${escapeHTML(
@@ -903,6 +1311,7 @@ const technicianSection =
                             Phone
                         </span>
 
+
                         <strong>
                             ${escapeHTML(
                                 booking.customerPhone ||
@@ -920,6 +1329,7 @@ const technicianSection =
                             Email
                         </span>
 
+
                         <strong>
                             ${escapeHTML(
                                 booking.customerEmail ||
@@ -930,7 +1340,9 @@ const technicianSection =
 
                     </div>
 
+
                 </div>
+
 
             </section>
 
@@ -953,6 +1365,7 @@ const technicianSection =
                     status !== "cancelled"
                     ?
                     `
+
                     <button
                         type="button"
                         class="detail-edit-btn"
@@ -961,6 +1374,7 @@ const technicianSection =
                         ✏️ Edit Booking
                     </button>
 
+
                     <button
                         type="button"
                         class="detail-delete-btn"
@@ -968,6 +1382,7 @@ const technicianSection =
                     >
                         Cancel Booking
                     </button>
+
                     `
                     :
                     ""
@@ -988,6 +1403,7 @@ const technicianSection =
 
             </div>
 
+
         </div>
 
     `;
@@ -997,7 +1413,9 @@ const technicianSection =
     // ADD TO BODY
     // -----------------------------------------
 
-    document.body.appendChild(overlay);
+    document.body.appendChild(
+        overlay
+    );
 
 
     // -----------------------------------------
@@ -1006,7 +1424,9 @@ const technicianSection =
 
     requestAnimationFrame(() => {
 
-        overlay.classList.add("show");
+        overlay.classList.add(
+            "show"
+        );
 
     });
 
@@ -1069,7 +1489,9 @@ function closeBookingDetails() {
     }
 
 
-    overlay.classList.remove("show");
+    overlay.classList.remove(
+        "show"
+    );
 
 
     setTimeout(() => {
@@ -1127,7 +1549,9 @@ function normalizeStatus(status) {
     if (
         value.includes("cancel")
     ) {
+
         return "cancelled";
+
     }
 
 
@@ -1135,7 +1559,9 @@ function normalizeStatus(status) {
         value.includes("complete") ||
         value.includes("finished")
     ) {
+
         return "completed";
+
     }
 
 
@@ -1144,14 +1570,18 @@ function normalizeStatus(status) {
         value.includes("started") ||
         value.includes("ongoing")
     ) {
+
         return "in-progress";
+
     }
 
 
     if (
         value.includes("assigned")
     ) {
+
         return "assigned";
+
     }
 
 
@@ -1159,7 +1589,9 @@ function normalizeStatus(status) {
         value.includes("way") ||
         value.includes("travel")
     ) {
+
         return "on-the-way";
+
     }
 
 
@@ -1211,28 +1643,48 @@ function getStatusLabel(status) {
 
 function getStatusClass(status) {
 
-    if (status === "completed") {
+    if (
+        status === "completed"
+    ) {
+
         return "status-completed";
+
     }
 
 
-    if (status === "cancelled") {
+    if (
+        status === "cancelled"
+    ) {
+
         return "status-cancelled";
+
     }
 
 
-    if (status === "assigned") {
+    if (
+        status === "assigned"
+    ) {
+
         return "status-assigned";
+
     }
 
 
-    if (status === "on-the-way") {
+    if (
+        status === "on-the-way"
+    ) {
+
         return "status-on-the-way";
+
     }
 
 
-    if (status === "in-progress") {
+    if (
+        status === "in-progress"
+    ) {
+
         return "status-progress";
+
     }
 
 
@@ -1244,7 +1696,11 @@ function getStatusClass(status) {
 // =====================================================
 // CREATE TIMELINE
 // =====================================================
-function createBookingTimeline(status, booking) {
+
+function createBookingTimeline(
+    status,
+    booking
+) {
 
     // =========================================
     // GET STATUS TIME
@@ -1252,60 +1708,83 @@ function createBookingTimeline(status, booking) {
 
     function getStatusTime(key) {
 
-    const history =
-        booking?.statusHistory;
+        const history =
+            booking?.statusHistory;
 
-    if (!history) {
-        return null;
-    }
 
-    const value =
-        history[key];
-
-    if (!value) {
-        return null;
-    }
-
-    // =========================================
-    // FIRESTORE TIMESTAMP
-    // Supports both:
-    // seconds
-    // _seconds
-    // =========================================
-
-    if (typeof value === "object") {
-
-        const seconds =
-            value.seconds ??
-            value._seconds;
-
-        const nanoseconds =
-            value.nanoseconds ??
-            value._nanoseconds ??
-            0;
-
-        if (seconds !== undefined) {
-
-            return new Date(
-                Number(seconds) * 1000 +
-                Number(nanoseconds) / 1000000
-            );
+        if (!history) {
+            return null;
         }
+
+
+        const value =
+            history[key];
+
+
+        if (!value) {
+            return null;
+        }
+
+
+        // =========================================
+        // FIRESTORE TIMESTAMP
+        // Supports:
+        // seconds
+        // _seconds
+        // =========================================
+
+        if (
+            typeof value === "object"
+        ) {
+
+            const seconds =
+                value.seconds ??
+                value._seconds;
+
+
+            const nanoseconds =
+                value.nanoseconds ??
+                value._nanoseconds ??
+                0;
+
+
+            if (
+                seconds !== undefined
+            ) {
+
+                return new Date(
+                    Number(seconds) * 1000 +
+                    Number(nanoseconds) / 1000000
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // NORMAL DATE / ISO STRING
+        // =========================================
+
+        const date =
+            new Date(value);
+
+
+        if (
+            isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return null;
+
+        }
+
+
+        return date;
+
     }
 
-    // =========================================
-    // NORMAL DATE / ISO STRING
-    // =========================================
-
-    const date =
-        new Date(value);
-
-    if (isNaN(date.getTime())) {
-        return null;
-    }
-
-    return date;
-}
 
     // =========================================
     // FORMAT STATUS TIME
@@ -1316,6 +1795,7 @@ function createBookingTimeline(status, booking) {
         if (!date) {
             return "";
         }
+
 
         return date.toLocaleString(
             "en-IN",
@@ -1336,13 +1816,21 @@ function createBookingTimeline(status, booking) {
     // CANCELLED
     // =========================================
 
-    if (status === "cancelled") {
+    if (
+        status === "cancelled"
+    ) {
 
         const pendingTime =
-            getStatusTime("pending");
+            getStatusTime(
+                "pending"
+            );
+
 
         const cancelledTime =
-            getStatusTime("cancelled");
+            getStatusTime(
+                "cancelled"
+            );
+
 
         return `
 
@@ -1352,27 +1840,35 @@ function createBookingTimeline(status, booking) {
                     ✓
                 </div>
 
+
                 <div class="timeline-content">
 
                     <strong>
                         Booking Created
                     </strong>
 
+
                     <span>
                         Your booking was received
                     </span>
 
+
                     ${
                         pendingTime
-                            ?
-                            `
-                            <small class="timeline-time">
-                                🕐 ${formatStatusTime(pendingTime)}
-                            </small>
-                            `
-                            :
-                            ""
+                        ?
+                        `
+
+                        <small class="timeline-time">
+                            🕐 ${formatStatusTime(
+                                pendingTime
+                            )}
+                        </small>
+
+                        `
+                        :
+                        ""
                     }
+
 
                 </div>
 
@@ -1385,27 +1881,35 @@ function createBookingTimeline(status, booking) {
                     ×
                 </div>
 
+
                 <div class="timeline-content">
 
                     <strong>
                         Booking Cancelled
                     </strong>
 
+
                     <span>
                         This booking has been cancelled
                     </span>
 
+
                     ${
                         cancelledTime
-                            ?
-                            `
-                            <small class="timeline-time">
-                                🕐 ${formatStatusTime(cancelledTime)}
-                            </small>
-                            `
-                            :
-                            ""
+                        ?
+                        `
+
+                        <small class="timeline-time">
+                            🕐 ${formatStatusTime(
+                                cancelledTime
+                            )}
+                        </small>
+
+                        `
+                        :
+                        ""
                     }
+
 
                 </div>
 
@@ -1432,6 +1936,7 @@ function createBookingTimeline(status, booking) {
                 "Your service request has been received"
         },
 
+
         {
             key: "assigned",
 
@@ -1441,6 +1946,7 @@ function createBookingTimeline(status, booking) {
             description:
                 "A technician has been assigned to your booking"
         },
+
 
         {
             key: "on-the-way",
@@ -1452,6 +1958,7 @@ function createBookingTimeline(status, booking) {
                 "Your technician is heading to the service location"
         },
 
+
         {
             key: "in-progress",
 
@@ -1461,6 +1968,7 @@ function createBookingTimeline(status, booking) {
             description:
                 "Your service is currently in progress"
         },
+
 
         {
             key: "completed",
@@ -1482,19 +1990,27 @@ function createBookingTimeline(status, booking) {
     const order = [
 
         "pending",
+
         "assigned",
+
         "on-the-way",
+
         "in-progress",
+
         "completed"
 
     ];
 
 
     let currentIndex =
-        order.indexOf(status);
+        order.indexOf(
+            status
+        );
 
 
-    if (currentIndex < 0) {
+    if (
+        currentIndex < 0
+    ) {
 
         currentIndex = 0;
 
@@ -1506,119 +2022,131 @@ function createBookingTimeline(status, booking) {
     // =========================================
 
     return steps
-        .map((step, index) => {
 
-            let itemClass = "";
+        .map(
+            (step, index) => {
 
+                let itemClass = "";
 
-            if (index < currentIndex) {
-
-                itemClass = "done";
-
-            }
-
-            else if (index === currentIndex) {
 
                 if (
-                    status === "completed"
+                    index < currentIndex
                 ) {
 
                     itemClass = "done";
 
                 }
 
-                else {
 
-                    itemClass = "active";
+                else if (
+                    index === currentIndex
+                ) {
+
+                    if (
+                        status === "completed"
+                    ) {
+
+                        itemClass = "done";
+
+                    }
+
+                    else {
+
+                        itemClass = "active";
+
+                    }
 
                 }
 
-            }
+
+                const statusTime =
+                    getStatusTime(
+                        step.key
+                    );
 
 
-            const statusTime =
-                getStatusTime(
-                    step.key
-                );
+                const formattedTime =
+                    formatStatusTime(
+                        statusTime
+                    );
 
 
-            const formattedTime =
-                formatStatusTime(
-                    statusTime
-                );
+                return `
+
+                    <div class="
+                        timeline-item
+                        ${itemClass}
+                    ">
 
 
-            return `
+                        <div class="timeline-marker">
 
-                <div class="
-                    timeline-item
-                    ${itemClass}
-                ">
-
-                    <div class="timeline-marker">
-
-                        ${
-                            index < currentIndex
+                            ${
+                                index < currentIndex
                                 ?
                                 "✓"
 
                                 :
 
-                            index === currentIndex &&
-                            status === "completed"
+                                index === currentIndex &&
+                                status === "completed"
                                 ?
                                 "✓"
 
                                 :
 
-                            index === currentIndex
+                                index === currentIndex
                                 ?
                                 "●"
 
                                 :
                                 ""
-                        }
+                            }
 
-                    </div>
-
-
-                    <div class="timeline-content">
-
-                        <strong>
-                            ${step.title}
-                        </strong>
-
-                        <span>
-                            ${step.description}
-                        </span>
+                        </div>
 
 
-                        ${
-                            formattedTime
+                        <div class="timeline-content">
+
+                            <strong>
+                                ${step.title}
+                            </strong>
+
+
+                            <span>
+                                ${step.description}
+                            </span>
+
+
+                            ${
+                                formattedTime
                                 ?
                                 `
+
                                 <small class="timeline-time">
                                     🕐 ${formattedTime}
                                 </small>
+
                                 `
                                 :
                                 ""
-                        }
+                            }
+
+
+                        </div>
+
 
                     </div>
 
-                </div>
+                `;
 
-            `;
+            }
+        )
 
-        })
         .join("");
 
 }
 
-// =====================================================
-// TECHNICIAN SECTION
-// =====================================================
 // =====================================================
 // TECHNICIAN SECTION
 // =====================================================
@@ -1637,42 +2165,63 @@ function createTechnicianSection(
         booking.technician ||
         booking.technicianId;
 
+
     // =========================================
     // NOT ASSIGNED
     // =========================================
 
     if (!assigned) {
+
         return `
+
             <section class="detail-section technician-section">
 
                 <div class="section-heading">
+
                     <span class="section-line"></span>
-                    <h3>Assigned Technician</h3>
+
+                    <h3>
+                        Assigned Technician
+                    </h3>
+
                 </div>
 
+
                 <div class="technician-card not-assigned">
+
 
                     <div class="technician-avatar">
                         👨‍🔧
                     </div>
 
+
                     <div class="technician-info">
+
                         <span class="technician-label">
                             YOUR TECHNICIAN
                         </span>
 
-                        <h4>Technician Not Assigned</h4>
+
+                        <h4>
+                            Technician Not Assigned
+                        </h4>
+
 
                         <div class="technician-designation">
                             Technician will appear here once assigned.
                         </div>
+
                     </div>
+
 
                 </div>
 
             </section>
+
         `;
+
     }
+
 
     // =========================================
     // RATING
@@ -1683,10 +2232,12 @@ function createTechnicianSection(
         technicianRating !== undefined &&
         technicianRating !== "";
 
+
     const ratingValue =
         hasRating
             ? Number(technicianRating)
             : 0;
+
 
     const reviewCount =
         totalReviews !== null &&
@@ -1694,6 +2245,7 @@ function createTechnicianSection(
         totalReviews !== ""
             ? Number(totalReviews)
             : 0;
+
 
     // =========================================
     // EXPERIENCE
@@ -1704,6 +2256,7 @@ function createTechnicianSection(
         technicianExperience !== undefined &&
         technicianExperience !== "";
 
+
     // =========================================
     // PHONE
     // =========================================
@@ -1713,24 +2266,34 @@ function createTechnicianSection(
         technicianPhone !== undefined &&
         technicianPhone !== "";
 
+
     // =========================================
     // FINAL CARD
     // =========================================
 
     return `
+
         <section class="detail-section technician-section">
 
+
             <div class="section-heading">
+
                 <span class="section-line"></span>
-                <h3>Assigned Technician</h3>
+
+                <h3>
+                    Assigned Technician
+                </h3>
+
             </div>
 
 
             <div class="technician-card">
 
+
                 <!-- LEFT SIDE -->
 
                 <div class="technician-main">
+
 
                     <div class="technician-avatar">
                         👨‍🔧
@@ -1739,32 +2302,43 @@ function createTechnicianSection(
 
                     <div class="technician-info">
 
+
                         <span class="technician-label">
                             YOUR TECHNICIAN
                         </span>
 
+
                         <h4>
                             ${escapeHTML(
-                                technicianName || "Technician"
+                                technicianName ||
+                                "Technician"
                             )}
                         </h4>
 
 
                         ${
                             technicianService
-                                ?
-                                `
-                                <div class="technician-designation">
-                                    🔧 ${escapeHTML(
-                                        technicianService
-                                    )}
-                                </div>
-                                `
-                                :
-                                ""
+                            ?
+                            `
+
+                            <div class="technician-designation">
+
+                                🔧
+
+                                ${escapeHTML(
+                                    technicianService
+                                )}
+
+                            </div>
+
+                            `
+                            :
+                            ""
                         }
 
+
                     </div>
+
 
                 </div>
 
@@ -1773,56 +2347,80 @@ function createTechnicianSection(
 
                 <div class="technician-stats">
 
+
                     ${
                         hasRating
-                            ?
-                            `
-                            <div class="technician-stat">
+                        ?
+                        `
 
-                                <span class="stat-label">
-                                    RATING
+                        <div class="technician-stat">
+
+
+                            <span class="stat-label">
+                                RATING
+                            </span>
+
+
+                            <div class="stat-value rating-value">
+
+
+                                <span>
+                                    ★
                                 </span>
 
-                                <div class="stat-value rating-value">
 
-                                    <span>★</span>
+                                ${ratingValue.toFixed(1)}
 
-                                    ${ratingValue.toFixed(1)}
 
-                                    <small>
-                                        (${reviewCount} ratings)
-                                    </small>
+                                <small>
+                                    (${reviewCount} ratings)
+                                </small>
 
-                                </div>
 
                             </div>
-                            `
-                            :
-                            ""
+
+
+                        </div>
+
+                        `
+                        :
+                        ""
                     }
 
 
                     ${
                         hasExperience
-                            ?
-                            `
-                            <div class="technician-stat">
+                        ?
+                        `
 
-                                <span class="stat-label">
-                                    EXPERIENCE
-                                </span>
+                        <div class="technician-stat">
 
-                                <div class="stat-value">
-                                    Exp : ${escapeHTML(
-                                        technicianExperience
-                                    )} yrs
-                                </div>
+
+                            <span class="stat-label">
+                                EXPERIENCE
+                            </span>
+
+
+                            <div class="stat-value">
+
+                                Exp :
+
+                                ${escapeHTML(
+                                    technicianExperience
+                                )}
+
+                                yrs
 
                             </div>
-                            `
-                            :
-                            ""
+
+
+                        </div>
+
+                        `
+                        :
+                        ""
                     }
+
 
                 </div>
 
@@ -1831,45 +2429,59 @@ function createTechnicianSection(
 
                 ${
                     hasPhone
-                        ?
-                        `
-                        <a
-                            href="tel:${escapeHTML(
+                    ?
+                    `
+
+                    <a
+                        href="tel:${escapeHTML(
+                            technicianPhone
+                        )}"
+                        class="technician-call"
+                        title="Call ${escapeHTML(
+                            technicianName ||
+                            "Technician"
+                        )}"
+                    >
+
+
+                        <span class="call-icon">
+                            📞
+                        </span>
+
+
+                        <span>
+
+
+                            <small>
+                                CALL TECHNICIAN
+                            </small>
+
+
+                            ${escapeHTML(
                                 technicianPhone
-                            )}"
-                            class="technician-call"
-                            title="Call ${escapeHTML(
-                                technicianName || "Technician"
-                            )}"
-                        >
+                            )}
 
-                            <span class="call-icon">
-                                📞
-                            </span>
 
-                            <span>
+                        </span>
 
-                                <small>
-                                    CALL TECHNICIAN
-                                </small>
 
-                                ${escapeHTML(
-                                    technicianPhone
-                                )}
+                    </a>
 
-                            </span>
-
-                        </a>
-                        `
-                        :
-                        ""
+                    `
+                    :
+                    ""
                 }
+
 
             </div>
 
+
         </section>
+
     `;
+
 }
+
 
 // =====================================================
 // REVIEW SECTION
@@ -1878,8 +2490,9 @@ function createTechnicianSection(
 function createReviewSection(booking) {
 
     if (
-        normalizeStatus(booking.status) !==
-        "completed"
+        normalizeStatus(
+            booking.status
+        ) !== "completed"
     ) {
 
         return "";
@@ -1895,15 +2508,18 @@ function createReviewSection(booking) {
 
         const rating =
             Number(
-                booking.userRating || 0
+                booking.userRating ||
+                0
             );
 
 
         const stars =
             [1, 2, 3, 4, 5]
+
                 .map(num => {
 
                     return `
+
                         <span
                             class="${
                                 rating >= num
@@ -1913,9 +2529,11 @@ function createReviewSection(booking) {
                         >
                             ★
                         </span>
+
                     `;
 
                 })
+
                 .join("");
 
 
@@ -1923,18 +2541,22 @@ function createReviewSection(booking) {
 
             <section class="detail-section">
 
+
                 <div class="section-heading">
 
                     <span class="section-line"></span>
+
 
                     <h3>
                         Your Review
                     </h3>
 
+
                 </div>
 
 
                 <div class="existing-review">
+
 
                     <div class="existing-stars">
 
@@ -1944,13 +2566,17 @@ function createReviewSection(booking) {
 
 
                     <p>
+
                         ${escapeHTML(
                             booking.review ||
                             "No written feedback provided."
                         )}
+
                     </p>
 
+
                 </div>
+
 
             </section>
 
@@ -1967,74 +2593,103 @@ function createReviewSection(booking) {
 
         <section class="detail-section">
 
+
             <div class="section-heading">
 
                 <span class="section-line"></span>
 
+
                 <h3>
                     Rate Your Experience
                 </h3>
+
 
             </div>
 
 
             <div class="review-prompt">
 
+
                 <div class="review-prompt-icon">
                     ⭐
                 </div>
 
+
                 <div>
+
 
                     <strong>
                         How was your service?
                     </strong>
+
 
                     <p>
                         Tap a star below to rate your
                         technician.
                     </p>
 
+
                 </div>
 
-            </div>
-
-
-          <div
-    class="detail-rating-stars"
-    data-booking="${escapeHTML(booking.id)}"
-    data-tech="${escapeHTML(booking.technicianId || "")}"
-    onmouseleave="restoreReviewRating('${escapeHTML(booking.id)}')"
->
-
-
-${[1, 2, 3, 4, 5]
-    .map(num => `
-        <span
-            data-rating="${num}"
-            onclick="selectReviewRating(
-                '${escapeHTML(booking.id)}',
-                '${escapeHTML(booking.technicianId || "")}',
-                ${num}
-            )"
-            onmouseenter="previewReviewRating(
-                '${escapeHTML(booking.id)}',
-                ${num}
-            )"
-        >
-            ★
-        </span>
-    `)
-    .join("")
-}
 
             </div>
+
+
+            <div
+                class="detail-rating-stars"
+                data-booking="${escapeHTML(
+                    booking.id
+                )}"
+                data-tech="${escapeHTML(
+                    booking.technicianId || ""
+                )}"
+                onmouseleave="restoreReviewRating(
+                    '${escapeHTML(booking.id)}'
+                )"
+            >
+
+
+                ${[1, 2, 3, 4, 5]
+
+                    .map(num => `
+
+                        <span
+                            data-rating="${num}"
+
+                            onclick="selectReviewRating(
+                                '${escapeHTML(
+                                    booking.id
+                                )}',
+                                '${escapeHTML(
+                                    booking.technicianId || ""
+                                )}',
+                                ${num}
+                            )"
+
+                            onmouseenter="previewReviewRating(
+                                '${escapeHTML(
+                                    booking.id
+                                )}',
+                                ${num}
+                            )"
+                        >
+                            ★
+                        </span>
+
+                    `)
+
+                    .join("")}
+
+
+            </div>
+
 
         </section>
 
     `;
 
 }
+
 
 // =====================================================
 // SELECT REVIEW RATING
@@ -2046,38 +2701,60 @@ function selectReviewRating(
     rating
 ) {
 
-    console.log("STAR CLICKED:", {
-        bookingId,
-        technicianId,
-        rating
-    });
+    console.log(
+        "STAR CLICKED:",
+        {
+            bookingId,
+            technicianId,
+            rating
+        }
+    );
+
 
     if (!bookingId) {
-        console.error("Booking ID missing");
+
+        console.error(
+            "Booking ID missing"
+        );
+
         return;
     }
 
+
     if (!technicianId) {
+
         alert(
             "Technician information is missing for this booking."
         );
+
         return;
     }
 
-    selectedRating = Number(rating);
-    selectedBookingId = bookingId;
-    selectedTechnicianId = technicianId;
+
+    selectedRating =
+        Number(rating);
+
+
+    selectedBookingId =
+        bookingId;
+
+
+    selectedTechnicianId =
+        technicianId;
+
 
     highlightReviewStars(
         bookingId,
         selectedRating
     );
 
+
     openReviewModal(
         bookingId,
         technicianId,
         selectedRating
     );
+
 }
 
 
@@ -2092,27 +2769,45 @@ function highlightReviewStars(
 
     const group =
         document.querySelector(
-            `.detail-rating-stars[data-booking="${CSS.escape(bookingId)}"]`
+            `.detail-rating-stars[data-booking="${CSS.escape(
+                bookingId
+            )}"]`
         );
+
 
     if (!group) {
         return;
     }
+
 
     group
         .querySelectorAll("span")
         .forEach(star => {
 
             const value =
-                Number(star.dataset.rating);
+                Number(
+                    star.dataset.rating
+                );
+
 
             if (value <= rating) {
-                star.classList.add("active");
-            } else {
-                star.classList.remove("active");
+
+                star.classList.add(
+                    "active"
+                );
+
+            }
+
+            else {
+
+                star.classList.remove(
+                    "active"
+                );
+
             }
 
         });
+
 }
 
 
@@ -2129,6 +2824,7 @@ function previewReviewRating(
         bookingId,
         Number(rating)
     );
+
 }
 
 
@@ -2145,10 +2841,12 @@ function restoreReviewRating(
             ? selectedRating
             : 0;
 
+
     highlightReviewStars(
         bookingId,
         rating
     );
+
 }
 
 
@@ -2171,21 +2869,26 @@ async function deleteBooking(id) {
 
     try {
 
-     const response = await fetch(
-    `${API_URL}/bookings/${id}`,
-    {
-        method: "PUT",
+        const response =
+            await fetch(
+                `${API_URL}/bookings/${id}`,
+                {
+                    method: "PUT",
 
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-        },
+                    headers: {
+                        "Content-Type":
+                            "application/json",
 
-        body: JSON.stringify({
-            status: "Cancelled"
-        })
-    }
-);
+                        Authorization:
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        status: "Cancelled"
+                    })
+                }
+            );
+
 
         const data =
             await response.json();
@@ -2205,13 +2908,7 @@ async function deleteBooking(id) {
             );
 
             return;
-
         }
-
-        alert(
-    data.message ||
-    "Booking cancelled successfully"
-);
 
 
         alert(
@@ -2222,9 +2919,11 @@ async function deleteBooking(id) {
 
         closeBookingDetails();
 
+
         await loadBookings();
 
     }
+
 
     catch (error) {
 
@@ -2304,7 +3003,6 @@ async function editBooking(id) {
             );
 
             return;
-
         }
 
 
@@ -2316,9 +3014,11 @@ async function editBooking(id) {
 
         closeBookingDetails();
 
+
         await loadBookings();
 
     }
+
 
     catch (error) {
 
@@ -2342,13 +3042,11 @@ async function editBooking(id) {
 // =====================================================
 
 let selectedRating = 0;
+
 let selectedBookingId = "";
+
 let selectedTechnicianId = "";
 
-
-// =====================================================
-// OPEN REVIEW MODAL
-// =====================================================
 
 // =====================================================
 // OPEN REVIEW MODAL
@@ -2373,8 +3071,10 @@ function openReviewModal(
     selectedBookingId =
         bookingId;
 
+
     selectedTechnicianId =
         technicianId;
+
 
     selectedRating =
         Number(rating);
@@ -2405,6 +3105,7 @@ function openReviewModal(
             "reviewText"
         );
 
+
     if (reviewText) {
 
         reviewText.value = "";
@@ -2416,15 +3117,24 @@ function openReviewModal(
     // FORCE MODAL ABOVE BOOKING DETAILS
     // -----------------------------------------
 
-    modal.style.display = "flex";
+    modal.style.display =
+        "flex";
 
-    modal.style.position = "fixed";
 
-    modal.style.zIndex = "999999";
+    modal.style.position =
+        "fixed";
 
-    modal.style.visibility = "visible";
 
-    modal.style.opacity = "1";
+    modal.style.zIndex =
+        "999999";
+
+
+    modal.style.visibility =
+        "visible";
+
+
+    modal.style.opacity =
+        "1";
 
 
     // -----------------------------------------
@@ -2442,13 +3152,17 @@ function openReviewModal(
                     star.dataset.rating
                 );
 
-            if (value <= selectedRating) {
+
+            if (
+                value <= selectedRating
+            ) {
 
                 star.classList.add(
                     "active"
                 );
 
             }
+
             else {
 
                 star.classList.remove(
@@ -2498,37 +3212,37 @@ async function submitReview() {
     try {
 
         if (
-    !selectedRating ||
-    selectedRating < 1 ||
-    selectedRating > 5
-) {
+            !selectedRating ||
+            selectedRating < 1 ||
+            selectedRating > 5
+        ) {
 
-    alert(
-        "Please select a rating from 1 to 5 stars."
-    );
+            alert(
+                "Please select a rating from 1 to 5 stars."
+            );
 
-    return;
-}
-
-
-if (!selectedBookingId) {
-
-    alert(
-        "Booking information is missing."
-    );
-
-    return;
-}
+            return;
+        }
 
 
-if (!selectedTechnicianId) {
+        if (!selectedBookingId) {
 
-    alert(
-        "Technician information is missing."
-    );
+            alert(
+                "Booking information is missing."
+            );
 
-    return;
-}
+            return;
+        }
+
+
+        if (!selectedTechnicianId) {
+
+            alert(
+                "Technician information is missing."
+            );
+
+            return;
+        }
 
 
         const review =
@@ -2628,62 +3342,66 @@ if (!selectedTechnicianId) {
         );
 
 
-       closeReviewModal();
-
-const reviewText =
-    document.getElementById(
-        "reviewText"
-    );
-
-if (reviewText) {
-
-    reviewText.value = "";
-
-}
-
-// -----------------------------------------
-// SAVE BOOKING ID BEFORE RESET
-// -----------------------------------------
-
-const reviewedBookingId =
-    selectedBookingId;
+        closeReviewModal();
 
 
-// -----------------------------------------
-// RESET REVIEW STATE
-// -----------------------------------------
-
-selectedRating = 0;
-selectedBookingId = "";
-selectedTechnicianId = "";
+        const reviewText =
+            document.getElementById(
+                "reviewText"
+            );
 
 
-// -----------------------------------------
-// REFRESH BOOKINGS
-// -----------------------------------------
+        if (reviewText) {
 
-await loadBookings();
+            reviewText.value = "";
 
-
-// -----------------------------------------
-// REOPEN UPDATED BOOKING
-// -----------------------------------------
-
-if (reviewedBookingId) {
-
-    setTimeout(() => {
-
-        openBookingDetails(
-            reviewedBookingId
-        );
-
-    }, 300);
-
-}
+        }
 
 
+        // -----------------------------------------
+        // SAVE BOOKING ID BEFORE RESET
+        // -----------------------------------------
+
+        const reviewedBookingId =
+            selectedBookingId;
+
+
+        // -----------------------------------------
+        // RESET REVIEW STATE
+        // -----------------------------------------
+
+        selectedRating = 0;
+
+        selectedBookingId = "";
+
+        selectedTechnicianId = "";
+
+
+        // -----------------------------------------
+        // REFRESH BOOKINGS
+        // -----------------------------------------
+
+        await loadBookings();
+
+
+        // -----------------------------------------
+        // REOPEN UPDATED BOOKING
+        // -----------------------------------------
+
+        if (reviewedBookingId) {
+
+            setTimeout(() => {
+
+                openBookingDetails(
+                    reviewedBookingId
+                );
+
+            }, 300);
+
+        }
 
     }
+
 
     catch (error) {
 

@@ -6,14 +6,10 @@ const API_URL = "http://localhost:5000/api";
 ===================================================== */
 
 function showToast(type, message) {
-
     let container = document.getElementById("fixmateToastContainer");
 
-    // Create notification container if it doesn't exist
     if (!container) {
-
         container = document.createElement("div");
-
         container.id = "fixmateToastContainer";
 
         container.style.cssText = `
@@ -31,7 +27,6 @@ function showToast(type, message) {
         document.body.appendChild(container);
     }
 
-
     const toast = document.createElement("div");
 
     let icon = "✓";
@@ -42,7 +37,6 @@ function showToast(type, message) {
         icon = "!";
     }
 
-
     toast.innerHTML = `
         <div style="
             width: 38px;
@@ -52,17 +46,19 @@ function showToast(type, message) {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: ${type === "success"
-                ? "rgba(22, 199, 132, 0.14)"
-                : type === "warning"
-                ? "rgba(255, 193, 7, 0.14)"
-                : "rgba(255, 75, 75, 0.14)"
+            background: ${
+                type === "success"
+                    ? "rgba(22, 199, 132, 0.14)"
+                    : type === "warning"
+                    ? "rgba(255, 193, 7, 0.14)"
+                    : "rgba(255, 75, 75, 0.14)"
             };
-            color: ${type === "success"
-                ? "#18c98b"
-                : type === "warning"
-                ? "#ffc107"
-                : "#ff5b5b"
+            color: ${
+                type === "success"
+                    ? "#18c98b"
+                    : type === "warning"
+                    ? "#ffc107"
+                    : "#ff5b5b"
             };
             font-size: 18px;
             font-weight: 800;
@@ -98,7 +94,6 @@ function showToast(type, message) {
         </button>
     `;
 
-
     toast.style.cssText = `
         width: 100%;
         min-height: 62px;
@@ -107,11 +102,12 @@ function showToast(type, message) {
         gap: 12px;
         padding: 12px 14px;
         border-radius: 14px;
-        border: 1px solid ${type === "success"
-            ? "rgba(22, 199, 132, 0.25)"
-            : type === "warning"
-            ? "rgba(255, 193, 7, 0.25)"
-            : "rgba(255, 75, 75, 0.25)"
+        border: 1px solid ${
+            type === "success"
+                ? "rgba(22, 199, 132, 0.25)"
+                : type === "warning"
+                ? "rgba(255, 193, 7, 0.25)"
+                : "rgba(255, 75, 75, 0.25)"
         };
         background: rgba(17, 17, 22, 0.97);
         box-shadow:
@@ -125,32 +121,21 @@ function showToast(type, message) {
         font-family: Poppins, sans-serif;
     `;
 
-
     container.appendChild(toast);
 
-
-    // Animate in
     requestAnimationFrame(() => {
-
         toast.style.transform = "translateX(0)";
         toast.style.opacity = "1";
-
     });
 
-
-    // Close button
     const closeButton = toast.querySelector("button");
 
     closeButton.addEventListener("click", () => {
         removeToast(toast);
     });
 
-
-    // Automatically disappear
     setTimeout(() => {
-
         removeToast(toast);
-
     }, 4000);
 }
 
@@ -160,7 +145,6 @@ function showToast(type, message) {
 ===================================================== */
 
 function removeToast(toast) {
-
     if (!toast || !toast.parentElement) {
         return;
     }
@@ -169,11 +153,9 @@ function removeToast(toast) {
     toast.style.opacity = "0";
 
     setTimeout(() => {
-
         if (toast.parentElement) {
             toast.remove();
         }
-
     }, 300);
 }
 
@@ -185,7 +167,6 @@ function removeToast(toast) {
 const registerForm =
     document.getElementById("registerForm");
 
-
 if (registerForm) {
 
     registerForm.addEventListener(
@@ -194,10 +175,6 @@ if (registerForm) {
 
             e.preventDefault();
 
-
-            /*
-             * Prevent accidental double submission
-             */
             const submitButton =
                 registerForm.querySelector(
                     'button[type="submit"]'
@@ -207,23 +184,29 @@ if (registerForm) {
                 return;
             }
 
-
             const name =
-                document.getElementById("name").value.trim();
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
 
             const email =
-                document.getElementById("email").value.trim();
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
             const phone =
-                document.getElementById("phone").value.trim();
+                document
+                    .getElementById("phone")
+                    .value
+                    .trim();
 
             const password =
-                document.getElementById("password").value;
+                document
+                    .getElementById("password")
+                    .value;
 
-
-            /*
-             * Disable button immediately
-             */
             if (submitButton) {
 
                 submitButton.disabled = true;
@@ -235,12 +218,8 @@ if (registerForm) {
                     `<span>Creating Account...</span>`;
             }
 
-
             try {
 
-                /*
-                 * BACKEND CONNECTION UNCHANGED
-                 */
                 const response =
                     await fetch(
                         `${API_URL}/auth/register`,
@@ -248,7 +227,8 @@ if (registerForm) {
                             method: "POST",
 
                             headers: {
-                                "Content-Type": "application/json"
+                                "Content-Type":
+                                    "application/json"
                             },
 
                             body: JSON.stringify({
@@ -260,31 +240,109 @@ if (registerForm) {
                         }
                     );
 
-
                 const data =
                     await response.json();
 
+               if (data.success) {
 
-                if (data.success) {
+    showToast(
+        "success",
+        "Account created! Logging you in..."
+    );
 
-                    showToast(
-                        "success",
-                        "Registration successful! Redirecting to login..."
-                    );
+    try {
+
+        // =========================================
+        // AUTO LOGIN AFTER REGISTRATION
+        // =========================================
+
+        const loginResponse =
+            await fetch(
+                `${API_URL}/auth/login`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                }
+            );
+
+        const loginData =
+            await loginResponse.json();
+
+        if (!loginData.success) {
+
+            showToast(
+                "warning",
+                "Account created, but automatic login failed. Please login manually."
+            );
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "login.html";
+
+            }, 1500);
+
+            return;
+        }
 
 
-                    /*
-                     * Keep existing redirect
-                     */
-                    setTimeout(() => {
+        // =========================================
+        // SAVE FIXMATE LOGIN SESSION
+        // =========================================
 
-                        window.location.href =
-                            "login.html";
+        localStorage.setItem(
+            "fixmateToken",
+            loginData.token
+        );
 
-                    }, 800);
+        localStorage.setItem(
+            "user",
+            JSON.stringify(loginData.user)
+        );
 
 
-                } else {
+        // =========================================
+        // GO DIRECTLY TO CUSTOMER WEBSITE
+        // =========================================
+
+        setTimeout(() => {
+
+            window.location.href =
+                "index.html";
+
+        }, 700);
+
+    }
+    catch (loginError) {
+
+        console.error(
+            "Auto login error:",
+            loginError
+        );
+
+        showToast(
+            "warning",
+            "Account created, but automatic login failed. Please login manually."
+        );
+
+        setTimeout(() => {
+
+            window.location.href =
+                "login.html";
+
+        }, 1500);
+    }
+
+} else {
 
                     showToast(
                         "error",
@@ -292,8 +350,6 @@ if (registerForm) {
                         "Registration failed."
                     );
 
-
-                    // Allow user to try again
                     if (submitButton) {
 
                         submitButton.disabled = false;
@@ -303,7 +359,6 @@ if (registerForm) {
                     }
                 }
 
-
             } catch (error) {
 
                 console.error(
@@ -311,12 +366,10 @@ if (registerForm) {
                     error
                 );
 
-
                 showToast(
                     "error",
                     "Unable to connect to the server. Please try again."
                 );
-
 
                 if (submitButton) {
 
@@ -339,7 +392,6 @@ if (registerForm) {
 const loginForm =
     document.getElementById("loginForm");
 
-
 if (loginForm) {
 
     loginForm.addEventListener(
@@ -348,23 +400,14 @@ if (loginForm) {
 
             e.preventDefault();
 
-
-            /*
-             * IMPORTANT:
-             * Prevent multiple clicks while login request
-             * is already running.
-             */
             const submitButton =
                 loginForm.querySelector(
                     'button[type="submit"]'
                 );
 
-
             if (submitButton?.disabled) {
-
                 return;
             }
-
 
             const email =
                 document
@@ -372,16 +415,12 @@ if (loginForm) {
                     .value
                     .trim();
 
-
             const password =
                 document
                     .getElementById("loginPassword")
                     .value;
 
-
-            /*
-             * Basic frontend validation
-             */
+            /* Basic validation */
 
             if (!email || !password) {
 
@@ -393,18 +432,7 @@ if (loginForm) {
                 return;
             }
 
-
-            /*
-             * Disable login button IMMEDIATELY.
-             *
-             * This stops:
-             *
-             * click
-             * click
-             * click
-             *
-             * from creating 3 requests.
-             */
+            /* Disable button */
 
             if (submitButton) {
 
@@ -419,14 +447,11 @@ if (loginForm) {
                 `;
             }
 
-
             try {
 
-                /*
-                 * =================================================
-                 * BACKEND CONNECTION IS EXACTLY THE SAME
-                 * =================================================
-                 */
+                /* =================================================
+                   BACKEND CONNECTION
+                ================================================= */
 
                 const response =
                     await fetch(
@@ -435,7 +460,8 @@ if (loginForm) {
                             method: "POST",
 
                             headers: {
-                                "Content-Type": "application/json"
+                                "Content-Type":
+                                    "application/json"
                             },
 
                             body: JSON.stringify({
@@ -445,16 +471,14 @@ if (loginForm) {
                         }
                     );
 
-
-                /*
-                 * Handle invalid/non-JSON server response
-                 */
+                /* Handle invalid response */
 
                 let data;
 
                 try {
 
-                    data = await response.json();
+                    data =
+                        await response.json();
 
                 } catch (jsonError) {
 
@@ -470,29 +494,22 @@ if (loginForm) {
 
                 if (data.success) {
 
-                    /*
-                     * KEEP EXISTING TOKEN CONNECTION
-                     */
+                    /* Save FixMate JWT */
+
                     localStorage.setItem(
                         "fixmateToken",
                         data.token
                     );
 
+                    /* Save user */
 
-                    /*
-                     * KEEP EXISTING USER CONNECTION
-                     */
                     localStorage.setItem(
                         "user",
                         JSON.stringify(data.user)
                     );
 
 
-                    /*
-                     * Read role directly from JWT
-                     *
-                     * Same logic as your original code.
-                     */
+                    /* Read role from JWT */
 
                     const payload =
                         JSON.parse(
@@ -502,19 +519,18 @@ if (loginForm) {
                         );
 
 
-                    /*
-                     * Small success notification
-                     */
-
                     showToast(
                         "success",
-                        "Login successful! Opening your dashboard..."
+                        "Login successful! Opening FixMate..."
                     );
 
 
-                    /*
-                     * KEEP EXISTING ROLE-BASED REDIRECT
-                     */
+                    /* =================================================
+                       ROLE BASED REDIRECT
+
+                       ADMIN  → admin-dashboard.html
+                       CUSTOMER → index.html
+                    ================================================= */
 
                     if (payload.role === "admin") {
 
@@ -524,28 +540,17 @@ if (loginForm) {
                     } else {
 
                         window.location.href =
-                            "dashboard.html";
-
+                            "index.html";
                     }
 
 
                 } else {
-
-                    /*
-                     * Wrong email/password
-                     * or backend validation error
-                     */
 
                     showToast(
                         "error",
                         data.message ||
                         "Login failed. Please check your credentials."
                     );
-
-
-                    /*
-                     * Enable button again
-                     */
 
                     if (submitButton) {
 
@@ -564,20 +569,10 @@ if (loginForm) {
                     error
                 );
 
-
-                /*
-                 * NETWORK / SERVER ERROR
-                 */
-
                 showToast(
                     "error",
                     "Unable to connect to the server. Please try again."
                 );
-
-
-                /*
-                 * Allow another attempt
-                 */
 
                 if (submitButton) {
 
@@ -591,6 +586,7 @@ if (loginForm) {
         }
     );
 }
+
 
 /* =====================================================
    GOOGLE LOGIN / REGISTER
@@ -624,45 +620,49 @@ async function loginWithGoogle() {
             <span>Connecting to Google...</span>
         `;
 
-        /*
-         * Create Google provider
-         */
+
+        /* =================================================
+           CREATE GOOGLE PROVIDER
+        ================================================= */
+
         const provider =
             new firebase.auth.GoogleAuthProvider();
 
-        /*
-         * Ask Firebase to sign in with Google
-         */
+
+        /* =================================================
+           GOOGLE SIGN IN
+        ================================================= */
+
         const result =
             await firebase
                 .auth()
                 .signInWithPopup(provider);
 
-        /*
-         * Firebase user
-         */
+
         const firebaseUser =
             result.user;
+
 
         if (!firebaseUser) {
 
             throw new Error(
                 "Google authentication failed."
             );
-
         }
 
-        /*
-         * Get Firebase ID token
-         *
-         * This token is sent to our backend.
-         */
+
+        /* =================================================
+           GET FIREBASE ID TOKEN
+        ================================================= */
+
         const firebaseIdToken =
             await firebaseUser.getIdToken(true);
 
-        /*
-         * Send Firebase token to FixMate backend
-         */
+
+        /* =================================================
+           SEND TOKEN TO FIXMATE BACKEND
+        ================================================= */
+
         const response =
             await fetch(
                 `${API_URL}/auth/google`,
@@ -670,7 +670,8 @@ async function loginWithGoogle() {
                     method: "POST",
 
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type":
+                            "application/json"
                     },
 
                     body: JSON.stringify({
@@ -679,9 +680,9 @@ async function loginWithGoogle() {
                 }
             );
 
-        /*
-         * Read backend response
-         */
+
+        /* Read backend response */
+
         let data;
 
         try {
@@ -694,41 +695,44 @@ async function loginWithGoogle() {
             throw new Error(
                 "Invalid response from FixMate server."
             );
-
         }
 
-        /*
-         * Backend successfully created
-         * the normal FixMate JWT.
-         */
+
+        /* =================================================
+           GOOGLE LOGIN SUCCESS
+        ================================================= */
+
         if (data.success) {
 
-            /*
-             * SAME TOKEN SYSTEM AS NORMAL LOGIN
-             */
+            /* Save FixMate JWT */
+
             localStorage.setItem(
                 "fixmateToken",
                 data.token
             );
 
-            /*
-             * SAME USER STORAGE AS NORMAL LOGIN
-             */
+
+            /* Save user */
+
             localStorage.setItem(
                 "user",
                 JSON.stringify(data.user)
             );
 
+
             showToast(
                 "success",
-                "Google login successful! Opening your dashboard..."
+                "Google login successful! Opening FixMate..."
             );
 
-            /*
-             * Google customers are customers,
-             * but keep this role check so the
-             * backend remains the source of truth.
-             */
+
+            /* =================================================
+               GOOGLE ROLE REDIRECT
+
+               ADMIN  → admin-dashboard.html
+               CUSTOMER → index.html
+            ================================================= */
+
             setTimeout(() => {
 
                 if (data.user?.role === "admin") {
@@ -739,11 +743,11 @@ async function loginWithGoogle() {
                 } else {
 
                     window.location.href =
-                        "dashboard.html";
-
+                        "index.html";
                 }
 
             }, 500);
+
 
         } else {
 
@@ -764,6 +768,7 @@ async function loginWithGoogle() {
             `;
         }
 
+
     } catch (error) {
 
         console.error(
@@ -771,9 +776,9 @@ async function loginWithGoogle() {
             error
         );
 
-        /*
-         * User closed the Google popup
-         */
+
+        /* User closed popup */
+
         if (
             error.code ===
             "auth/popup-closed-by-user"
@@ -783,6 +788,7 @@ async function loginWithGoogle() {
                 "warning",
                 "Google sign-in was cancelled."
             );
+
 
         } else if (
             error.code ===
@@ -794,6 +800,7 @@ async function loginWithGoogle() {
                 "Google popup was blocked. Please allow popups and try again."
             );
 
+
         } else {
 
             showToast(
@@ -801,8 +808,8 @@ async function loginWithGoogle() {
                 error.message ||
                 "Unable to sign in with Google."
             );
-
         }
+
 
         button.disabled = false;
 
@@ -813,7 +820,6 @@ async function loginWithGoogle() {
                 alt="Google">
             <span>Continue with Google</span>
         `;
-
     }
 }
 
@@ -831,7 +837,6 @@ if (googleLoginBtn) {
         "click",
         loginWithGoogle
     );
-
 }
 
 
@@ -844,5 +849,4 @@ if (googleRegisterBtn) {
         "click",
         loginWithGoogle
     );
-
 }

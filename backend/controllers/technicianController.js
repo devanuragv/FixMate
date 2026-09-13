@@ -82,8 +82,7 @@ export const updateJobStatus = async (
     console.log("BOOKING ID:", bookingId);
     console.log("PARAMS:", req.params);
 
-    const { status } =
-      req.body;
+    const { status, otp } = req.body;
 
     if (!bookingId) {
 
@@ -180,6 +179,15 @@ const SERVICE_PRICES = {
 
         }
 
+        if (
+    bookingData.technicianId !== technicianId
+) {
+    return res.status(403).json({
+        success: false,
+        message: "This job is not assigned to you"
+    });
+}
+
         if(
         techDoc.data().status ===
         "Offline"
@@ -223,26 +231,76 @@ let updateData = {
 };
 
 
-if(
-status === "Completed"
-){
+if (status === "Completed") {
 
-updateData.serviceCharge =
+    // =========================================
+    // CUSTOMER OTP VERIFICATION
+    // =========================================
 
-SERVICE_PRICES[
-bookingData.service
-] || 0;
+    if (!otp) {
+        return res.status(400).json({
+            success: false,
+            message: "Customer OTP Required"
+        });
+    }
 
-updateData.completedAt =
+    // Get customer account
+    const customerId = bookingData.userId;
 
-new Date()
-.toLocaleDateString(
-"en-CA",
-{
-timeZone:"Asia/Kolkata"
-}
-);
+    if (!customerId) {
+        return res.status(400).json({
+            success: false,
+            message: "Customer Account Not Found"
+        });
+    }
 
+    const customerDoc = await db
+        .collection("users")
+        .doc(customerId)
+        .get();
+
+    if (!customerDoc.exists) {
+        return res.status(404).json({
+            success: false,
+            message: "Customer Not Found"
+        });
+    }
+
+    const customerData = customerDoc.data();
+
+    const customerOtp =
+        String(customerData.serviceOtp || "").trim();
+
+    const enteredOtp =
+        String(otp).trim();
+
+    // Verify OTP
+    if (
+        !/^\d{4}$/.test(enteredOtp) ||
+        enteredOtp !== customerOtp
+    ) {
+        return res.status(401).json({
+            success: false,
+            message: "Invalid Customer OTP"
+        });
+    }
+
+    // =========================================
+    // OTP CORRECT → COMPLETE JOB
+    // =========================================
+
+    updateData.serviceCharge =
+        SERVICE_PRICES[
+            bookingData.service
+        ] || 0;
+
+    updateData.completedAt =
+        new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "Asia/Kolkata"
+            }
+        );
 }
 
         await bookingRef.update(

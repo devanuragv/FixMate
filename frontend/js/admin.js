@@ -1,3 +1,812 @@
+/* =====================================================
+   FIXMATE IN-APP POPUPS
+   NO BROWSER ALERT / CONFIRM / PROMPT
+===================================================== */
+
+(function () {
+
+    if (document.getElementById("fixmateAppPopupStyles")) {
+        return;
+    }
+
+    const style = document.createElement("style");
+
+    style.id = "fixmateAppPopupStyles";
+
+    style.textContent = `
+
+        .fixmate-popup-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(8px);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition: 0.2s ease;
+        }
+
+        .fixmate-popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .fixmate-popup-card {
+            width: min(440px, 100%);
+
+            background: #111116;
+
+            border: 1px solid #282830;
+            border-top: 3px solid #ff7100;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.55);
+
+            color: #ffffff;
+
+            font-family: "Poppins", sans-serif;
+
+            transform:
+                translateY(10px)
+                scale(0.98);
+
+            transition: 0.2s ease;
+        }
+
+        .fixmate-popup-overlay.show
+        .fixmate-popup-card {
+
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+        .fixmate-popup-head {
+
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 12px;
+        }
+
+        .fixmate-popup-icon {
+
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            border-radius: 50%;
+
+            display: grid;
+            place-items: center;
+
+            background: #ff7100;
+
+            color: #0b0b0f;
+
+            font-size: 20px;
+
+            font-weight: 800;
+        }
+
+        .fixmate-popup-card.error
+        .fixmate-popup-icon {
+
+            background: #ff4d5e;
+            color: #ffffff;
+        }
+
+        .fixmate-popup-card.warning
+        .fixmate-popup-icon {
+
+            background: #ffb020;
+        }
+
+        .fixmate-popup-card.success
+        .fixmate-popup-icon {
+
+            background: #18c98b;
+        }
+
+        .fixmate-popup-title {
+
+            margin: 0;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+        .fixmate-popup-message {
+
+            margin: 0 0 20px;
+
+            color: #9b9da7;
+
+            line-height: 1.6;
+
+            font-size: 13px;
+
+            white-space: pre-line;
+        }
+
+        .fixmate-popup-input {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            background: #0d0d12;
+
+            border: 1px solid #282830;
+
+            color: #ffffff;
+
+            border-radius: 12px;
+
+            padding: 13px 14px;
+
+            outline: none;
+
+            font: inherit;
+
+            margin-bottom: 18px;
+        }
+
+        .fixmate-popup-input:focus {
+
+            border-color: #ff7100;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(255, 113, 0, 0.10);
+        }
+
+        .fixmate-popup-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+        }
+
+        .fixmate-popup-btn {
+
+            border: 1px solid #282830;
+
+            border-radius: 10px;
+
+            padding: 10px 16px;
+
+            font:
+                600 13px
+                "Poppins", sans-serif;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        .fixmate-popup-btn.cancel {
+
+            background: #0d0d12;
+
+            color: #c8c9d0;
+        }
+
+        .fixmate-popup-btn.primary {
+
+            background: #ff7100;
+
+            border-color: #ff7100;
+
+            color: #0b0b0f;
+        }
+
+        .fixmate-popup-btn.primary:hover {
+
+            background: #ff8a1f;
+        }
+
+        @media (max-width: 520px) {
+
+            .fixmate-popup-actions {
+
+                flex-direction:
+                    column-reverse;
+            }
+
+            .fixmate-popup-btn {
+
+                width: 100%;
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+
+
+    /* =====================================================
+       NORMAL IN-APP MESSAGE
+    ===================================================== */
+
+    window.showAppToast = function (
+        type,
+        message,
+        title
+    ) {
+
+        const old =
+            document.getElementById(
+                "fixmateToast"
+            );
+
+        if (old) {
+            old.remove();
+        }
+
+
+        const popup =
+            document.createElement("div");
+
+        popup.id =
+            "fixmateToast";
+
+        popup.className =
+            "fixmate-popup-overlay";
+
+
+        const icon =
+            type === "success"
+                ? "✓"
+                : type === "error"
+                    ? "!"
+                    : type === "warning"
+                        ? "!"
+                        : "i";
+
+
+        const heading =
+            title ||
+            (
+                type === "success"
+                    ? "Success"
+                    : type === "error"
+                        ? "Something went wrong"
+                        : type === "warning"
+                            ? "Please check"
+                            : "FixMate"
+            );
+
+
+        popup.innerHTML = `
+
+            <div class="
+                fixmate-popup-card
+                ${type || "info"}
+            ">
+
+                <div class="fixmate-popup-head">
+
+                    <div class="
+                        fixmate-popup-icon
+                    ">
+                        ${icon}
+                    </div>
+
+                    <h3 class="
+                        fixmate-popup-title
+                    ">
+                    </h3>
+
+                </div>
+
+
+                <p class="
+                    fixmate-popup-message
+                "></p>
+
+
+                <div class="
+                    fixmate-popup-actions
+                ">
+
+                    <button
+                        class="
+                            fixmate-popup-btn
+                            primary
+                        "
+                        type="button"
+                    >
+                        OK
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+
+        popup.querySelector(
+            ".fixmate-popup-title"
+        ).textContent = heading;
+
+
+        popup.querySelector(
+            ".fixmate-popup-message"
+        ).textContent =
+            String(message ?? "");
+
+
+        document.body.appendChild(
+            popup
+        );
+
+
+        const closePopup = () => {
+
+            popup.classList.remove(
+                "show"
+            );
+
+            setTimeout(() => {
+
+                if (
+                    document.body.contains(
+                        popup
+                    )
+                ) {
+                    popup.remove();
+                }
+
+            }, 180);
+        };
+
+
+        popup.querySelector(
+            ".primary"
+        ).addEventListener(
+            "click",
+            closePopup
+        );
+
+
+        popup.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === popup
+                ) {
+                    closePopup();
+                }
+
+            }
+        );
+
+
+        requestAnimationFrame(() => {
+
+            popup.classList.add(
+                "show"
+            );
+
+        });
+
+
+        setTimeout(() => {
+
+            if (
+                document.body.contains(
+                    popup
+                )
+            ) {
+                closePopup();
+            }
+
+        }, 4000);
+    };
+
+
+    /* =====================================================
+       CUSTOM CONFIRM
+    ===================================================== */
+
+    window.showAppConfirm = function (
+        message,
+        title = "Confirm Action"
+    ) {
+
+        return new Promise(
+            resolve => {
+
+                const popup =
+                    document.createElement(
+                        "div"
+                    );
+
+                popup.className =
+                    "fixmate-popup-overlay";
+
+
+                popup.innerHTML = `
+
+                    <div class="
+                        fixmate-popup-card
+                        warning
+                    ">
+
+                        <div class="
+                            fixmate-popup-head
+                        ">
+
+                            <div class="
+                                fixmate-popup-icon
+                            ">
+                                ?
+                            </div>
+
+                            <h3 class="
+                                fixmate-popup-title
+                            "></h3>
+
+                        </div>
+
+
+                        <p class="
+                            fixmate-popup-message
+                        "></p>
+
+
+                        <div class="
+                            fixmate-popup-actions
+                        ">
+
+                            <button
+                                class="
+                                    fixmate-popup-btn
+                                    cancel
+                                "
+                                type="button"
+                            >
+                                Cancel
+                            </button>
+
+
+                            <button
+                                class="
+                                    fixmate-popup-btn
+                                    primary
+                                "
+                                type="button"
+                            >
+                                Continue
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+
+                popup.querySelector(
+                    ".fixmate-popup-title"
+                ).textContent = title;
+
+
+                popup.querySelector(
+                    ".fixmate-popup-message"
+                ).textContent =
+                    message;
+
+
+                document.body.appendChild(
+                    popup
+                );
+
+
+                let finished = false;
+
+
+                const finish = value => {
+
+                    if (finished) {
+                        return;
+                    }
+
+                    finished = true;
+
+                    popup.classList.remove(
+                        "show"
+                    );
+
+
+                    setTimeout(() => {
+
+                        popup.remove();
+
+                    }, 180);
+
+
+                    resolve(value);
+                };
+
+
+                popup.querySelector(
+                    ".cancel"
+                ).onclick = () => {
+
+                    finish(false);
+
+                };
+
+
+                popup.querySelector(
+                    ".primary"
+                ).onclick = () => {
+
+                    finish(true);
+
+                };
+
+
+                popup.onclick = event => {
+
+                    if (
+                        event.target === popup
+                    ) {
+                        finish(false);
+                    }
+
+                };
+
+
+                requestAnimationFrame(() => {
+
+                    popup.classList.add(
+                        "show"
+                    );
+
+                });
+
+            }
+        );
+    };
+
+
+    /* =====================================================
+       CUSTOM INPUT PROMPT
+    ===================================================== */
+
+    window.showAppPrompt = function (
+        message,
+        defaultValue = "",
+        title = "Edit Details"
+    ) {
+
+        return new Promise(
+            resolve => {
+
+                const popup =
+                    document.createElement(
+                        "div"
+                    );
+
+                popup.className =
+                    "fixmate-popup-overlay";
+
+
+                popup.innerHTML = `
+
+                    <div class="
+                        fixmate-popup-card
+                    ">
+
+                        <div class="
+                            fixmate-popup-head
+                        ">
+
+                            <div class="
+                                fixmate-popup-icon
+                            ">
+                                ✎
+                            </div>
+
+                            <h3 class="
+                                fixmate-popup-title
+                            "></h3>
+
+                        </div>
+
+
+                        <p class="
+                            fixmate-popup-message
+                        "></p>
+
+
+                        <input
+                            class="
+                                fixmate-popup-input
+                            "
+                            type="text"
+                        >
+
+
+                        <div class="
+                            fixmate-popup-actions
+                        ">
+
+                            <button
+                                class="
+                                    fixmate-popup-btn
+                                    cancel
+                                "
+                                type="button"
+                            >
+                                Cancel
+                            </button>
+
+
+                            <button
+                                class="
+                                    fixmate-popup-btn
+                                    primary
+                                "
+                                type="button"
+                            >
+                                Save
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+
+                popup.querySelector(
+                    ".fixmate-popup-title"
+                ).textContent = title;
+
+
+                popup.querySelector(
+                    ".fixmate-popup-message"
+                ).textContent =
+                    message;
+
+
+                const input =
+                    popup.querySelector(
+                        ".fixmate-popup-input"
+                    );
+
+
+                input.value =
+                    defaultValue;
+
+
+                document.body.appendChild(
+                    popup
+                );
+
+
+                let finished = false;
+
+
+                const finish = value => {
+
+                    if (finished) {
+                        return;
+                    }
+
+                    finished = true;
+
+                    popup.classList.remove(
+                        "show"
+                    );
+
+
+                    setTimeout(() => {
+
+                        popup.remove();
+
+                    }, 180);
+
+
+                    resolve(value);
+                };
+
+
+                popup.querySelector(
+                    ".cancel"
+                ).onclick = () => {
+
+                    finish(null);
+
+                };
+
+
+                popup.querySelector(
+                    ".primary"
+                ).onclick = () => {
+
+                    finish(input.value);
+
+                };
+
+
+                input.addEventListener(
+                    "keydown",
+                    event => {
+
+                        if (
+                            event.key ===
+                            "Enter"
+                        ) {
+                            finish(
+                                input.value
+                            );
+                        }
+
+
+                        if (
+                            event.key ===
+                            "Escape"
+                        ) {
+                            finish(null);
+                        }
+
+                    }
+                );
+
+
+                popup.onclick = event => {
+
+                    if (
+                        event.target === popup
+                    ) {
+                        finish(null);
+                    }
+
+                };
+
+
+                requestAnimationFrame(
+                    () => {
+
+                        popup.classList.add(
+                            "show"
+                        );
+
+                        input.focus();
+
+                        input.select();
+
+                    }
+                );
+
+            }
+        );
+    };
+
+})();
+
 // ================================
 // Admin Authentication
 // ================================
@@ -7,13 +816,90 @@ const token =
 
 if (!token) {
 
-    alert("Please Login First");
+    showAppToast("error", "Please Login First");
 
     window.location.href =
         "/login.html";
 
 }
 
+// =====================================================
+// GET BOOKING CREATED TIME
+// =====================================================
+
+function getBookingCreatedTime(booking) {
+
+    if (!booking) {
+        return 0;
+    }
+
+    const createdAt = booking.createdAt;
+
+    // =========================================
+    // FIRESTORE TIMESTAMP
+    // Supports:
+    // seconds / nanoseconds
+    // _seconds / _nanoseconds
+    // =========================================
+
+    if (
+        createdAt &&
+        typeof createdAt === "object"
+    ) {
+
+        const seconds =
+            createdAt.seconds ??
+            createdAt._seconds;
+
+        const nanoseconds =
+            createdAt.nanoseconds ??
+            createdAt._nanoseconds ??
+            0;
+
+        if (
+            seconds !== undefined &&
+            seconds !== null
+        ) {
+
+            return (
+                Number(seconds) * 1000 +
+                Number(nanoseconds) / 1000000
+            );
+
+        }
+    }
+
+    // =========================================
+    // NORMAL ISO / JAVASCRIPT DATE
+    // =========================================
+
+    if (
+        createdAt &&
+        typeof createdAt === "string"
+    ) {
+
+        const time =
+            new Date(createdAt).getTime();
+
+        if (!isNaN(time)) {
+            return time;
+        }
+    }
+
+    // =========================================
+    // NUMBER TIMESTAMP
+    // =========================================
+
+    if (
+        createdAt &&
+        typeof createdAt === "number"
+    ) {
+
+        return createdAt;
+    }
+
+    return 0;
+}
 
 // ================================
 // Load Admin Dashboard Data
@@ -71,8 +957,57 @@ async function loadAdminData() {
             await technicians.json();
 
 
-        window.allBookings =
-            bookingsData.bookings || [];
+        // =================================================
+// STORE ALL BOOKINGS
+// =================================================
+
+window.allBookings =
+    bookingsData.bookings || [];
+
+
+// =================================================
+// NEWEST REQUEST FIRST
+//
+// IMPORTANT:
+// Sort by createdAt.
+// NOT bookingDate.
+// NOT bookingTime.
+//
+// Latest customer request will always appear first.
+// =================================================
+
+window.allBookings.sort((a, b) => {
+
+    const createdA =
+        getBookingCreatedTime(a);
+
+    const createdB =
+        getBookingCreatedTime(b);
+
+
+    // Bookings without createdAt go last
+
+    if (
+        createdA === 0 &&
+        createdB === 0
+    ) {
+        return 0;
+    }
+
+    if (createdA === 0) {
+        return 1;
+    }
+
+    if (createdB === 0) {
+        return -1;
+    }
+
+
+    // NEWEST FIRST
+
+    return createdB - createdA;
+
+});
 
 
         window.allUsers =
@@ -181,8 +1116,8 @@ async function loadAdminData() {
         let html = "";
 
 
-        bookingsData.bookings.forEach(
-            booking => {
+        window.allBookings.forEach(
+    booking => {
 
                 const status =
                     booking.status || "Pending";
@@ -420,9 +1355,10 @@ async function assignTechnician(
 
     if (!booking) {
 
-        alert(
-            "Booking Not Found"
-        );
+        showAppToast(
+    "error",
+    "Booking Not Found"
+);
 
         return;
 
@@ -442,17 +1378,19 @@ async function assignTechnician(
             booking.status === "Cancelled"
         ) {
 
-            alert(
-                "This service has been cancelled. Technician cannot be assigned."
-            );
+            showAppToast(
+    "warning",
+    "This service has been cancelled. Technician cannot be assigned."
+);
 
         }
 
         else {
 
-            alert(
-                "Technician has already been assigned to this service."
-            );
+            showAppToast(
+    "warning",
+    "Technician has already been assigned to this service."
+);
 
         }
 
@@ -469,9 +1407,10 @@ async function assignTechnician(
 
     if (!select) {
 
-        alert(
-            "Technician selection is unavailable."
-        );
+        showAppToast(
+    "error",
+    "Technician selection is unavailable."
+);
 
         return;
 
@@ -484,9 +1423,10 @@ async function assignTechnician(
 
     if (!technicianId) {
 
-        alert(
-            "Please Select Technician"
-        );
+      showAppToast(
+    "warning",
+    "Please Select Technician"
+);
 
         return;
 
@@ -539,20 +1479,22 @@ async function assignTechnician(
 
         if (!response.ok) {
 
-            alert(
-                data.message ||
-                "Failed to assign technician"
-            );
+           showAppToast(
+    "error",
+    data.message ||
+    "Failed to assign technician"
+);
 
             return;
 
         }
 
 
-        alert(
-            data.message ||
-            "Technician assigned successfully"
-        );
+       showAppToast(
+    "success",
+    data.message ||
+    "Technician assigned successfully"
+);
 
 
         await loadAdminData();
@@ -562,9 +1504,10 @@ async function assignTechnician(
 
         console.log(error);
 
-        alert(
-            "Unable to assign technician"
-        );
+       showAppToast(
+    "error",
+    "Unable to assign technician"
+);
 
     }
 
@@ -659,24 +1602,27 @@ document
 
                 if (!response.ok) {
 
-                    alert(
-                        data.message ||
-                        "Failed to add technician"
-                    );
+                    showAppToast(
+    "error",
+    data.message ||
+    "Failed to add technician"
+);
 
                     return;
 
                 }
 
 
-                alert(
-                    data.message +
-                    "\nTechnician ID: " +
-                    (
-                        data.technicianId ||
-                        "Not generated"
-                    )
-                );
+                showAppToast(
+    "success",
+    (data.message || "Technician added successfully.") +
+    "\nTechnician ID: " +
+    (
+        data.technicianId ||
+        "Not generated"
+    ),
+    "Technician Added"
+);
 
 
                 document
@@ -690,12 +1636,16 @@ document
                 loadTechnicians();
                 loadUsers();
 
+} catch (error) {
 
-            } catch (error) {
+    console.log(error);
 
-                console.log(error);
+    showAppToast(
+        "error",
+        "Unable to add technician."
+    );
 
-            }
+}
 
         }
     );
@@ -984,9 +1934,10 @@ async function deleteTechnician(
 ) {
 
     const confirmDelete =
-        confirm(
-            "Delete this technician?"
-        );
+    await showAppConfirm(
+        "Delete this technician?",
+        "Delete Technician"
+    );
 
 
     if (!confirmDelete) {
@@ -1018,9 +1969,11 @@ async function deleteTechnician(
             await response.json();
 
 
-        alert(
-            data.message
-        );
+       showAppToast(
+    "success",
+    data.message || "Technician deleted successfully.",
+    "Technician Deleted"
+);
 
 
         loadTechnicians();
@@ -1133,9 +2086,11 @@ async function editTechnician(
 ) {
 
     const newPhone =
-        prompt(
-            "Enter New Phone Number"
-        );
+    await showAppPrompt(
+        "Enter New Phone Number",
+        "",
+        "Update Technician Phone"
+    );
 
 
     if (!newPhone) {
@@ -1178,9 +2133,11 @@ async function editTechnician(
             await response.json();
 
 
-        alert(
-            data.message
-        );
+      showAppToast(
+    "success",
+    data.message || "Technician updated successfully.",
+    "Technician Updated"
+);
 
 
         loadTechnicians();
@@ -1232,9 +2189,10 @@ async function viewTechnician(
 
         if (!tech) {
 
-            alert(
-                "Technician Not Found"
-            );
+           showAppToast(
+    "error",
+    "Technician Not Found"
+);
 
             return;
 
@@ -1350,9 +2308,10 @@ async function viewUser(
 
         if (!user) {
 
-            alert(
-                "User Not Found"
-            );
+showAppToast(
+    "error",
+    "User Not Found"
+);
 
             return;
 
@@ -1544,9 +2503,10 @@ function viewBookingDetails(
 
     if (!booking) {
 
-        alert(
-            "Booking Not Found"
-        );
+   showAppToast(
+    "error",
+    "Booking Not Found"
+);
 
         return;
 
@@ -1580,9 +2540,10 @@ function viewBookingDetails(
 
     if (!details) {
 
-        alert(
-            "Booking Details modal is missing."
-        );
+        showAppToast(
+    "error",
+    "Booking Details modal is missing."
+);
 
         return;
 
