@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixMate | Booking History</title>
+
+    <link rel="stylesheet" href="css/history.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>My Bookings</h1>
+
+            <a href="dashboard.html"
+                class="back-btn">
+
+                Dashboard
+
+            </a>
+        </div>
+
+        <div id="bookingContainer"
+            class="booking-grid">
+
+        </div>
+
+    </div>
+
+    <script src="js/history.js"></script>
+
+    <!-- Review Modal -->
+
+<div
+id="reviewModal"
+class="modal">
+
+<div class="modal-content">
+
+<span
+class="close"
+onclick="closeReviewModal()">
+
+&times;
+
+</span>
+
+<h2>
+Rate Your Experience
+</h2>
+
+
+<p class="review-subtitle">
+Share your feedback about the technician (optional)
+</p>
+
+<textarea
+id="reviewText"
+placeholder="Tell us about your experience..."
+></textarea>
+
+<button
+class="submit-review-btn"
+onclick="submitReview()">
+
+Submit Review
+
+</button>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
