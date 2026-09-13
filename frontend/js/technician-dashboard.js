@@ -1,3 +1,5 @@
+const API_URL = "http://localhost:5000/api";
+
 const SERVICE_CHARGES = {
 
 Painter: 500,
@@ -152,15 +154,15 @@ async function loadJobs(){
 try{
 
 const response =
-await fetch(
-`/api/technician/jobs/${technician.id}`,
-{
-headers:{
-Authorization:
-`Bearer ${token}`
-}
-}
-);
+    await fetch(
+        `${API_URL}/technician/jobs/${technician.id}`,
+        {
+            headers:{
+                Authorization:
+                `Bearer ${token}`
+            }
+        }
+    );
 
 const data =
 await response.json();
@@ -415,7 +417,7 @@ try{
 
 const response =
 await fetch(
-`/api/technician/status/${bookingId}`,
+`${API_URL}/technician/status/${bookingId}`,
 {
 method:"PUT",
 headers:{
@@ -502,7 +504,7 @@ switchBtn.checked
 
 const response =
 await fetch(
-`/api/technician/availability/${technician.id}`,
+`${API_URL}/technician/availability/${technician.id}`,
 {
 method:"PUT",
 headers:{
@@ -1120,7 +1122,7 @@ try{
 
 const response =
 await fetch(
-`/api/technician/reviews/${technician.id}`,
+`${API_URL}/technician/reviews/${technician.id}`,
 {
 headers:{
 Authorization:
@@ -1958,13 +1960,13 @@ async function loadFeedback(){
 
 const response =
 await fetch(
-`/api/technician/reviews/${technician.id}`,
-{
-headers:{
-Authorization:
-`Bearer ${token}`
-}
-}
+    `${API_URL}/technician/reviews/${technician.id}`,
+    {
+        headers:{
+            Authorization:
+            `Bearer ${token}`
+        }
+    }
 );
 
 const data =
@@ -2168,7 +2170,7 @@ technician.id;
 const response =
 await fetch(
 
-`/api/technician/profile/${technicianId}`,
+`${API_URL}/technician/profile/${technicianId}`,
 
 
 
@@ -2286,7 +2288,7 @@ try{
 
 const response =
 await fetch(
-`/api/technician/profile/${technician.id}`,
+`${API_URL}/technician/profile/${technician.id}`,
 {
 headers:{
 Authorization:
@@ -2384,7 +2386,7 @@ return;
 const response =
 await fetch(
 
-`/api/technician/change-password/${technician.id}`,
+`${API_URL}/technician/change-password/${technician.id}`,
 
 {
 

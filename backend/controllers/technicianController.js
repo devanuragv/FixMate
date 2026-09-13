@@ -108,11 +108,16 @@ export const updateJobStatus = async (
         .collection("bookings")
         .doc(bookingId);
 
-    const bookingDoc =
-      await bookingRef.get();
+    const bookingDoc = await bookingRef.get();
 
-    const bookingData =
-bookingDoc.data();
+if (!bookingDoc.exists) {
+    return res.status(404).json({
+        success: false,
+        message: "Booking Not Found"
+    });
+}
+
+const bookingData = bookingDoc.data();
 
 const SERVICE_PRICES = {
 
@@ -188,14 +193,36 @@ const SERVICE_PRICES = {
 
         }
 
-        let updateData = {
+        const statusTime = new Date();
 
-            status,
+const statusKeyMap = {
+    "Pending": "pending",
+    "Assigned": "assigned",
+    "On The Way": "on-the-way",
+    "In Progress": "in-progress",
+    "Completed": "completed"
+};
 
-            updatedAt:
-            new Date()
+const statusKey =
+    statusKeyMap[status] ||
+    String(status)
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-");
 
-            };
+let updateData = {
+
+    status,
+
+    updatedAt:
+        statusTime,
+
+    [`statusHistory.${statusKey}`]:
+        statusTime
+
+};
+
+
 if(
 status === "Completed"
 ){
@@ -560,5 +587,230 @@ message:error.message
 });
 
 }
+
+};
+
+// ================================
+// Get Public Technician Details
+// For Customer Booking History
+// ================================
+// ================================
+// Get Public Technician Details
+// For Customer Booking History
+// ================================
+
+export const getPublicTechnicianProfile = async (
+    req,
+    res
+) => {
+
+    try {
+
+        const technicianId =
+            req.params.id;
+
+
+        if (!technicianId) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Technician ID Required"
+            });
+
+        }
+
+
+        // --------------------------------
+        // GET TECHNICIAN
+        // --------------------------------
+
+        const techDoc =
+            await db
+                .collection("technicians")
+                .doc(technicianId)
+                .get();
+
+
+        if (!techDoc.exists) {
+
+            return res.status(404).json({
+                success: false,
+                message: "Technician Not Found"
+            });
+
+        }
+
+
+        const tech =
+            techDoc.data();
+
+
+        // --------------------------------
+        // GET ALL REVIEWS
+        // --------------------------------
+
+        const reviewSnapshot =
+            await db
+                .collection("reviews")
+                .where(
+                    "technicianId",
+                    "==",
+                    technicianId
+                )
+                .get();
+
+
+        let totalRating = 0;
+
+
+        reviewSnapshot.forEach(doc => {
+
+            const reviewData =
+                doc.data();
+
+            totalRating +=
+                Number(reviewData.rating || 0);
+
+        });
+
+
+        const reviewCount =
+            reviewSnapshot.size;
+
+
+        // --------------------------------
+        // DETERMINE RATING
+        // --------------------------------
+
+        let finalRating =
+            Number(tech.rating || 0);
+
+        let finalTotalReviews =
+            Number(tech.totalReviews || 0);
+
+
+        // Reviews collection is the most accurate source
+        if (reviewCount > 0) {
+
+            finalRating =
+                Number(
+                    (
+                        totalRating /
+                        reviewCount
+                    ).toFixed(1)
+                );
+
+            finalTotalReviews =
+                reviewCount;
+
+        }
+
+
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "PUBLIC TECHNICIAN PROFILE"
+        );
+
+        console.log(
+            "Technician ID:",
+            technicianId
+        );
+
+        console.log(
+            "Technician Name:",
+            tech.name
+        );
+
+        console.log(
+            "Stored Rating:",
+            tech.rating
+        );
+
+        console.log(
+            "Stored Reviews:",
+            tech.totalReviews
+        );
+
+        console.log(
+            "Matching Reviews:",
+            reviewCount
+        );
+
+        console.log(
+            "Final Rating:",
+            finalRating
+        );
+
+        console.log(
+            "Final Reviews:",
+            finalTotalReviews
+        );
+
+        console.log(
+            "================================="
+        );
+
+
+        // --------------------------------
+        // RESPONSE
+        // --------------------------------
+
+        return res.status(200).json({
+
+            success: true,
+
+            technician: {
+
+                id:
+                    techDoc.id,
+
+                name:
+                    tech.name ||
+                    "Technician",
+
+                phone:
+                    tech.phone ||
+                    "",
+
+                serviceType:
+                    tech.serviceType ||
+                    "",
+
+                experience:
+                    tech.experience ||
+                    "",
+
+                rating:
+                    finalRating,
+
+                totalReviews:
+                    finalTotalReviews
+
+            }
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Public Technician Profile Error:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                error.message
+
+        });
+
+    }
 
 };

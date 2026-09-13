@@ -2098,3 +2098,489 @@ body {
     color: #ffffff;
 
 }
+
+/* =====================================================
+   BOOKING CARD - CLICKABLE
+   ===================================================== */
+
+.booking-card {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.booking-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--orange),
+        transparent
+    );
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.booking-card:hover::before {
+    opacity: 1;
+}
+
+.booking-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 113, 0, 0.45);
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.35),
+        0 0 25px rgba(255, 113, 0, 0.07);
+}
+
+
+/* =====================================================
+   BOOKING STATUS
+   ===================================================== */
+
+.booking-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.booking-status.pending {
+    color: #facc15;
+    background: rgba(250, 204, 21, 0.10);
+    border-color: rgba(250, 204, 21, 0.25);
+}
+
+.booking-status.assigned {
+    color: var(--orange-light);
+    background: rgba(255, 113, 0, 0.10);
+    border-color: rgba(255, 113, 0, 0.25);
+}
+
+.booking-status.on-the-way {
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.10);
+    border-color: rgba(59, 130, 246, 0.25);
+}
+
+.booking-status.in-progress {
+    color: #c084fc;
+    background: rgba(192, 132, 252, 0.10);
+    border-color: rgba(192, 132, 252, 0.25);
+}
+
+.booking-status.completed {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.10);
+    border-color: rgba(34, 197, 94, 0.25);
+}
+
+.booking-status.cancelled {
+    color: #ff5b5b;
+    background: rgba(239, 68, 68, 0.10);
+    border-color: rgba(239, 68, 68, 0.28);
+}
+
+
+/* =====================================================
+   ASSIGNMENT AREA
+   ===================================================== */
+
+.assignment-area {
+    position: relative;
+    z-index: 2;
+    margin-top: 15px;
+}
+
+.assignment-area .tech-select,
+.assignment-area .assign-btn {
+    position: relative;
+    z-index: 3;
+}
+
+
+/* =====================================================
+   ASSIGNED SERVICE
+   ===================================================== */
+
+.assigned-service-box {
+    position: relative;
+    z-index: 2;
+    margin-top: 15px;
+    padding: 12px 14px;
+    background: rgba(255, 113, 0, 0.06);
+    border: 1px solid rgba(255, 113, 0, 0.18);
+    border-left: 3px solid var(--orange);
+    border-radius: 10px;
+}
+
+.assigned-text {
+    margin: 0 !important;
+    color: var(--orange-light) !important;
+    font-size: 12px !important;
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   CANCELLED SERVICE
+   ===================================================== */
+
+.cancelled-service-box {
+    position: relative;
+    z-index: 2;
+    margin-top: 15px;
+    padding: 12px 14px;
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px solid rgba(239, 68, 68, 0.20);
+    border-left: 3px solid var(--red);
+    border-radius: 10px;
+}
+
+.cancelled-text {
+    margin: 0 !important;
+    color: #ff5b5b !important;
+    font-size: 12px !important;
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   BOOKING DETAILS MODAL
+   ===================================================== */
+
+#bookingModal {
+    padding: 25px;
+}
+
+#bookingModal .modal-content {
+    width: 1000px;
+    max-width: 96vw;
+    max-height: 88vh;
+    padding: 34px;
+}
+
+#bookingModal .modal-content h2 {
+    margin-bottom: 28px;
+}
+
+
+/* =====================================================
+   BOOKING DETAILS LAYOUT
+   ===================================================== */
+
+.booking-details-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.booking-detail-section {
+    position: relative;
+    padding: 20px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.025),
+            rgba(255, 255, 255, 0)
+        ),
+        #0d0d12;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+.booking-detail-section:hover {
+    border-color: rgba(255, 113, 0, 0.22);
+}
+
+.booking-detail-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    color: var(--white);
+    border-bottom: 1px solid var(--border);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.booking-detail-section h3::after {
+    content: "";
+    width: 28px;
+    height: 2px;
+    margin-left: auto;
+    border-radius: 5px;
+    background: var(--orange);
+}
+
+.booking-detail-section p {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 0 9px;
+    padding: 9px 11px;
+    color: #b9bac2;
+    background: #111116;
+    border: 1px solid #222229;
+    border-radius: 8px;
+    font-size: 12.5px;
+    line-height: 1.55;
+}
+
+.booking-detail-section p:last-child {
+    margin-bottom: 0;
+}
+
+.booking-detail-section strong {
+    min-width: 110px;
+    flex-shrink: 0;
+    color: var(--white);
+    font-weight: 600;
+}
+
+.booking-detail-section p .booking-status {
+    margin-left: 0;
+}
+
+
+/* =====================================================
+   TECHNICIAN DETAIL
+   ===================================================== */
+
+.technician-detail {
+    border-color: rgba(255, 113, 0, 0.20);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 113, 0, 0.07),
+            rgba(255, 113, 0, 0.01)
+        ),
+        #0d0d12;
+}
+
+.technician-detail h3 {
+    color: var(--orange-light);
+}
+
+
+/* =====================================================
+   CUSTOMER REVIEW
+   ===================================================== */
+
+.review-detail {
+    border-color: rgba(250, 204, 21, 0.20);
+}
+
+.review-detail h3 {
+    color: #facc15;
+}
+
+.review-detail p:last-child {
+    display: block;
+}
+
+.review-detail p:last-child strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review-detail .booking-status {
+    vertical-align: middle;
+}
+
+
+/* =====================================================
+   CANCELLED DETAILS
+   ===================================================== */
+
+.cancelled-detail {
+    grid-column: 1 / -1;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(239, 68, 68, 0.08),
+            rgba(239, 68, 68, 0.015)
+        ),
+        #0d0d12;
+    border-color: rgba(239, 68, 68, 0.25);
+    border-left: 3px solid var(--red);
+}
+
+.cancelled-detail h3 {
+    color: #ff5b5b;
+}
+
+.cancelled-detail p {
+    color: #aeb0b8;
+}
+
+
+/* =====================================================
+   MODAL SCROLLBAR
+   ===================================================== */
+
+#bookingModal .modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+#bookingModal .modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#bookingModal .modal-content::-webkit-scrollbar-thumb {
+    background: #303038;
+    border-radius: 10px;
+}
+
+#bookingModal .modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--orange);
+}
+
+
+/* =====================================================
+   BOOKING CARD ACCESSIBILITY / INTERACTION
+   ===================================================== */
+
+.booking-card .tech-select,
+.booking-card .assign-btn,
+.booking-card .assignment-area,
+.booking-card .assigned-service-box,
+.booking-card .cancelled-service-box {
+    cursor: default;
+}
+
+.booking-card .assign-btn {
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   RESPONSIVE BOOKING DETAILS
+   ===================================================== */
+
+@media (max-width: 800px) {
+
+    .booking-details-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cancelled-detail {
+        grid-column: auto;
+    }
+
+    #bookingModal .modal-content {
+        padding: 25px 20px;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    #bookingModal {
+        padding: 12px;
+    }
+
+    #bookingModal .modal-content {
+        max-width: 98vw;
+        max-height: 92vh;
+        padding: 22px 15px;
+        border-radius: 16px;
+    }
+
+    .booking-detail-section {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .booking-detail-section p {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .booking-detail-section strong {
+        min-width: auto;
+    }
+
+    .booking-status {
+        margin-left: 0;
+        margin-top: 2px;
+        width: fit-content;
+    }
+
+}
+
+
+/* =====================================================
+   STATUS LEFT ACCENT ON BOOKING CARDS
+   ===================================================== */
+
+.booking-card[data-status="Cancelled"] {
+    border-color: rgba(239, 68, 68, 0.20);
+}
+
+.booking-card[data-status="Cancelled"]:hover {
+    border-color: rgba(239, 68, 68, 0.45);
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.35),
+        0 0 25px rgba(239, 68, 68, 0.06);
+}
+
+.booking-card[data-status="Completed"] {
+    border-color: rgba(34, 197, 94, 0.16);
+}
+
+.booking-card[data-status="Completed"]:hover {
+    border-color: rgba(34, 197, 94, 0.35);
+}
+
+
+/* =====================================================
+   CLICK HINT
+   ===================================================== */
+
+.booking-card::after {
+    content: "Click to view details";
+    position: absolute;
+    top: 13px;
+    right: 14px;
+    padding: 4px 8px;
+    color: #686b75;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid #222229;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(-3px);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    pointer-events: none;
+}
+
+.booking-card:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 650px) {
+
+    .booking-card::after {
+        display: none;
+    }
+
+}

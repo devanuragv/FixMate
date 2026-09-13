@@ -4,16 +4,16 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import technicianMiddleware from "../middleware/technicianMiddleware.js";
 
 import {
-  getAssignedJobs,
-  updateJobStatus,
-  toggleAvailability,
-  getTechnicianProfile,
-  updateTechnicianProfile,
-  getTechnicianReviews,
-  changePassword
+    getAssignedJobs,
+    updateJobStatus,
+    toggleAvailability,
+    getTechnicianProfile,
+    getPublicTechnicianProfile,
+    updateTechnicianProfile,
+    getTechnicianReviews,
+    changePassword
 }
-from
-"../controllers/technicianController.js";
+from "../controllers/technicianController.js";
 
 const router = express.Router();
 
@@ -53,29 +53,44 @@ router.put(
   technicianMiddleware,
   toggleAvailability
 );
-
 // ================================
 // Technician Profile
 // ================================
+
 router.get(
-"/profile/:id",
-authMiddleware,
-technicianMiddleware,
-getTechnicianProfile
+    "/profile/:id",
+    authMiddleware,
+    technicianMiddleware,
+    getTechnicianProfile
 );
 
-router.put(
-"/profile/:id",
-authMiddleware,
-technicianMiddleware,
-updateTechnicianProfile
+
+// ================================
+// Public Technician Profile
+// Customer Booking History
+// ================================
+
+router.get(
+    "/public-profile/:id",
+    authMiddleware,
+    getPublicTechnicianProfile
 );
 
+
 router.put(
-"/change-password/:id",
-authMiddleware,
-technicianMiddleware,
-changePassword
+    "/profile/:id",
+    authMiddleware,
+    technicianMiddleware,
+    updateTechnicianProfile
 );
+
+
+router.put(
+    "/change-password/:id",
+    authMiddleware,
+    technicianMiddleware,
+    changePassword
+);
+
 
 export default router;

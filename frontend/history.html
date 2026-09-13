@@ -19,17 +19,12 @@
         <div class="header">
             <h1>My Bookings</h1>
 
-            <a href="dashboard.html"
-                class="back-btn">
-
+            <a href="dashboard.html" class="back-btn">
                 Dashboard
-
             </a>
         </div>
 
-        <div id="bookingContainer"
-            class="booking-grid">
-
+        <div id="bookingContainer" class="booking-grid">
         </div>
 
     </div>
@@ -37,47 +32,36 @@
     <script src="js/history.js"></script>
 
     <!-- Review Modal -->
+    <div id="reviewModal" class="modal">
 
-<div
-id="reviewModal"
-class="modal">
+        <div class="modal-content">
 
-<div class="modal-content">
+            <span class="close" onclick="closeReviewModal()">
+                &times;
+            </span>
 
-<span
-class="close"
-onclick="closeReviewModal()">
+            <h2>
+                Rate Your Experience
+            </h2>
 
-&times;
+            <p class="review-subtitle">
+                Share your feedback about the technician (optional)
+            </p>
 
-</span>
+            <textarea
+                id="reviewText"
+                placeholder="Tell us about your experience...">
+            </textarea>
 
-<h2>
-Rate Your Experience
-</h2>
+            <button
+                class="submit-review-btn"
+                onclick="submitReview()">
+                Submit Review
+            </button>
 
+        </div>
 
-<p class="review-subtitle">
-Share your feedback about the technician (optional)
-</p>
-
-<textarea
-id="reviewText"
-placeholder="Tell us about your experience..."
-></textarea>
-
-<button
-class="submit-review-btn"
-onclick="submitReview()">
-
-Submit Review
-
-</button>
-
-</div>
-
-</div>
+    </div>
 
 </body>
-
 </html>

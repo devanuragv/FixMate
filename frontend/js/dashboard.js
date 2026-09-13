@@ -1,10 +1,12 @@
-const token =
-localStorage.getItem("fixmateToken");
+const API_URL = "http://localhost:5000/api";
 
-if(!token){
+const token =
+    localStorage.getItem("fixmateToken");
+
+if (!token) {
 
     window.location.href =
-    "login.html";
+        "login.html";
 
 }
 
@@ -13,35 +15,59 @@ if(!token){
    LOAD USER PROFILE
 ========================================= */
 
-async function loadProfile(){
+async function loadProfile() {
 
-    try{
+    try {
 
         const response =
-        await fetch(
-            "/api/users/profile",
-            {
-                headers:{
-                    Authorization:`Bearer ${token}`
+            await fetch(
+                `${API_URL}/users/profile`,
+                {
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    }
                 }
-            }
-        );
+            );
 
         const data =
-        await response.json();
+            await response.json();
 
-        if(data.success){
+        console.log(
+            "Profile Response:",
+            data
+        );
 
-            document.getElementById(
-                "userName"
-            ).innerText =
-            data.user.name;
+        if (data.success) {
+
+            const userName =
+                document.getElementById(
+                    "userName"
+                );
+
+            if (userName) {
+
+                userName.innerText =
+                    data.user.name;
+
+            }
+
+        } else {
+
+            console.log(
+                "Failed to load profile:",
+                data.message
+            );
 
         }
 
-    }catch(error){
+    }
+    catch (error) {
 
-        console.log(error);
+        console.log(
+            "Profile Error:",
+            error
+        );
 
     }
 
@@ -52,91 +78,181 @@ async function loadProfile(){
    LOAD BOOKINGS
 ========================================= */
 
-async function loadBookings(){
+async function loadBookings() {
 
-    try{
+    try {
 
         const response =
-        await fetch(
-            "/api/bookings",
-            {
-                headers:{
-                    Authorization:`Bearer ${token}`
+            await fetch(
+                `${API_URL}/bookings`,
+                {
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    }
                 }
-            }
-        );
+            );
 
         const data =
-        await response.json();
+            await response.json();
 
-        if(data.success){
+        console.log(
+            "Bookings Response:",
+            data
+        );
+
+        if (data.success) {
 
             const bookings =
-            data.bookings;
+                data.bookings || [];
 
 
-            /* Total Bookings */
+            /* =================================
+               TOTAL BOOKINGS
+            ================================= */
 
-            document.getElementById(
-                "totalBookings"
-            ).innerText =
-            bookings.length;
+            const totalBookings =
+                document.getElementById(
+                    "totalBookings"
+                );
+
+            if (totalBookings) {
+
+                totalBookings.innerText =
+                    bookings.length;
+
+            }
 
 
-            /* Pending Bookings */
+            /* =================================
+               PENDING BOOKINGS
+            ================================= */
 
             const pending =
-            bookings.filter(
-                b=>b.status==="Pending"
-            ).length;
+                bookings.filter(
+                    b =>
+                        b.status?.toLowerCase() ===
+                        "pending"
+                ).length;
 
-            document.getElementById(
-                "pendingBookings"
-            ).innerText =
-            pending;
+            const pendingBookings =
+                document.getElementById(
+                    "pendingBookings"
+                );
+
+            if (pendingBookings) {
+
+                pendingBookings.innerText =
+                    pending;
+
+            }
 
 
-            /* Completed Bookings */
+            /* =================================
+               COMPLETED BOOKINGS
+            ================================= */
 
             const completed =
-            bookings.filter(
-                b=>b.status==="Completed"
-            ).length;
+                bookings.filter(
+                    b =>
+                        b.status?.toLowerCase() ===
+                        "completed"
+                ).length;
 
-            document.getElementById(
-                "completedBookings"
-            ).innerText =
-            completed;
+            const completedBookings =
+                document.getElementById(
+                    "completedBookings"
+                );
 
+            if (completedBookings) {
 
-            /* Booking Table */
+                completedBookings.innerText =
+                    completed;
 
-            let rows="";
-
-            bookings.forEach(booking=>{
-
-                rows += `
-                    <tr>
-                        <td>${booking.service}</td>
-                        <td>${booking.issue}</td>
-                        <td>${booking.bookingDate}</td>
-                        <td>${booking.status}</td>
-                    </tr>
-                `;
-
-            });
+            }
 
 
-            document.getElementById(
-                "bookingTable"
-            ).innerHTML =
-            rows;
+            /* =================================
+               BOOKING TABLE
+            ================================= */
+
+            const bookingTable =
+                document.getElementById(
+                    "bookingTable"
+                );
+
+            if (bookingTable) {
+
+                if (bookings.length === 0) {
+
+                    bookingTable.innerHTML = `
+                        <tr>
+                            <td
+                                colspan="4"
+                                style="text-align:center;"
+                            >
+                                No bookings found
+                            </td>
+                        </tr>
+                    `;
+
+                }
+                else {
+
+                    let rows = "";
+
+                    bookings.forEach(
+                        booking => {
+
+                            rows += `
+                                <tr>
+
+                                    <td>
+                                        ${booking.service || "-"}
+                                    </td>
+
+                                    <td>
+                                        ${booking.issue || "-"}
+                                    </td>
+
+                                    <td>
+                                        ${booking.bookingDate || "-"}
+                                    </td>
+
+                                    <td>
+                                        ${booking.status || "-"}
+                                    </td>
+
+                                </tr>
+                            `;
+
+                        }
+                    );
+
+                    bookingTable.innerHTML =
+                        rows;
+
+                }
+
+            }
+
+        }
+        else {
+
+            console.log(
+                "Failed to load bookings:",
+                data.message
+            );
 
         }
 
-    }catch(error){
+    }
+    catch (error) {
 
-        console.log(error);
+        console.log(
+            "Bookings Error:",
+            error
+        );
 
     }
 
@@ -147,10 +263,10 @@ async function loadBookings(){
    CUSTOMER SUPPORT
 ========================================= */
 
-function openCustomerSupport(){
+function openCustomerSupport() {
 
     window.location.href =
-    "customer-support.html";
+        "customer-support.html";
 
 }
 
@@ -159,7 +275,7 @@ function openCustomerSupport(){
    LOGOUT
 ========================================= */
 
-function logout(){
+function logout() {
 
     localStorage.removeItem(
         "fixmateToken"
@@ -170,7 +286,7 @@ function logout(){
     );
 
     window.location.href =
-    "login.html";
+        "login.html";
 
 }
 

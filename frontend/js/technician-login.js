@@ -1,216 +1,308 @@
-window.onload = () => {
+const API_URL = "http://localhost:5000/api";
 
-document.getElementById(
-"email"
-).value = "";
 
-document.getElementById(
-"password"
-).value = "";
+// =========================================
+// CLEAR LOGIN FIELDS
+// =========================================
 
-};
+window.addEventListener("load", () => {
 
-window.addEventListener(
-"load",
-()=>{
+    const emailInput =
+        document.getElementById("email");
 
-document.getElementById(
-"email"
-).value = "";
+    const passwordInput =
+        document.getElementById("password");
 
-document.getElementById(
-"password"
-).value = "";
+    if (emailInput) {
+        emailInput.value = "";
+    }
 
-}
-);
-
-function showToast(
-message,
-type="error"
-){
-
-const toast =
-document.getElementById(
-"toast"
-);
-
-toast.innerText =
-message;
-
-toast.className =
-`toast ${type}`;
-
-toast.classList.add(
-"show"
-);
-
-setTimeout(()=>{
-
-toast.classList.remove(
-"show"
-);
-
-},3000);
-
-}
-
-document.getElementById(
-"loginBtn"
-).addEventListener(
-"click",
-async()=>{
-
-const email =
-document.getElementById(
-"email"
-).value;
-
-const password =
-document.getElementById(
-"password"
-).value;
-
-const loginBtn =
-document.getElementById(
-"loginBtn"
-);
-
-loginBtn.innerHTML =
-"Signing In...";
-
-loginBtn.disabled = true;
-
-loginBtn.classList.add(
-"loading"
-);
-
-try{
-
-const response =
-await fetch(
-"/api/technician-auth/login",
-{
-method:"POST",
-headers:{
-"Content-Type":
-"application/json"
-},
-body:JSON.stringify({
-email,
-password
-})
-}
-);
-
-const data =
-await response.json();
-
-loginBtn.innerHTML =
-"Login";
-
-loginBtn.disabled = false;
-
-loginBtn.classList.remove(
-"loading"
-);
-
-if(data.success){
-
-showToast(
-"Login Successful",
-"success"
-);
-
-localStorage.setItem(
-"technicianToken",
-data.token
-);
-
-localStorage.setItem(
-"technician",
-JSON.stringify(
-data.technician
-)
-);
-
-setTimeout(()=>{
-
-window.location.href =
-"/technician-dashboard.html";
-
-},1500);
-
-}else{
-
-loginBtn.innerHTML =
-"Login";
-
-loginBtn.disabled = false;
-
-loginBtn.classList.remove(
-"loading"
-);
-
-showToast(
-data.message,
-"error"
-);
-
-}
-
-}catch(error){
-
-loginBtn.innerHTML =
-"Login";
-
-loginBtn.disabled = false;
-
-loginBtn.classList.remove(
-"loading"
-);
-
-console.log(error);
-
-}
+    if (passwordInput) {
+        passwordInput.value = "";
+    }
 
 });
 
+
+// =========================================
+// TOAST
+// =========================================
+
+function showToast(
+    message,
+    type = "error"
+) {
+
+    const toast =
+        document.getElementById("toast");
+
+    if (!toast) {
+        alert(message);
+        return;
+    }
+
+    toast.innerText = message;
+
+    toast.className =
+        `toast ${type}`;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+
+}
+
+
+// =========================================
+// TECHNICIAN LOGIN
+// =========================================
+
+document
+    .getElementById("loginBtn")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+            const loginBtn =
+                document.getElementById(
+                    "loginBtn"
+                );
+
+
+            // =================================
+            // VALIDATION
+            // =================================
+
+            if (!email) {
+
+                showToast(
+                    "Please enter your email.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (!password) {
+
+                showToast(
+                    "Please enter your password.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            // =================================
+            // LOADING
+            // =================================
+
+            loginBtn.innerHTML =
+                "Signing In...";
+
+            loginBtn.disabled = true;
+
+            loginBtn.classList.add(
+                "loading"
+            );
+
+
+            try {
+
+                // =================================
+                // BACKEND LOGIN
+                // =================================
+
+                const response =
+                    await fetch(
+                        `${API_URL}/technician-auth/login`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    email,
+                                    password
+                                })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Technician Login Response:",
+                    data
+                );
+
+
+                // =================================
+                // RESET BUTTON
+                // =================================
+
+                loginBtn.innerHTML =
+                    "Login";
+
+                loginBtn.disabled = false;
+
+                loginBtn.classList.remove(
+                    "loading"
+                );
+
+
+                // =================================
+                // SUCCESS
+                // =================================
+
+                if (data.success) {
+
+                    showToast(
+                        "Login Successful",
+                        "success"
+                    );
+
+
+                    // Save technician token
+                    localStorage.setItem(
+                        "technicianToken",
+                        data.token
+                    );
+
+
+                    // Save technician data
+                    localStorage.setItem(
+                        "technician",
+                        JSON.stringify(
+                            data.technician
+                        )
+                    );
+
+
+                    // Redirect to dashboard
+                    setTimeout(() => {
+
+                        window.location.href =
+                            "technician-dashboard.html";
+
+                    }, 1000);
+
+
+                }
+
+                // =================================
+                // LOGIN FAILED
+                // =================================
+
+                else {
+
+                    showToast(
+                        data.message ||
+                        "Invalid email or password.",
+                        "error"
+                    );
+
+                }
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Technician login error:",
+                    error
+                );
+
+
+                loginBtn.innerHTML =
+                    "Login";
+
+                loginBtn.disabled = false;
+
+                loginBtn.classList.remove(
+                    "loading"
+                );
+
+
+                showToast(
+                    "Unable to connect to server.",
+                    "error"
+                );
+
+            }
+
+        }
+    );
+
+
+// =========================================
+// PASSWORD TOGGLE
+// =========================================
+
 const togglePassword =
-document.getElementById(
-"togglePassword"
-);
+    document.getElementById(
+        "togglePassword"
+    );
 
-const password =
-document.getElementById(
-"password"
-);
+const passwordInput =
+    document.getElementById(
+        "password"
+    );
 
-togglePassword.addEventListener(
-"click",
-()=>{
 
-if(
-password.type ===
-"password"
-){
+if (
+    togglePassword &&
+    passwordInput
+) {
 
-password.type =
-"text";
+    togglePassword.addEventListener(
+        "click",
+        () => {
 
-togglePassword.innerHTML =
-"🙈";
+            if (
+                passwordInput.type ===
+                "password"
+            ) {
+
+                passwordInput.type =
+                    "text";
+
+                togglePassword.innerHTML =
+                    "🙈";
+
+            }
+            else {
+
+                passwordInput.type =
+                    "password";
+
+                togglePassword.innerHTML =
+                    "👁";
+
+            }
+
+        }
+    );
 
 }
-else{
-
-password.type =
-"password";
-
-togglePassword.innerHTML =
-"👁";
-
-}
-
-}
-);

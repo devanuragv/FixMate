@@ -1,154 +1,237 @@
+const API_URL = "http://localhost:5000/api";
+
 const token =
-localStorage.getItem(
-"fixmateToken"
-);
+    localStorage.getItem("fixmateToken");
 
-if(!token){
+if (!token) {
 
-window.location.href =
-"login.html";
+    window.location.href =
+        "login.html";
 
 }
+
 
 // ======================
 // Load Profile
 // ======================
 
-async function loadProfile(){
+async function loadProfile() {
 
-try{
+    try {
 
-const response =
-await fetch(
-"/api/users/profile",
-{
-headers:{
-Authorization:
-`Bearer ${token}`
+        const response =
+            await fetch(
+                `${API_URL}/users/profile`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        console.log(
+            "Profile Response:",
+            data
+        );
+
+        if (data.success) {
+
+            document.getElementById(
+                "name"
+            ).value =
+                data.user.name || "";
+
+
+            document.getElementById(
+                "email"
+            ).value =
+                data.user.email || "";
+
+
+            document.getElementById(
+                "phone"
+            ).value =
+                data.user.phone || "";
+
+
+            document.getElementById(
+                "city"
+            ).value =
+                data.user.city || "";
+
+
+            document.getElementById(
+                "state"
+            ).value =
+                data.user.state || "";
+
+
+            document.getElementById(
+                "pincode"
+            ).value =
+                data.user.pincode || "";
+
+
+            document.getElementById(
+                "location"
+            ).value =
+                data.user.location || "";
+
+        } else {
+
+            console.log(
+                "Failed to load profile:",
+                data.message
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.log(
+            "Profile loading error:",
+            error
+        );
+
+    }
+
 }
-}
-);
 
-const data =
-await response.json();
-
-if(data.success){
-
-document.getElementById(
-"name"
-).value =
-data.user.name || "";
-
-document.getElementById(
-"email"
-).value =
-data.user.email || "";
-
-document.getElementById(
-"phone"
-).value =
-data.user.phone || "";
-
-document.getElementById(
-"city"
-).value =
-data.user.city || "";
-
-document.getElementById(
-"state"
-).value =
-data.user.state || "";
-
-document.getElementById(
-"pincode"
-).value =
-data.user.pincode || "";
-
-document.getElementById(
-"location"
-).value =
-data.user.location || "";
-
-}
-
-}catch(error){
-
-console.log(error);
-
-}
-
-}
 
 loadProfile();
+
 
 // ======================
 // Update Profile
 // ======================
 
 document
-.getElementById(
-"profileForm"
-)
-.addEventListener(
-"submit",
-async(e)=>{
+    .getElementById("profileForm")
+    .addEventListener(
+        "submit",
+        async (e) => {
 
-e.preventDefault();
+            e.preventDefault();
 
-try{
+            try {
 
-const response =
-await fetch(
-"/api/users/profile",
-{
-method:"PUT",
-headers:{
-"Content-Type":
-"application/json",
-Authorization:
-`Bearer ${token}`
-},
-body:JSON.stringify({
+                const response =
+                    await fetch(
+                        `${API_URL}/users/profile`,
+                        {
+                            method: "PUT",
 
-name:
-document.getElementById(
-"name"
-).value,
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
 
-phone:
-document.getElementById(
-"phone"
-).value,
+                                Authorization:
+                                    `Bearer ${token}`
+                            },
 
-city:
-document.getElementById(
-"city"
-).value,
+                            body:
+                                JSON.stringify({
 
-state:
-document.getElementById(
-"state"
-).value,
+                                    name:
+                                        document
+                                            .getElementById(
+                                                "name"
+                                            )
+                                            .value
+                                            .trim(),
 
-pincode:
-document.getElementById(
-"pincode"
-).value
+                                    phone:
+                                        document
+                                            .getElementById(
+                                                "phone"
+                                            )
+                                            .value
+                                            .trim(),
 
-})
-}
-);
+                                    city:
+                                        document
+                                            .getElementById(
+                                                "city"
+                                            )
+                                            .value
+                                            .trim(),
 
-const data =
-await response.json();
+                                    state:
+                                        document
+                                            .getElementById(
+                                                "state"
+                                            )
+                                            .value
+                                            .trim(),
 
-alert(data.message);
+                                    pincode:
+                                        document
+                                            .getElementById(
+                                                "pincode"
+                                            )
+                                            .value
+                                            .trim(),
 
-}catch(error){
+                                    location:
+                                        document
+                                            .getElementById(
+                                                "location"
+                                            )
+                                            .value
+                                            .trim()
 
-console.log(error);
+                                })
+                        }
+                    );
 
-}
 
-}
-);
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Update Profile Response:",
+                    data
+                );
+
+
+                if (data.success) {
+
+                    alert(
+                        data.message ||
+                        "Profile updated successfully"
+                    );
+
+                }
+                else {
+
+                    alert(
+                        data.message ||
+                        "Failed to update profile"
+                    );
+
+                }
+
+            }
+            catch (error) {
+
+                console.log(
+                    "Profile update error:",
+                    error
+                );
+
+                alert(
+                    "Something went wrong while updating profile."
+                );
+
+            }
+
+        }
+    );

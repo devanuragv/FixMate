@@ -248,15 +248,21 @@ export const assignTechnician = async (req, res) => {
       technicianName
     } = req.body;
 
-    await db
-      .collection("bookings")
-      .doc(bookingId)
-      .update({
-        technicianId,
-        technician: technicianName,
-        status: "Assigned",
-        assignedAt: new Date()
-      });
+ const assignedAt = new Date();
+
+await db
+  .collection("bookings")
+  .doc(bookingId)
+  .update({
+    technicianId,
+    technician: technicianName,
+
+    status: "Assigned",
+
+    assignedAt,
+
+    "statusHistory.assigned": assignedAt
+  });
 
     res.status(200).json({
       success: true,
@@ -286,14 +292,38 @@ export const updateBookingStatus = async (req, res) => {
     const { status } =
       req.body;
 
-    await db
-      .collection("bookings")
-      .doc(bookingId)
-      .update({
-        status,
-        updatedAt:
-          new Date()
-      });
+   const statusTime = new Date();
+
+const statusKeyMap = {
+    "Pending": "pending",
+    "Assigned": "assigned",
+    "On The Way": "on-the-way",
+    "In Progress": "in-progress",
+    "Completed": "completed",
+    "Cancelled": "cancelled"
+};
+
+const statusKey =
+    statusKeyMap[status] ||
+    String(status)
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-");
+
+await db
+  .collection("bookings")
+  .doc(bookingId)
+  .update({
+
+    status,
+
+    updatedAt:
+        statusTime,
+
+    [`statusHistory.${statusKey}`]:
+        statusTime
+
+  });
 
     res.status(200).json({
       success: true,

@@ -4,190 +4,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>FixMate | Book Service</title>
 
+    <!-- FixMate Booking CSS -->
     <link rel="stylesheet" href="css/booking.css">
 
+    <!-- Flatpickr CSS -->
     <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    >
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 </head>
 
 <body>
 
     <div class="container">
 
+        <!-- =========================================
+             HEADER
+        ========================================== -->
+
         <div class="header">
+
             <h1>Book a Service</h1>
+
             <a href="dashboard.html" class="back-btn">
                 Dashboard
             </a>
+
         </div>
 
-        <div class="services">
 
-            <div class="service-card" data-service="Electrician">
-                ⚡
+        <!-- =========================================
+             SERVICE SELECTION
+        ========================================== -->
+
+        <div class="services-grid">
+
+            <!-- Electrician -->
+            <div
+                class="service-card"
+                data-service="Electrician"
+            >
+                <div class="service-icon">⚡</div>
                 <h3>Electrician</h3>
             </div>
 
-            <div class="service-card" data-service="Plumber">
-                🔧
+
+            <!-- Plumber -->
+            <div
+                class="service-card"
+                data-service="Plumber"
+            >
+                <div class="service-icon">🔧</div>
                 <h3>Plumber</h3>
             </div>
 
-            <div class="service-card" data-service="AC Repair">
-                ❄️
+
+            <!-- AC Repair -->
+            <div
+                class="service-card"
+                data-service="AC Repair"
+            >
+                <div class="service-icon">❄️</div>
                 <h3>AC Repair</h3>
             </div>
 
-            <div class="service-card" data-service="Carpenter">
-                🪚
+
+            <!-- Carpenter -->
+            <div
+                class="service-card"
+                data-service="Carpenter"
+            >
+                <div class="service-icon">🪚</div>
                 <h3>Carpenter</h3>
             </div>
 
-            <div class="service-card" data-service="Painter">
-                🎨
+
+            <!-- Painter -->
+            <div
+                class="service-card"
+                data-service="Painter"
+            >
+                <div class="service-icon">🎨</div>
                 <h3>Painter</h3>
             </div>
 
-            <div class="service-card" data-service="Appliance Repair">
-                🛠
+
+            <!-- Appliance Repair -->
+            <div
+                class="service-card"
+                data-service="Appliance Repair"
+            >
+                <div class="service-icon">🛠️</div>
                 <h3>Appliance Repair</h3>
+            </div>
+
+
+            <!-- Cleaner -->
+            <div
+                class="service-card"
+                data-service="Cleaner"
+            >
+                <div class="service-icon">🧹</div>
+                <h3>Cleaner</h3>
+            </div>
+
+
+            <!-- Mechanic -->
+            <div
+                class="service-card"
+                data-service="Mechanic"
+            >
+                <div class="service-icon">🚗</div>
+                <h3>Mechanic</h3>
+            </div>
+
+
+            <!-- Pest Control -->
+            <div
+                class="service-card"
+                data-service="Pest Control"
+            >
+                <div class="service-icon">🐜</div>
+                <h3>Pest Control</h3>
             </div>
 
         </div>
 
+
+        <!-- =========================================
+             BOOKING FORM
+        ========================================== -->
+
         <div class="booking-form">
 
-    <h2>Create Booking</h2>
+            <h2>Create Booking</h2>
 
-    <form id="bookingForm">
-
-        <!-- SERVICE + LOCATION BUTTON -->
-        <div class="service-location-row">
-
-            <input
-                type="text"
-                id="service"
-                placeholder="Selected Service"
-                readonly
-                required>
-
-            <button
-                type="button"
-                id="detectLocationBtn"
-                class="detect-location-btn">
-
-                <span class="location-icon">📍</span>
-
-                <span id="detectLocationText">
-                    Detect My Location
-                </span>
-
-            </button>
-
-        </div>
+            <form id="bookingForm">
 
 
-        <!-- ISSUE -->
-        <textarea
-            id="issue"
-            placeholder="Describe your issue"
-            required></textarea>
+                <!-- =================================
+                     SELECTED SERVICE + LOCATION
+                ================================== -->
+
+                <div class="service-location-row">
+
+                    <div class="service-selected-wrapper">
+
+                        <!-- Selected Service -->
+                        <input
+                            type="text"
+                            id="service"
+                            name="service"
+                            placeholder="Selected Service"
+                            readonly
+                            required
+                        >
 
 
-        <!-- CUSTOMER DETAILS -->
-        <input
-            type="text"
-            id="customerName"
-            placeholder="Full Name"
-            required>
+                        <!-- Technician Visiting Fee -->
+                        <div
+                            id="visitingFee"
+                            class="visiting-fee"
+                            style="display: none;"
+                        >
 
-        <input
-            type="tel"
-            id="customerPhone"
-            placeholder="Phone Number"
-            required>
+                            <span>
+                                🔧 Technician Visit Fee
+                            </span>
 
-        <input
-            type="email"
-            id="customerEmail"
-            placeholder="Email Address"
-            required>
+                            <strong id="serviceFee">
+                                ₹0
+                            </strong>
 
+                        </div>
 
-        <!-- HOUSE / OFFICE + CITY -->
-        <input
-            type="text"
-            id="houseNumber"
-            placeholder="House / Flat / Office No."
-            required>
-
-        <input
-            type="text"
-            id="city"
-            placeholder="City"
-            required>
+                    </div>
 
 
-        <!-- STATE + PINCODE -->
-        <input
-            type="text"
-            id="state"
-            placeholder="State"
-            required>
+                    <!-- Detect Location -->
+                    <button
+                        type="button"
+                        id="detectLocationBtn"
+                        class="detect-location-btn"
+                    >
 
-        <input
-            type="text"
-            id="pincode"
-            placeholder="Pincode"
-            required>
+                        <span class="location-icon">
+                            📍
+                        </span>
 
+                        <span id="detectLocationText">
+                            Detect My Location
+                        </span>
 
-        <!-- ADDRESS + DATE -->
-        <input
-            type="text"
-            id="location"
-            placeholder="Address / Location"
-            required>
+                    </button>
 
-      <input
-    type="text"
-    id="bookingDate"
-    class="booking-picker-input"
-    placeholder="Select Date"
-    autocomplete="off"
-    required>
+                </div>
 
 
-        <!-- TIME -->
-        <input
-    type="text"
-    id="bookingTime"
-    class="booking-picker-input"
-    placeholder="Select Time"
-    autocomplete="off"
-    required>
+                <!-- =================================
+                     ISSUE SELECTION
+                ================================== -->
+
+                <div class="issue-section">
+
+                    <label for="issue">
+                        What's the issue?
+                    </label>
+
+                    <select
+                        id="issue"
+                        name="issue"
+                        required
+                    >
+
+                        <option value="">
+                            Select your issue
+                        </option>
+
+                        <!--
+                            JavaScript will automatically
+                            add service-specific options
+                            after customer selects a service.
+                        -->
+
+                    </select>
 
 
-        <button type="submit">
-            Book Service
-        </button>
+                    <!--
+                        Shown only when customer selects "Other".
+                        JavaScript will control this field.
+                    -->
 
-    </form>
+                    <div
+                        id="customIssueWrapper"
+                        class="custom-issue-wrapper"
+                        style="display: none;"
+                    >
 
+                        <input
+                            type="text"
+                            id="customIssue"
+                            name="customIssue"
+                            placeholder="Please describe your issue"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     CUSTOMER DETAILS
+                ================================== -->
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Full Name"
+                    required
+                >
+
+
+                <input
+                    type="tel"
+                    id="customerPhone"
+                    placeholder="Phone Number"
+                    required
+                >
+
+
+                <input
+                    type="email"
+                    id="customerEmail"
+                    placeholder="Email Address"
+                    required
+                >
+
+
+                <!-- =================================
+                     HOUSE / OFFICE + CITY
+                ================================== -->
+
+                <input
+                    type="text"
+                    id="houseNumber"
+                    placeholder="House / Flat / Office No."
+                    required
+                >
+
+
+                <input
+                    type="text"
+                    id="city"
+                    placeholder="City"
+                    required
+                >
+
+
+                <!-- =================================
+                     STATE + PINCODE
+                ================================== -->
+
+                <input
+                    type="text"
+                    id="state"
+                    placeholder="State"
+                    required
+                >
+
+
+                <input
+                    type="text"
+                    id="pincode"
+                    placeholder="Pincode"
+                    required
+                >
+
+
+                <!-- =================================
+                     ADDRESS / LOCATION
+                ================================== -->
+
+                <input
+                    type="text"
+                    id="location"
+                    placeholder="Address / Location"
+                    required
+                >
+
+
+                <!-- =================================
+                     BOOKING DATE
+                ================================== -->
+
+                <input
+                    type="text"
+                    id="bookingDate"
+                    class="booking-picker-input"
+                    placeholder="Select Date"
+                    autocomplete="off"
+                    required
+                >
+
+
+                <!-- =================================
+                     BOOKING TIME
+                ================================== -->
+
+                <input
+                    type="text"
+                    id="bookingTime"
+                    class="booking-picker-input"
+                    placeholder="Select Time"
+                    autocomplete="off"
+                    required
+                >
+
+
+                <!-- =================================
+                     SUBMIT
+                ================================== -->
+
+                <button type="submit">
+                    Book Service
+                </button>
+
+            </form>
 
         </div>
 
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-<script src="js/booking.js"></script>
+    <!-- =========================================
+         FLATPICKR JS
+    ========================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+    <!-- =========================================
+         FIXMATE BOOKING JS
+    ========================================== -->
+
+    <script src="js/booking.js"></script>
 
 </body>
 

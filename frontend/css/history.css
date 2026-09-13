@@ -1,6 +1,6 @@
 /* =====================================================
    FIXMATE BOOKING HISTORY
-   DARK / ORANGE PREMIUM THEME
+   PREMIUM DARK / ORANGE THEME
 ===================================================== */
 
 * {
@@ -42,7 +42,6 @@ html {
 
 body {
     min-height: 100vh;
-
     padding: 35px 25px;
 
     font-family: "Poppins", sans-serif;
@@ -61,15 +60,20 @@ body {
 }
 
 
+/* Prevent background scrolling when details are open */
+
+body.booking-details-open {
+    overflow: hidden;
+}
+
+
 /* =====================================================
    CONTAINER
 ===================================================== */
 
 .container {
     width: 100%;
-
     max-width: 1200px;
-
     margin: auto;
 }
 
@@ -82,12 +86,10 @@ body {
     position: relative;
 
     display: flex;
-
     justify-content: space-between;
     align-items: center;
 
     margin-bottom: 35px;
-
     padding-bottom: 22px;
 
     border-bottom: 1px solid var(--border);
@@ -116,7 +118,6 @@ body {
     color: var(--white);
 
     font-size: 30px;
-
     font-weight: 700;
 
     letter-spacing: -0.8px;
@@ -124,7 +125,7 @@ body {
 
 
 /* =====================================================
-   BACK BUTTON
+   DASHBOARD BUTTON
 ===================================================== */
 
 .back-btn {
@@ -136,7 +137,6 @@ body {
     padding: 11px 20px;
 
     border: 1px solid rgba(255, 113, 0, 0.25);
-
     border-radius: 11px;
 
     background: rgba(255, 113, 0, 0.08);
@@ -144,7 +144,6 @@ body {
     color: var(--orange);
 
     font-size: 13px;
-
     font-weight: 600;
 
     text-decoration: none;
@@ -181,13 +180,20 @@ body {
 
 
 /* =====================================================
-   BOOKING CARD
+   CLEAN BOOKING CARD
 ===================================================== */
 
 .booking-card {
     position: relative;
 
-    padding: 24px;
+    min-height: 145px;
+
+    padding: 23px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
 
     background:
         linear-gradient(
@@ -202,6 +208,8 @@ body {
 
     overflow: hidden;
 
+    cursor: pointer;
+
     box-shadow:
         0 18px 50px rgba(0, 0, 0, 0.24);
 
@@ -212,38 +220,45 @@ body {
 }
 
 
-/* Top glow */
+/* Top orange glow */
 
 .booking-card::before {
     content: "";
 
     position: absolute;
 
-    right: -50px;
-    top: -50px;
+    right: -55px;
+    top: -55px;
 
-    width: 130px;
-    height: 130px;
+    width: 145px;
+    height: 145px;
 
     border-radius: 50%;
 
-    background: rgba(255, 113, 0, 0.06);
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 113, 0, 0.12),
+            transparent 68%
+        );
 
-    transition: 0.3s ease;
+    pointer-events: none;
+
+    transition: 0.35s ease;
 }
 
 
-/* Bottom orange accent */
+/* Bottom accent */
 
 .booking-card::after {
     content: "";
 
     position: absolute;
 
-    left: 24px;
+    left: 23px;
     bottom: 0;
 
-    width: 35px;
+    width: 42px;
     height: 3px;
 
     border-radius: 10px 10px 0 0;
@@ -252,6 +267,8 @@ body {
 
     box-shadow:
         0 0 13px rgba(255, 113, 0, 0.35);
+
+    transition: 0.25s ease;
 }
 
 
@@ -260,392 +277,68 @@ body {
 ===================================================== */
 
 .booking-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
 
     border-color:
-        rgba(255, 113, 0, 0.25);
+        rgba(255, 113, 0, 0.38);
 
     box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.32),
-        0 0 25px rgba(255, 113, 0, 0.035);
+        0 25px 65px rgba(0, 0, 0, 0.38),
+        0 0 28px rgba(255, 113, 0, 0.05);
 }
 
 .booking-card:hover::before {
-    transform: scale(1.3);
+    transform: scale(1.25);
+}
+
+.booking-card:hover::after {
+    width: 75px;
+}
+
+
+/* Keyboard focus */
+
+.booking-card:focus-visible {
+    outline: 2px solid var(--orange);
+
+    outline-offset: 4px;
 }
 
 
 /* =====================================================
-   BOOKING CARD HEADING
+   HISTORY CARD TOP
 ===================================================== */
 
-.booking-card h3 {
+.history-card-top {
     position: relative;
 
     z-index: 2;
-
-    margin-bottom: 15px;
-
-    color: var(--white);
-
-    font-size: 18px;
-
-    font-weight: 600;
-
-    letter-spacing: -0.3px;
-}
-
-.booking-card h3::before {
-    content: "";
-
-    display: inline-block;
-
-    width: 4px;
-    height: 18px;
-
-    margin-right: 9px;
-
-    vertical-align: -3px;
-
-    border-radius: 5px;
-
-    background: var(--orange);
-
-    box-shadow:
-        0 0 10px rgba(255, 113, 0, 0.35);
-}
-
-
-/* =====================================================
-   BOOKING CARD TEXT
-===================================================== */
-
-.booking-card p {
-    position: relative;
-
-    z-index: 2;
-
-    margin-bottom: 8px;
-
-    color: var(--muted);
-
-    font-size: 12px;
-
-    line-height: 1.6;
-}
-
-.booking-card p strong {
-    color: #dfe0e5;
-
-    font-weight: 600;
-}
-
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status {
-    position: relative;
-
-    z-index: 2;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    padding: 7px 12px;
-
-    margin-top: 10px;
-
-    border-radius: 30px;
-
-    font-size: 10px;
-
-    font-weight: 600;
-
-    letter-spacing: 0.2px;
-}
-
-
-/* =====================================================
-   PENDING
-===================================================== */
-
-.pending {
-    color: var(--warning);
-
-    background: rgba(255, 176, 32, 0.09);
-
-    border: 1px solid rgba(255, 176, 32, 0.20);
-}
-
-
-/* =====================================================
-   ASSIGNED
-===================================================== */
-
-.assigned {
-    color: var(--blue);
-
-    background: rgba(91, 156, 255, 0.09);
-
-    border: 1px solid rgba(91, 156, 255, 0.20);
-}
-
-
-/* =====================================================
-   IN / IN PROGRESS
-===================================================== */
-
-.in,
-.in-progress {
-    color: var(--orange-light);
-
-    background: rgba(255, 113, 0, 0.10);
-
-    border: 1px solid rgba(255, 113, 0, 0.22);
-}
-
-
-/* =====================================================
-   COMPLETED
-===================================================== */
-
-.completed {
-    color: var(--success);
-
-    background: rgba(24, 201, 139, 0.09);
-
-    border: 1px solid rgba(24, 201, 139, 0.20);
-}
-
-
-/* =====================================================
-   CANCELLED
-===================================================== */
-
-.cancelled {
-    color: var(--danger);
-
-    background: rgba(255, 77, 94, 0.09);
-
-    border: 1px solid rgba(255, 77, 94, 0.20);
-}
-
-
-/* =====================================================
-   CARD ACTIONS
-===================================================== */
-
-.card-actions {
-    position: relative;
-
-    z-index: 3;
 
     display: flex;
 
     align-items: center;
 
-    gap: 9px;
+    justify-content: space-between;
 
-    margin-top: 20px;
-
-    flex-wrap: wrap;
+    gap: 15px;
 }
 
 
 /* =====================================================
-   EDIT BUTTON
+   SERVICE
 ===================================================== */
 
-.edit-btn {
-    border: 1px solid rgba(255, 113, 0, 0.20);
-
-    padding: 8px 14px;
-
-    border-radius: 9px;
-
-    background: rgba(255, 113, 0, 0.08);
-
-    color: var(--orange);
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 11px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-.edit-btn:hover {
-    background: var(--orange);
-
-    border-color: var(--orange);
-
-    color: #080808;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(255, 113, 0, 0.18);
-}
-
-
-/* =====================================================
-   DELETE BUTTON
-===================================================== */
-
-.delete-btn {
-    border: 1px solid rgba(255, 77, 94, 0.20);
-
-    padding: 8px 14px;
-
-    border-radius: 9px;
-
-    background: rgba(255, 77, 94, 0.08);
-
-    color: var(--danger);
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 11px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-.delete-btn:hover {
-    background: var(--danger);
-
-    border-color: var(--danger);
-
-    color: white;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(255, 77, 94, 0.18);
-}
-
-
-/* =====================================================
-   REVIEW BUTTON
-===================================================== */
-
-.review-btn {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 7px;
-
-    margin-top: 14px;
-
-    padding: 10px 15px;
-
-    border: 1px solid rgba(255, 113, 0, 0.25);
-
-    border-radius: 11px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 113, 0, 0.16),
-            rgba(255, 113, 0, 0.07)
-        );
-
-    color: var(--orange-light);
-
-    font-family: "Poppins", sans-serif;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: 0.25s ease;
-
-    box-shadow:
-        0 7px 20px rgba(255, 113, 0, 0.07);
-}
-
-.review-btn:hover {
-    transform: translateY(-3px);
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--orange),
-            var(--orange-light)
-        );
-
-    color: #080808;
-
-    border-color: var(--orange);
-
-    box-shadow:
-        0 12px 28px rgba(255, 113, 0, 0.22);
-}
-
-.review-btn:active {
-    transform: translateY(0);
-}
-
-.review-btn::before {
-    content: "★";
-
-    font-size: 14px;
-}
-
-
-/* =====================================================
-   COMPLETED SERVICE
-===================================================== */
-
-.completed-service {
-    position: relative;
-
-    z-index: 2;
-
+.history-service {
     display: flex;
 
     align-items: center;
 
     gap: 12px;
 
-    margin-top: 15px;
-
-    margin-bottom: 15px;
-
-    padding: 16px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(24, 201, 139, 0.09),
-            rgba(24, 201, 139, 0.035)
-        );
-
-    border: 1px solid rgba(24, 201, 139, 0.22);
-
-    border-radius: 15px;
+    min-width: 0;
 }
 
-
-/* =====================================================
-   COMPLETED ICON
-===================================================== */
-
-.completed-icon {
+.service-icon {
     width: 42px;
     height: 42px;
 
@@ -656,132 +349,1377 @@ body {
     align-items: center;
     justify-content: center;
 
-    background: var(--success);
+    border-radius: 12px;
 
-    color: #07130f;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 113, 0, 0.15),
+            rgba(255, 113, 0, 0.05)
+        );
 
-    border-radius: 50%;
+    border: 1px solid
+        rgba(255, 113, 0, 0.20);
 
-    font-size: 18px;
-
-    font-weight: 700;
+    font-size: 21px;
 
     box-shadow:
-        0 0 18px rgba(24, 201, 139, 0.20);
+        inset 0 0 18px rgba(255, 113, 0, 0.03);
+}
+
+.history-service h3 {
+    margin: 0;
+
+    color: var(--white);
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    letter-spacing: -0.25px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
 
 /* =====================================================
-   COMPLETED SERVICE TEXT
+   DATE
 ===================================================== */
 
-.completed-service h4 {
-    color: var(--success);
+.history-date {
+    flex-shrink: 0;
 
-    font-size: 15px;
+    color: var(--muted);
 
-    font-weight: 600;
+    font-size: 11px;
 
-    margin-bottom: 3px;
+    font-weight: 500;
+
+    white-space: nowrap;
 }
 
-.completed-service p {
-    color: #83cdb4;
+
+/* =====================================================
+   ISSUE
+===================================================== */
+
+.history-issue {
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: 22px;
+
+    padding-left: 54px;
+
+    color: #c5c6cc;
 
     font-size: 12px;
 
-    margin: 0;
+    line-height: 1.6;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+.history-issue::before {
+    content: "Issue";
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #656873;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+}
+
+
+/* =====================================================
+   BOOKING DETAILS OVERLAY
+===================================================== */
+
+.booking-details-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9000;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+    padding: 30px 20px;
+
+    background:
+        rgba(3, 3, 6, 0.88);
+
+    backdrop-filter: blur(10px);
+
+    -webkit-backdrop-filter: blur(10px);
+
+    overflow-y: auto;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.booking-details-overlay.show {
+    opacity: 1;
+}
+
+
+/* =====================================================
+   DETAILS MODAL
+===================================================== */
+
+.booking-details-modal {
+    position: relative;
+
+    width: 100%;
+
+    max-width: 850px;
+
+    margin: auto;
+
+    padding: 0;
+
+    background:
+        linear-gradient(
+            145deg,
+            #15151c,
+            #0f0f14
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 35px 100px rgba(0, 0, 0, 0.65),
+        0 0 45px rgba(255, 113, 0, 0.05);
+
+    overflow: hidden;
+
+    transform:
+        translateY(25px)
+        scale(0.98);
+
+    transition:
+        transform 0.3s ease;
+}
+
+.booking-details-overlay.show
+.booking-details-modal {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+/* =====================================================
+   DETAILS HEADER
+===================================================== */
+
+.details-header {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 18px 24px;
+
+    border-bottom: 1px solid var(--border);
+
+    background:
+        rgba(13, 13, 18, 0.70);
+}
+
+
+/* Back */
+
+.details-back-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 9px 13px;
+
+    border: 1px solid
+        rgba(255, 113, 0, 0.20);
+
+    border-radius: 9px;
+
+    background:
+        rgba(255, 113, 0, 0.06);
+
+    color: var(--orange);
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.details-back-btn:hover {
+    background: var(--orange);
+
+    border-color: var(--orange);
+
+    color: #080808;
+
+    transform: translateX(-2px);
+}
+
+
+/* Close */
+
+.details-close-btn {
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    color: #777983;
+
+    font-size: 24px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.details-close-btn:hover {
+    color: var(--danger);
+
+    border-color:
+        rgba(255, 77, 94, 0.25);
+
+    background:
+        rgba(255, 77, 94, 0.08);
+
+    transform: rotate(90deg);
+}
+
+
+/* =====================================================
+   BOOKING HERO
+===================================================== */
+
+.booking-detail-hero {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin: 25px;
+
+    padding: 25px;
+
+    border: 1px solid
+        rgba(255, 113, 0, 0.16);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 113, 0, 0.09),
+            rgba(255, 113, 0, 0.025)
+        );
+
+    overflow: hidden;
+}
+
+.booking-detail-hero::after {
+    content: "";
+
+    position: absolute;
+
+    right: -40px;
+    top: -70px;
+
+    width: 170px;
+    height: 170px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 113, 0, 0.10),
+            transparent 70%
+        );
+}
+
+
+/* Hero icon */
+
+.detail-service-icon {
+    position: relative;
+
+    z-index: 2;
+
+    width: 70px;
+    height: 70px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 113, 0, 0.20),
+            rgba(255, 113, 0, 0.07)
+        );
+
+    border: 1px solid
+        rgba(255, 113, 0, 0.28);
+
+    font-size: 35px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(255, 113, 0, 0.08);
+}
+
+
+/* Hero info */
+
+.detail-service-info {
+    position: relative;
+
+    z-index: 2;
+
+    min-width: 0;
+}
+
+.detail-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--orange);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.detail-service-info h2 {
+    margin-bottom: 5px;
+
+    color: var(--white);
+
+    font-size: 26px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.7px;
+}
+
+.detail-service-info p {
+    color: var(--muted);
+
+    font-size: 12px;
 
     line-height: 1.5;
 }
 
 
 /* =====================================================
-   RATING CONTAINER
+   DETAIL SECTION
 ===================================================== */
 
-.rating-container {
-    position: relative;
+.detail-section {
+    margin: 0 25px 28px;
+}
 
-    z-index: 3;
 
-    margin-top: 15px;
+/* Section heading */
 
-    padding: 13px;
-
-    background: rgba(13, 13, 18, 0.8);
-
-    border: 1px solid var(--border);
-
-    border-radius: 12px;
-
+.section-heading {
     display: flex;
 
-    justify-content: center;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 17px;
+}
+
+.section-line {
+    width: 4px;
+    height: 19px;
+
+    flex-shrink: 0;
+
+    border-radius: 5px;
+
+    background: var(--orange);
+
+    box-shadow:
+        0 0 10px rgba(255, 113, 0, 0.35);
+}
+
+.section-heading h3 {
+    color: var(--white);
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    letter-spacing: -0.2px;
 }
 
 
 /* =====================================================
-   RATING STARS
+   CURRENT STATUS
 ===================================================== */
 
-.rating-stars {
-    display: flex;
+.current-status {
+    display: inline-flex;
+
+    align-items: center;
 
     gap: 8px;
 
-    justify-content: center;
+    margin-bottom: 20px;
 
-    align-items: center;
+    padding: 8px 13px;
+
+    border-radius: 30px;
+
+    font-size: 11px;
+
+    font-weight: 600;
 }
 
-.rating-stars span {
-    font-size: 30px;
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+
+    box-shadow:
+        0 0 9px currentColor;
+}
+
+.status-pending {
+    color: var(--warning);
+
+    background:
+        rgba(255, 176, 32, 0.09);
+
+    border: 1px solid
+        rgba(255, 176, 32, 0.20);
+}
+
+.status-assigned {
+    color: var(--blue);
+
+    background:
+        rgba(91, 156, 255, 0.09);
+
+    border: 1px solid
+        rgba(91, 156, 255, 0.20);
+}
+
+.status-on-the-way,
+.status-progress {
+    color: var(--orange-light);
+
+    background:
+        rgba(255, 113, 0, 0.10);
+
+    border: 1px solid
+        rgba(255, 113, 0, 0.22);
+}
+
+.status-completed {
+    color: var(--success);
+
+    background:
+        rgba(24, 201, 139, 0.09);
+
+    border: 1px solid
+        rgba(24, 201, 139, 0.20);
+}
+
+.status-cancelled {
+    color: var(--danger);
+
+    background:
+        rgba(255, 77, 94, 0.09);
+
+    border: 1px solid
+        rgba(255, 77, 94, 0.20);
+}
+
+
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+.booking-timeline {
+    position: relative;
+
+    padding-left: 7px;
+}
+
+
+/* Vertical line */
+
+.booking-timeline::before {
+    display: none;
+}
+
+
+/* Timeline item */
+
+.timeline-item {
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    min-height: 64px;
+
+    opacity: 0.42;
+}
+
+/* =====================================================
+   TIMELINE CONNECTOR
+===================================================== */
+
+.timeline-item {
+    position: relative;
+}
+
+
+/* Connector between timeline steps */
+
+.timeline-item:not(:last-child)::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 8px;
+    top: 20px;
+    bottom: 0;
+
+    width: 2px;
+
+    background: var(--border);
+
+    z-index: 1;
+}
+
+
+/* Completed connector */
+
+.timeline-item.done:not(:last-child)::after {
+
+    background: var(--success);
+
+}
+
+
+/* Active connector remains orange */
+
+.timeline-item.active:not(:last-child)::after {
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--orange),
+            var(--border)
+        );
+
+}
+
+/* Marker */
+
+.timeline-marker {
+    position: relative;
+
+    z-index: 2;
+
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+
+    margin-top: 2px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #41414a;
+
+    border-radius: 50%;
+
+    background: #111116;
+
+    color: transparent;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+/* Completed step */
+
+.timeline-item.done {
+    opacity: 1;
+}
+
+.timeline-item.done .timeline-marker {
+    border-color: var(--success);
+
+    background:
+        rgba(24, 201, 139, 0.12);
+
+    color: var(--success);
+}
+
+
+/* Active step */
+
+.timeline-item.active {
+    opacity: 1;
+}
+
+.timeline-item.active .timeline-marker {
+    width: 18px;
+    height: 18px;
+
+    border-color: var(--orange);
+
+    background:
+        rgba(255, 113, 0, 0.16);
+
+    color: var(--orange);
+
+    box-shadow:
+        0 0 15px
+        rgba(255, 113, 0, 0.22);
+}
+
+
+/* Timeline text */
+
+.timeline-content {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    padding-bottom: 18px;
+}
+
+.timeline-content strong {
+    color: var(--text);
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.timeline-content span {
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+/* Cancelled */
+
+.timeline-item.cancelled {
+    opacity: 1;
+}
+
+.timeline-item.cancelled .timeline-marker {
+    border-color: var(--danger);
+
+    background:
+        rgba(255, 77, 94, 0.10);
+
+    color: var(--danger);
+}
+
+
+/* =====================================================
+   TECHNICIAN CARD
+===================================================== */
+
+.technician-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 17px;
+
+    padding: 19px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(21, 21, 28, 0.95),
+            rgba(13, 13, 18, 0.95)
+        );
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+.technician-avatar {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 113, 0, 0.10);
+
+    border: 1px solid
+        rgba(255, 113, 0, 0.18);
+
+    font-size: 28px;
+}
+
+.technician-info {
+    min-width: 0;
+}
+
+.technician-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.technician-info h4 {
+    margin-bottom: 5px;
+
+    color: var(--white);
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+.technician-rating {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.rating-star {
+    color: #fbbf24;
+
+    font-size: 14px;
+}
+
+.technician-rating strong {
+    color: #fbbf24;
+
+    font-size: 12px;
+}
+
+.technician-rating.no-rating {
+    color: var(--muted);
+}
+
+.technician-jobs {
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* Not assigned */
+
+.technician-card.not-assigned {
+    border-color:
+        rgba(255, 176, 32, 0.15);
+}
+
+.technician-card.not-assigned
+.technician-avatar {
+    background:
+        rgba(255, 176, 32, 0.08);
+
+    border-color:
+        rgba(255, 176, 32, 0.15);
+}
+
+.technician-card.not-assigned
+.technician-info p {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   SERVICE DETAILS GRID
+===================================================== */
+
+.details-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 11px;
+}
+
+.detail-box {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+
+    padding: 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    background:
+        rgba(13, 13, 18, 0.65);
+}
+
+.detail-box-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255, 113, 0, 0.08);
+
+    font-size: 16px;
+}
+
+.detail-box div {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.detail-box small {
+    color: #666873;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+.detail-box strong {
+    color: var(--text);
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   ADDRESS
+===================================================== */
+
+.address-card {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 13px;
+
+    padding: 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    background:
+        rgba(13, 13, 18, 0.65);
+}
+
+.address-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 113, 0, 0.09);
+
+    font-size: 18px;
+}
+
+.address-content {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.address-content strong {
+    color: var(--text);
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    line-height: 1.5;
+
+    word-break: break-word;
+}
+
+.address-content p {
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   CUSTOMER DETAILS
+===================================================== */
+
+.customer-detail-card {
+    padding: 3px 15px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    background:
+        rgba(13, 13, 18, 0.65);
+}
+
+.customer-detail-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid
+        rgba(40, 40, 48, 0.65);
+}
+
+.customer-detail-row:last-child {
+    border-bottom: none;
+}
+
+.customer-detail-row span {
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.customer-detail-row strong {
+    color: var(--text);
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    text-align: right;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   REVIEW PROMPT
+===================================================== */
+
+.review-prompt {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 15px;
+
+    margin-bottom: 13px;
+
+    border: 1px solid
+        rgba(255, 176, 32, 0.15);
+
+    border-radius: 13px;
+
+    background:
+        rgba(255, 176, 32, 0.045);
+}
+
+.review-prompt-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 176, 32, 0.08);
+
+    font-size: 20px;
+}
+
+.review-prompt strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--text);
+
+    font-size: 11px;
+}
+
+.review-prompt p {
+    color: var(--muted);
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   DETAIL RATING STARS
+===================================================== */
+
+.detail-rating-stars {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 13px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    background:
+        rgba(13, 13, 18, 0.70);
+}
+
+.detail-rating-stars span {
+    color: #3b3b45;
+
+    font-size: 29px;
 
     cursor: pointer;
 
-    color: #3b3b45;
+    user-select: none;
 
     transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-
-    user-select: none;
+        color 0.18s ease,
+        transform 0.18s ease;
 }
 
-.rating-stars span:hover {
-    transform: scale(1.18);
-
+.detail-rating-stars span:hover {
     color: #fbbf24;
+
+    transform: scale(1.16);
 }
 
-.rating-stars span.active {
-    color: #fbbf24;
-}
-
-.rating-stars.reviewed {
-    pointer-events: none;
-}
-
-.rating-stars.reviewed span {
+.detail-rating-stars span.active {
     color: #fbbf24;
 }
 
 
 /* =====================================================
-   SELECTED RATING TEXT
+   EXISTING REVIEW
 ===================================================== */
 
-#selectedRatingText {
-    text-align: center;
+.existing-review {
+    padding: 17px;
 
-    margin: 15px 0;
+    border: 1px solid var(--border);
 
+    border-radius: 14px;
+
+    background:
+        rgba(13, 13, 18, 0.70);
+}
+
+.existing-stars {
+    display: flex;
+
+    gap: 4px;
+
+    margin-bottom: 10px;
+}
+
+.existing-stars span {
+    color: #3b3b45;
+
+    font-size: 18px;
+}
+
+.existing-stars span.active {
     color: #fbbf24;
+}
 
-    font-size: 22px;
+.existing-review p {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.6;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   DETAIL ACTIONS
+===================================================== */
+
+.detail-actions {
+    display: flex;
+
+    gap: 10px;
+
+    margin: 0 25px 25px;
+}
+
+.detail-edit-btn,
+.detail-delete-btn {
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 10px;
 
     font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.detail-edit-btn {
+    border: 1px solid
+        rgba(255, 113, 0, 0.22);
+
+    background:
+        rgba(255, 113, 0, 0.08);
+
+    color: var(--orange);
+}
+
+.detail-edit-btn:hover {
+    background: var(--orange);
+
+    border-color: var(--orange);
+
+    color: #080808;
+
+    transform: translateY(-2px);
+}
+
+.detail-delete-btn {
+    border: 1px solid
+        rgba(255, 77, 94, 0.20);
+
+    background:
+        rgba(255, 77, 94, 0.07);
+
+    color: var(--danger);
+}
+
+.detail-delete-btn:hover {
+    background: var(--danger);
+
+    border-color: var(--danger);
+
+    color: white;
+
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   DETAIL FOOTER
+===================================================== */
+
+.booking-detail-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 18px 25px;
+
+    border-top: 1px solid var(--border);
+
+    background:
+        rgba(8, 8, 12, 0.45);
+
+    color: #555762;
+
+    font-size: 9px;
+}
+
+.booking-detail-footer span:first-child {
+    color: var(--orange);
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
 }
 
 
@@ -794,16 +1732,14 @@ body {
 
     position: fixed;
 
-    top: 0;
-    left: 0;
+    inset: 0;
 
-    width: 100%;
-    height: 100%;
+    z-index: 9999;
 
     padding: 20px;
 
     background:
-        rgba(3, 3, 6, 0.82);
+        rgba(3, 3, 6, 0.84);
 
     backdrop-filter: blur(8px);
 
@@ -811,8 +1747,6 @@ body {
 
     justify-content: center;
     align-items: center;
-
-    z-index: 9999;
 }
 
 
@@ -849,9 +1783,7 @@ body {
 }
 
 
-/* =====================================================
-   MODAL ORANGE ACCENT
-===================================================== */
+/* Orange accent */
 
 .modal-content::before {
     content: "";
@@ -896,11 +1828,12 @@ body {
             translateY(0)
             scale(1);
     }
+
 }
 
 
 /* =====================================================
-   CLOSE BUTTON
+   CLOSE REVIEW MODAL
 ===================================================== */
 
 .close {
@@ -925,12 +1858,12 @@ body {
 
     cursor: pointer;
 
-    transition:
-        0.25s ease;
+    transition: 0.25s ease;
 }
 
 .close:hover {
-    background: rgba(255, 77, 94, 0.09);
+    background:
+        rgba(255, 77, 94, 0.09);
 
     color: var(--danger);
 
@@ -939,7 +1872,7 @@ body {
 
 
 /* =====================================================
-   MODAL HEADING
+   REVIEW HEADING
 ===================================================== */
 
 .modal-content h2 {
@@ -955,11 +1888,6 @@ body {
 
     padding-right: 30px;
 }
-
-
-/* =====================================================
-   REVIEW SUBTITLE
-===================================================== */
 
 .review-subtitle {
     color: var(--muted);
@@ -1014,12 +1942,13 @@ body {
     border-color: var(--orange);
 
     box-shadow:
-        0 0 0 3px rgba(255, 113, 0, 0.09);
+        0 0 0 3px
+        rgba(255, 113, 0, 0.09);
 }
 
 
 /* =====================================================
-   SUBMIT REVIEW BUTTON
+   SUBMIT REVIEW
 ===================================================== */
 
 .submit-review-btn {
@@ -1051,14 +1980,16 @@ body {
     transition: 0.25s ease;
 
     box-shadow:
-        0 10px 28px rgba(255, 113, 0, 0.18);
+        0 10px 28px
+        rgba(255, 113, 0, 0.18);
 }
 
 .submit-review-btn:hover {
     transform: translateY(-2px);
 
     box-shadow:
-        0 14px 32px rgba(255, 113, 0, 0.25);
+        0 14px 32px
+        rgba(255, 113, 0, 0.25);
 }
 
 .submit-review-btn:active {
@@ -1078,29 +2009,43 @@ body {
    EMPTY STATE
 ===================================================== */
 
-.booking-grid:empty::after {
-    content: "No bookings found.";
-
+.no-bookings {
     grid-column: 1 / -1;
+
+    min-height: 220px;
 
     display: flex;
 
+    flex-direction: column;
+
     align-items: center;
+
     justify-content: center;
 
-    min-height: 180px;
-
     padding: 30px;
-
-    color: var(--muted);
-
-    font-size: 13px;
 
     border: 1px dashed var(--border);
 
     border-radius: 17px;
 
-    background: rgba(17, 17, 22, 0.55);
+    background:
+        rgba(17, 17, 22, 0.55);
+
+    text-align: center;
+}
+
+.no-bookings h2 {
+    margin-bottom: 7px;
+
+    color: var(--text);
+
+    font-size: 19px;
+}
+
+.no-bookings p {
+    color: var(--muted);
+
+    font-size: 11px;
 }
 
 
@@ -1138,6 +2083,7 @@ body {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
+
 }
 
 
@@ -1151,6 +2097,7 @@ body {
         padding: 24px 16px 40px;
     }
 
+
     .header {
         align-items: flex-start;
 
@@ -1159,9 +2106,11 @@ body {
         margin-bottom: 25px;
     }
 
+
     .header h1 {
         font-size: 24px;
     }
+
 
     .back-btn {
         padding: 9px 14px;
@@ -1169,33 +2118,119 @@ body {
         font-size: 11px;
     }
 
+
     .booking-grid {
         grid-template-columns: 1fr;
 
         gap: 15px;
     }
 
+
     .booking-card {
-        padding: 21px;
+        min-height: 135px;
+
+        padding: 20px;
     }
 
-    .booking-card h3 {
-        font-size: 17px;
+
+    .history-service h3 {
+        font-size: 16px;
     }
 
-    .modal {
-        padding: 15px;
+
+    .history-date {
+        font-size: 10px;
     }
 
-    .modal-content {
-        padding: 27px 21px;
 
+    .history-issue {
+        padding-left: 54px;
+
+        margin-top: 19px;
+    }
+
+
+    /* Details */
+
+    .booking-details-overlay {
+        padding: 10px;
+    }
+
+
+    .booking-details-modal {
         border-radius: 18px;
     }
 
-    .modal-content h2 {
-        font-size: 22px;
+
+    .details-header {
+        padding: 15px;
     }
+
+
+    .details-back-btn span {
+        display: none;
+    }
+
+
+    .booking-detail-hero {
+        margin: 15px;
+
+        padding: 18px;
+
+        gap: 14px;
+
+        border-radius: 15px;
+    }
+
+
+    .detail-service-icon {
+        width: 56px;
+        height: 56px;
+
+        border-radius: 14px;
+
+        font-size: 28px;
+    }
+
+
+    .detail-service-info h2 {
+        font-size: 21px;
+    }
+
+
+    .detail-service-info p {
+        font-size: 10px;
+    }
+
+
+    .detail-section {
+        margin-left: 15px;
+        margin-right: 15px;
+
+        margin-bottom: 23px;
+    }
+
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .technician-card {
+        padding: 15px;
+    }
+
+
+    .detail-actions {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+
+    .booking-detail-footer {
+        padding: 16px 15px;
+    }
+
 }
 
 
@@ -1209,32 +2244,499 @@ body {
         padding: 20px 13px 35px;
     }
 
+
     .header {
         flex-direction: column;
     }
+
 
     .back-btn {
         width: fit-content;
     }
 
+
     .booking-card {
-        padding: 19px;
+        min-height: 130px;
+
+        padding: 18px;
     }
 
-    .card-actions {
-        gap: 7px;
+
+    .service-icon {
+        width: 38px;
+        height: 38px;
+
+        font-size: 19px;
     }
 
-    .edit-btn,
-    .delete-btn {
-        padding: 8px 12px;
+
+    .history-service {
+        gap: 9px;
     }
 
-    .rating-stars span {
-        font-size: 27px;
+
+    .history-service h3 {
+        font-size: 15px;
     }
+
+
+    .history-date {
+        font-size: 9px;
+    }
+
+
+    .history-issue {
+        padding-left: 47px;
+
+        font-size: 11px;
+    }
+
+
+    .booking-detail-hero {
+        align-items: flex-start;
+    }
+
+
+    .detail-service-icon {
+        width: 50px;
+        height: 50px;
+
+        font-size: 25px;
+    }
+
+
+    .detail-service-info h2 {
+        font-size: 19px;
+    }
+
+
+    .customer-detail-row {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+
+    .customer-detail-row strong {
+        text-align: left;
+    }
+
+
+    .detail-actions {
+        flex-direction: column;
+    }
+
+
+    .detail-edit-btn,
+    .detail-delete-btn {
+        width: 100%;
+    }
+
 
     .modal-content {
         padding: 25px 18px;
     }
+
+}
+
+/* =====================================================
+   REVIEW STAR RATING
+===================================================== */
+
+.detail-rating-stars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.detail-rating-stars span {
+    font-size: 42px;
+    color: #3b3b45;
+    cursor: pointer;
+    transition: 
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.detail-rating-stars span:hover {
+    transform: scale(1.12);
+}
+
+.detail-rating-stars span.active {
+    color: #ffb000;
+}
+
+/* =====================================================
+   ASSIGNED TECHNICIAN — REDESIGNED
+   ===================================================== */
+
+.technician-section {
+    margin-bottom: 34px;
+}
+
+.technician-section .section-heading {
+    margin-bottom: 16px;
+}
+
+
+/* Main card */
+
+.technician-section .technician-card {
+    position: relative;
+
+    width: 100%;
+    min-height: 170px;
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) auto auto;
+
+    align-items: center;
+
+    gap: 40px;
+
+    padding: 28px 30px;
+
+    background: #111318;
+
+    border: 1px solid #292d35;
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+
+/* subtle orange accent */
+
+.technician-section .technician-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 3px;
+
+    background: #ff7100;
+}
+
+
+/* =====================================================
+   LEFT SIDE
+   ===================================================== */
+
+.technician-main {
+    position: relative;
+    z-index: 1;
+
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.technician-section .technician-avatar {
+    width: 78px;
+    height: 78px;
+
+    flex: 0 0 78px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background: #1a1d23;
+
+    border: 1px solid #343943;
+
+    font-size: 36px;
+}
+
+.technician-section .technician-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 5px;
+}
+
+.technician-section .technician-label {
+    color: #777d88;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+}
+
+.technician-section .technician-info h4 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 25px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.technician-designation {
+    color: #b9bec7;
+
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+/* =====================================================
+   RIGHT SIDE STATS
+   ===================================================== */
+
+.technician-stats {
+    position: relative;
+    z-index: 1;
+
+    min-width: 180px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    padding-left: 28px;
+
+    border-left: 1px solid #292d35;
+}
+
+.technician-stat {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.stat-label {
+    color: #686e79;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.1px;
+}
+
+.stat-value {
+    color: #e7e9ed;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.rating-value {
+    color: #f5b82e;
+}
+
+.rating-value > span {
+    margin-right: 3px;
+
+    color: #f5b82e;
+}
+
+.rating-value small {
+    margin-left: 4px;
+
+    color: #777d88;
+
+    font-size: 10px;
+    font-weight: 400;
+}
+
+
+/* =====================================================
+   CALL BUTTON
+   ===================================================== */
+
+.technician-call {
+    position: relative;
+    z-index: 1;
+
+    min-width: 185px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 13px 18px;
+
+    border: 1px solid rgba(103, 164, 255, 0.25);
+    border-radius: 12px;
+
+    background: rgba(103, 164, 255, 0.07);
+
+    color: #67a4ff;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.technician-call:hover {
+    background: rgba(103, 164, 255, 0.13);
+
+    border-color: rgba(103, 164, 255, 0.45);
+
+    transform: translateY(-2px);
+}
+
+.call-icon {
+    font-size: 21px;
+}
+
+.technician-call span:last-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.technician-call small {
+    color: #727987;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 800px) {
+
+    .technician-section .technician-card {
+        grid-template-columns: 1fr auto;
+
+        gap: 24px;
+    }
+
+    .technician-stats {
+        border-left: none;
+
+        border-bottom: 1px solid #292d35;
+
+        padding-left: 0;
+        padding-bottom: 16px;
+    }
+
+    .technician-call {
+        grid-column: 1 / -1;
+
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .technician-section .technician-card {
+        grid-template-columns: 1fr;
+
+        gap: 22px;
+
+        padding: 22px;
+    }
+
+    .technician-main {
+        gap: 15px;
+    }
+
+    .technician-section .technician-avatar {
+        width: 65px;
+        height: 65px;
+
+        flex-basis: 65px;
+
+        font-size: 30px;
+    }
+
+    .technician-section .technician-info h4 {
+        font-size: 21px;
+    }
+
+    .technician-stats {
+        width: 100%;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        border-left: none;
+        border-bottom: 1px solid #292d35;
+
+        padding: 0 0 17px;
+    }
+
+    .technician-call {
+        grid-column: auto;
+    }
+}
+
+/* =====================================================
+   TIMELINE DATE + TIME
+   ===================================================== */
+
+.timeline-time {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #6f7580;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    letter-spacing: 0.1px;
+}
+
+.timeline-item.done .timeline-time {
+    color: #8a909b;
+}
+
+.timeline-item.active .timeline-time {
+    color: #ff9a4a;
+}
+
+.timeline-item.cancelled .timeline-marker {
+    border-color: #ff3b30;
+    background: rgba(255, 59, 48, 0.12);
+    color: #ff3b30;
+}
+
+.timeline-item.cancelled .timeline-content strong {
+    color: #ff4d4d;
+}
+
+.timeline-item.cancelled .timeline-content span {
+    color: #a8a8b0;
 }

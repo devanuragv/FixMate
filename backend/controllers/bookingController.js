@@ -57,13 +57,17 @@ export const createBooking = async (req, res) => {
         bookingTime,
 
         status:
-          "Pending",
+    "Pending",
 
-        technician:
-          null,
+technician:
+    null,
 
-        createdAt:
-          new Date()
+statusHistory: {
+    pending: new Date()
+},
+
+createdAt:
+    new Date()
 
       });
 
@@ -282,14 +286,16 @@ export const updateBooking = async (req, res) => {
     }
 
 
-    await bookingRef.update({
+const updateData = {
+    ...req.body,
+    updatedAt: new Date()
+};
 
-      ...req.body,
+if (req.body.status === "Cancelled") {
+    updateData["statusHistory.cancelled"] = new Date();
+}
 
-      updatedAt:
-        new Date()
-
-    });
+await bookingRef.update(updateData);
 
 
     res.status(200).json({

@@ -2,17 +2,137 @@
    FIXMATE BOOKING
 ========================================= */
 
+const API_URL = "http://localhost:5000/api";
+
+
+/* =========================================
+   SERVICE CHARGES
+========================================= */
+
+const SERVICE_CHARGES = {
+    Painter: 500,
+    Electrician: 400,
+    Plumber: 350,
+    Carpenter: 450,
+    "AC Repair": 800,
+    "Appliance Repair": 550,
+    Cleaner: 300,
+    Mechanic: 600,
+    "Pest Control": 650
+};
+
+
+/* =========================================
+   SERVICE-SPECIFIC ISSUES
+========================================= */
+
+const SERVICE_ISSUES = {
+
+    Electrician: [
+        "Fan not working",
+        "Light not working",
+        "Switch / socket problem",
+        "Wiring issue",
+        "MCB keeps tripping",
+        "Power fluctuation",
+        "Other"
+    ],
+
+    Plumber: [
+        "Tap leaking",
+        "Pipe leakage",
+        "Drain blockage",
+        "Low water pressure",
+        "Water tank problem",
+        "Bathroom fitting issue",
+        "Other"
+    ],
+
+    "AC Repair": [
+        "AC not cooling",
+        "AC not turning on",
+        "Water leaking from AC",
+        "AC making noise",
+        "Bad smell from AC",
+        "Remote / control problem",
+        "Other"
+    ],
+
+    Carpenter: [
+        "Furniture repair",
+        "Door repair",
+        "Window repair",
+        "Cabinet / cupboard issue",
+        "Bed / table repair",
+        "Woodwork installation",
+        "Other"
+    ],
+
+    Painter: [
+        "Wall painting",
+        "Room painting",
+        "Ceiling painting",
+        "Door / window painting",
+        "Wall touch-up",
+        "Water / dampness marks",
+        "Other"
+    ],
+
+    "Appliance Repair": [
+        "Washing machine problem",
+        "Refrigerator problem",
+        "Microwave problem",
+        "TV problem",
+        "Cooler problem",
+        "Other appliance issue",
+        "Other"
+    ],
+
+    Cleaner: [
+        "Home deep cleaning",
+        "Bathroom cleaning",
+        "Kitchen cleaning",
+        "Sofa cleaning",
+        "Floor cleaning",
+        "Full house cleaning",
+        "Other"
+    ],
+
+    Mechanic: [
+        "Engine problem",
+        "Battery problem",
+        "Brake problem",
+        "Tyre / puncture issue",
+        "Oil / servicing",
+        "Starting problem",
+        "Other"
+    ],
+
+    "Pest Control": [
+        "Cockroach problem",
+        "Ant infestation",
+        "Mosquito problem",
+        "Termite problem",
+        "Rodent problem",
+        "Bed bug problem",
+        "Other"
+    ]
+};
+
+
 /* =========================================
    FIXMATE APP POPUP
 ========================================= */
 
 function showBookingPopup(type, message) {
 
-    let popup = document.getElementById("bookingPopup");
+    let popup =
+        document.getElementById("bookingPopup");
 
     if (!popup) {
 
-        popup = document.createElement("div");
+        popup =
+            document.createElement("div");
 
         popup.id = "bookingPopup";
 
@@ -23,7 +143,8 @@ function showBookingPopup(type, message) {
 
         document.body.appendChild(popup);
 
-        const style = document.createElement("style");
+        const style =
+            document.createElement("style");
 
         style.textContent = `
             #bookingPopup {
@@ -104,25 +225,35 @@ function showBookingPopup(type, message) {
     }
 
     const icon =
-        popup.querySelector(".booking-popup-icon");
+        popup.querySelector(
+            ".booking-popup-icon"
+        );
 
     const messageBox =
-        popup.querySelector(".booking-popup-message");
+        popup.querySelector(
+            ".booking-popup-message"
+        );
 
     popup.className = "";
+
     popup.classList.add(type);
 
     icon.textContent =
         type === "success" ? "✓" : "!";
 
-    messageBox.textContent = message;
+    messageBox.textContent =
+        message;
 
     requestAnimationFrame(() => {
+
         popup.classList.add("show");
+
     });
 
     setTimeout(() => {
+
         popup.classList.remove("show");
+
     }, 3500);
 }
 
@@ -132,10 +263,14 @@ function showBookingPopup(type, message) {
 ========================================= */
 
 const token =
-    localStorage.getItem("fixmateToken");
+    localStorage.getItem(
+        "fixmateToken"
+    );
 
 if (!token) {
-    window.location.href = "login.html";
+
+    window.location.href =
+        "login.html";
 }
 
 
@@ -147,15 +282,18 @@ async function loadCustomerDetails() {
 
     try {
 
-        const response = await fetch(
-            "/api/users/profile",
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
+        const response =
+            await fetch(
+                `${API_URL}/users/profile`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    }
                 }
-            }
-        );
+            );
 
         if (!response.ok) {
 
@@ -191,19 +329,37 @@ async function loadCustomerDetails() {
             );
 
 
-        if (nameInput && user.name) {
-            nameInput.value = user.name;
+        if (
+            nameInput &&
+            user.name
+        ) {
+
+            nameInput.value =
+                user.name;
         }
 
-        if (phoneInput && user.phone) {
-            phoneInput.value = user.phone;
+
+        if (
+            phoneInput &&
+            user.phone
+        ) {
+
+            phoneInput.value =
+                user.phone;
         }
 
-        if (emailInput && user.email) {
-            emailInput.value = user.email;
+
+        if (
+            emailInput &&
+            user.email
+        ) {
+
+            emailInput.value =
+                user.email;
         }
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.error(
             "Customer profile loading error:",
@@ -215,25 +371,31 @@ async function loadCustomerDetails() {
 
 
 /* Load customer information */
+
 loadCustomerDetails();
 
 
 /* =========================================
-   MODERN DATE & TIME PICKERS
+   DATE & TIME PICKERS
 ========================================= */
 
 const bookingDate =
-    document.getElementById("bookingDate");
+    document.getElementById(
+        "bookingDate"
+    );
 
 const bookingTime =
-    document.getElementById("bookingTime");
+    document.getElementById(
+        "bookingTime"
+    );
 
 
 /* =========================================
    GET CURRENT DATE & TIME
 ========================================= */
 
-const now = new Date();
+const now =
+    new Date();
 
 const today =
     `${now.getFullYear()}-${String(
@@ -250,6 +412,36 @@ const currentMinutes =
 
 
 /* =========================================
+   NEXT 15-MINUTE BOOKING SLOT
+========================================= */
+
+const nextBookingSlot =
+    new Date(now);
+
+nextBookingSlot.setSeconds(
+    0,
+    0
+);
+
+nextBookingSlot.setMinutes(
+    Math.ceil(
+        nextBookingSlot.getMinutes() / 15
+    ) * 15
+);
+
+const nextSlotHours =
+    nextBookingSlot.getHours();
+
+const nextSlotMinutes =
+    nextBookingSlot.getMinutes();
+
+const nextSlotTime =
+    `${String(nextSlotHours).padStart(2, "0")}:${String(
+        nextSlotMinutes
+    ).padStart(2, "0")}`;
+
+
+/* =========================================
    DATE PICKER
 ========================================= */
 
@@ -258,78 +450,82 @@ if (
     typeof flatpickr !== "undefined"
 ) {
 
-    flatpickr(bookingDate, {
+    flatpickr(
+        bookingDate,
+        {
 
-        dateFormat: "Y-m-d",
+            dateFormat:
+                "Y-m-d",
 
-        altInput: true,
+            altInput:
+                true,
 
-        altFormat: "d M Y",
+            altFormat:
+                "d M Y",
 
-        altInputClass:
-            "booking-picker-input",
+            altInputClass:
+                "booking-picker-input",
 
-        disableMobile: true,
+            disableMobile:
+                true,
 
-        position: "above",
+            position:
+                "above",
 
-        animate: true,
+            animate:
+                true,
 
-        /* Prevent past dates */
-        minDate: "today",
+            minDate:
+                "today",
 
-        onChange: function(
-            selectedDates,
-            dateStr
-        ) {
+            onChange:
+                function(
+                    selectedDates,
+                    dateStr
+                ) {
 
-            /*
-             * If today is selected,
-             * update time picker so past
-             * times cannot be selected.
-             */
+                    if (
+                        bookingTime &&
+                        bookingTime._flatpickr
+                    ) {
 
-            if (
-                bookingTime &&
-                bookingTime._flatpickr
-            ) {
+                        if (
+                            dateStr ===
+                            today
+                        ) {
 
-                if (dateStr === today) {
+                            const selectedTime =
+                                new Date();
 
-                    const selectedTime =
-                        new Date();
+                            selectedTime.setHours(
+                                nextSlotHours,
+                                nextSlotMinutes,
+                                0,
+                                0
+                            );
 
-                    selectedTime.setHours(
-                        currentHours,
-                        currentMinutes,
-                        0,
-                        0
-                    );
+                            bookingTime._flatpickr.set(
+                                "minTime",
+                                selectedTime
+                            );
 
-                    bookingTime._flatpickr.set(
-                        "minTime",
-                        selectedTime
-                    );
+                        }
 
-                } else {
+                        else {
 
-                    /*
-                     * Future date:
-                     * allow all times.
-                     */
+                            bookingTime._flatpickr.set(
+                                "minTime",
+                                null
+                            );
 
-                    bookingTime._flatpickr.set(
-                        "minTime",
-                        null
-                    );
+                        }
+
+                    }
 
                 }
 
-            }
-
         }
-
-    });
+    );
 
 }
 
@@ -343,47 +539,54 @@ if (
     typeof flatpickr !== "undefined"
 ) {
 
-    flatpickr(bookingTime, {
+    flatpickr(
+        bookingTime,
+        {
 
-        enableTime: true,
+            enableTime:
+                true,
 
-        noCalendar: true,
+            noCalendar:
+                true,
 
-        dateFormat: "H:i",
+            dateFormat:
+                "H:i",
 
-        altInput: true,
+            altInput:
+                true,
 
-        altFormat: "h:i K",
+            altFormat:
+                "h:i K",
 
-        altInputClass:
-            "booking-picker-input",
+            altInputClass:
+                "booking-picker-input",
 
-        time_24hr: false,
+            time_24hr:
+                false,
 
-        minuteIncrement: 15,
+            minuteIncrement:
+                15,
 
-        disableMobile: true,
+            disableMobile:
+                true,
 
-        position: "above",
+            position:
+                "above",
 
-        animate: true,
+            animate:
+                true,
 
-        /*
-         * Initially don't allow times
-         * before the current time.
-         *
-         * This protects today's booking.
-         */
+            minTime:
+                nextSlotTime
 
-        minTime:
-            `${String(currentHours).padStart(2, "0")}:${String(currentMinutes).padStart(2, "0")}`
-
-    });
+        }
+    );
 
 }
 
+
 /* =========================================
-   SERVICE SELECTION
+   SERVICE + ISSUE SELECTION
 ========================================= */
 
 const serviceInput =
@@ -396,30 +599,298 @@ const cards =
         ".service-card"
     );
 
+const issueSelect =
+    document.getElementById(
+        "issue"
+    );
 
-cards.forEach(card => {
+const customIssueWrapper =
+    document.getElementById(
+        "customIssueWrapper"
+    );
 
-    card.addEventListener(
-        "click",
-        () => {
+const customIssueInput =
+    document.getElementById(
+        "customIssue"
+    );
 
-            cards.forEach(c =>
-                c.classList.remove(
-                    "active"
-                )
+
+/* =========================================
+   POPULATE SERVICE-SPECIFIC ISSUES
+========================================= */
+
+function populateIssueOptions(service) {
+
+    if (!issueSelect) {
+        return;
+    }
+
+
+    /* Clear old options */
+
+    issueSelect.innerHTML =
+        "";
+
+
+    /* Default option */
+
+    const defaultOption =
+        document.createElement(
+            "option"
+        );
+
+    defaultOption.value =
+        "";
+
+    defaultOption.textContent =
+        "Select your issue";
+
+    defaultOption.disabled =
+        true;
+
+    defaultOption.selected =
+        true;
+
+    issueSelect.appendChild(
+        defaultOption
+    );
+
+
+    /* Get service issues */
+
+    const issues =
+        SERVICE_ISSUES[service] ||
+        [];
+
+
+    /* Add options */
+
+    issues.forEach(
+        issue => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                issue;
+
+            option.textContent =
+                issue;
+
+            issueSelect.appendChild(
+                option
             );
-
-            card.classList.add(
-                "active"
-            );
-
-            serviceInput.value =
-                card.dataset.service;
 
         }
     );
 
-});
+
+    /* Reset custom issue */
+
+    if (
+        customIssueWrapper
+    ) {
+
+        customIssueWrapper.style.display =
+            "none";
+
+    }
+
+
+    if (
+        customIssueInput
+    ) {
+
+        customIssueInput.value =
+            "";
+
+        customIssueInput.required =
+            false;
+
+    }
+
+}
+
+
+/* =========================================
+   HANDLE ISSUE DROPDOWN
+========================================= */
+
+if (issueSelect) {
+
+    issueSelect.addEventListener(
+        "change",
+        () => {
+
+            if (
+                issueSelect.value ===
+                "Other"
+            ) {
+
+                if (
+                    customIssueWrapper
+                ) {
+
+                    customIssueWrapper.style.display =
+                        "block";
+
+                }
+
+
+                if (
+                    customIssueInput
+                ) {
+
+                    customIssueInput.required =
+                        true;
+
+                    customIssueInput.focus();
+
+                }
+
+            }
+
+            else {
+
+                if (
+                    customIssueWrapper
+                ) {
+
+                    customIssueWrapper.style.display =
+                        "none";
+
+                }
+
+
+                if (
+                    customIssueInput
+                ) {
+
+                    customIssueInput.required =
+                        false;
+
+                    customIssueInput.value =
+                        "";
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   SERVICE CARD CLICK
+========================================= */
+
+cards.forEach(
+    card => {
+
+        card.addEventListener(
+            "click",
+            () => {
+
+
+                /* Remove old active */
+
+                cards.forEach(
+                    c => {
+
+                        c.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                /* Add active */
+
+                card.classList.add(
+                    "active"
+                );
+
+
+                /* Selected service */
+
+                const selectedService =
+                    card.dataset.service;
+
+
+                /* Put service into input */
+
+                if (
+                    serviceInput
+                ) {
+
+                    serviceInput.value =
+                        selectedService;
+
+                }
+
+
+                /* =================================
+                   TECHNICIAN VISITING FEE
+                ================================= */
+
+                const visitingFee =
+                    document.getElementById(
+                        "visitingFee"
+                    );
+
+                const serviceFee =
+                    document.getElementById(
+                        "serviceFee"
+                    );
+
+                const fee =
+                    SERVICE_CHARGES[
+                        selectedService
+                    ];
+
+
+                if (
+                    visitingFee &&
+                    serviceFee &&
+                    fee !== undefined
+                ) {
+
+                    serviceFee.textContent =
+                        `₹${fee}`;
+
+                    visitingFee.style.display =
+                        "flex";
+
+                }
+
+                else if (
+                    visitingFee
+                ) {
+
+                    visitingFee.style.display =
+                        "none";
+
+                }
+
+
+                /* =================================
+                   LOAD SERVICE-SPECIFIC ISSUES
+                ================================= */
+
+                populateIssueOptions(
+                    selectedService
+                );
+
+            }
+        );
+
+    }
+);
 
 
 /* =========================================
@@ -442,7 +913,9 @@ const locationStatus =
     );
 
 
-if (detectLocationBtn) {
+if (
+    detectLocationBtn
+) {
 
     detectLocationBtn.addEventListener(
         "click",
@@ -458,7 +931,9 @@ if (detectLocationBtn) {
 
 function detectCustomerLocation() {
 
-    if (!navigator.geolocation) {
+    if (
+        !navigator.geolocation
+    ) {
 
         showLocationStatus(
             "error",
@@ -471,7 +946,8 @@ function detectCustomerLocation() {
 
     /* Prevent multiple clicks */
 
-    detectLocationBtn.disabled = true;
+    detectLocationBtn.disabled =
+        true;
 
     detectLocationText.textContent =
         "Detecting Location...";
@@ -483,13 +959,11 @@ function detectCustomerLocation() {
     );
 
 
-    /* =====================================
-       GET CURRENT LOCATION
-    ===================================== */
-
     navigator.geolocation.getCurrentPosition(
 
-        async (position) => {
+        async (
+            position
+        ) => {
 
             const latitude =
                 position.coords.latitude;
@@ -522,14 +996,16 @@ function detectCustomerLocation() {
                         `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&addressdetails=1`,
                         {
                             headers: {
-                                "Accept":
+                                Accept:
                                     "application/json"
                             }
                         }
                     );
 
 
-                if (!response.ok) {
+                if (
+                    !response.ok
+                ) {
 
                     throw new Error(
                         "Unable to find address."
@@ -541,9 +1017,9 @@ function detectCustomerLocation() {
                 const data =
                     await response.json();
 
-
                 const address =
-                    data.address || {};
+                    data.address ||
+                    {};
 
 
                 console.log(
@@ -565,29 +1041,53 @@ function detectCustomerLocation() {
                     "";
 
 
-                document.getElementById(
-                    "city"
-                ).value = city;
+                const cityInput =
+                    document.getElementById(
+                        "city"
+                    );
+
+                if (cityInput) {
+
+                    cityInput.value =
+                        city;
+
+                }
 
 
                 /* =================================
                    STATE
                 ================================= */
 
-                document.getElementById(
-                    "state"
-                ).value =
-                    address.state || "";
+                const stateInput =
+                    document.getElementById(
+                        "state"
+                    );
+
+                if (stateInput) {
+
+                    stateInput.value =
+                        address.state ||
+                        "";
+
+                }
 
 
                 /* =================================
                    PINCODE
                 ================================= */
 
-                document.getElementById(
-                    "pincode"
-                ).value =
-                    address.postcode || "";
+                const pincodeInput =
+                    document.getElementById(
+                        "pincode"
+                    );
+
+                if (pincodeInput) {
+
+                    pincodeInput.value =
+                        address.postcode ||
+                        "";
+
+                }
 
 
                 /* =================================
@@ -604,29 +1104,43 @@ function detectCustomerLocation() {
 
                     address.suburb
 
-                ].filter(Boolean);
+                ].filter(
+                    Boolean
+                );
 
 
                 let locationText =
-                    addressParts.join(", ");
+                    addressParts.join(
+                        ", "
+                    );
 
 
                 /* =================================
                    FALLBACK ADDRESS
                 ================================= */
 
-                if (!locationText) {
+                if (
+                    !locationText
+                ) {
 
                     locationText =
-                        data.display_name || "";
+                        data.display_name ||
+                        "";
 
                 }
 
 
-                document.getElementById(
-                    "location"
-                ).value =
-                    locationText;
+                const locationInput =
+                    document.getElementById(
+                        "location"
+                    );
+
+                if (locationInput) {
+
+                    locationInput.value =
+                        locationText;
+
+                }
 
 
                 /* =================================
@@ -637,18 +1151,14 @@ function detectCustomerLocation() {
                     "Location Detected ✓";
 
 
-                /*
-                   Keep the status element empty.
-                   This removes the green success line.
-                */
-
                 showLocationStatus(
                     "success",
                     ""
                 );
 
 
-            } catch (error) {
+            }
+            catch (error) {
 
                 console.error(
                     "Reverse geocoding error:",
@@ -665,7 +1175,8 @@ function detectCustomerLocation() {
                 detectLocationText.textContent =
                     "Detect My Location";
 
-            } finally {
+            }
+            finally {
 
                 detectLocationBtn.disabled =
                     false;
@@ -679,7 +1190,7 @@ function detectCustomerLocation() {
            LOCATION ERROR
         ===================================== */
 
-        (error) => {
+        error => {
 
             console.error(
                 "Geolocation error:",
@@ -691,29 +1202,27 @@ function detectCustomerLocation() {
                 "Unable to detect your location.";
 
 
-            /* Permission denied */
-
-            if (error.code === 1) {
+            if (
+                error.code === 1
+            ) {
 
                 message =
                     "Location permission was denied. Please allow location access.";
 
             }
 
-
-            /* Location unavailable */
-
-            else if (error.code === 2) {
+            else if (
+                error.code === 2
+            ) {
 
                 message =
                     "Your location could not be determined. Please try again.";
 
             }
 
-
-            /* Timeout */
-
-            else if (error.code === 3) {
+            else if (
+                error.code === 3
+            ) {
 
                 message =
                     "Location request timed out. Please try again.";
@@ -742,9 +1251,14 @@ function detectCustomerLocation() {
         ===================================== */
 
         {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 0
+            enableHighAccuracy:
+                true,
+
+            timeout:
+                15000,
+
+            maximumAge:
+                0
         }
 
     );
@@ -761,7 +1275,10 @@ function showLocationStatus(
     message
 ) {
 
-    if (!locationStatus) {
+    if (
+        !locationStatus
+    ) {
+
         return;
     }
 
@@ -770,7 +1287,9 @@ function showLocationStatus(
         "location-status";
 
 
-    if (type) {
+    if (
+        type
+    ) {
 
         locationStatus.classList.add(
             type
@@ -789,9 +1308,15 @@ function showLocationStatus(
    BOOKING FORM
 ========================================= */
 
-document
-    .getElementById("bookingForm")
-    .addEventListener(
+const bookingForm =
+    document.getElementById(
+        "bookingForm"
+    );
+
+
+if (bookingForm) {
+
+    bookingForm.addEventListener(
         "submit",
         async (e) => {
 
@@ -799,55 +1324,131 @@ document
 
 
             /* =================================
-               GET FORM VALUES
+               GET SERVICE
             ================================= */
 
             const service =
                 document.getElementById(
                     "service"
-                ).value;
+                ).value.trim();
 
+
+            /* =================================
+               SERVICE VALIDATION
+            ================================= */
+
+            if (!service) {
+
+                showBookingPopup(
+                    "error",
+                    "Please select a service first."
+                );
+
+                return;
+            }
+
+
+            /* =================================
+               CUSTOMER NAME
+            ================================= */
 
             const customerName =
                 document.getElementById(
                     "customerName"
-                ).value;
+                ).value.trim();
 
+
+            /* =================================
+               CUSTOMER PHONE
+            ================================= */
 
             const customerPhone =
                 document.getElementById(
                     "customerPhone"
-                ).value;
+                ).value.trim();
 
+
+            /* =================================
+               CUSTOMER EMAIL
+            ================================= */
 
             const customerEmail =
                 document.getElementById(
                     "customerEmail"
-                ).value;
+                ).value.trim();
 
+
+            /* =================================
+               CITY
+            ================================= */
 
             const city =
                 document.getElementById(
                     "city"
-                ).value;
+                ).value.trim();
 
+
+            /* =================================
+               STATE
+            ================================= */
 
             const state =
                 document.getElementById(
                     "state"
-                ).value;
+                ).value.trim();
 
+
+            /* =================================
+               PINCODE
+            ================================= */
 
             const pincode =
                 document.getElementById(
                     "pincode"
-                ).value;
+                ).value.trim();
 
 
-            const issue =
+            /* =================================
+               ISSUE
+            ================================= */
+
+            let issue =
                 document.getElementById(
                     "issue"
-                ).value;
+                ).value.trim();
+
+
+            /* =================================
+               CUSTOM ISSUE
+               IF "OTHER" IS SELECTED
+            ================================= */
+
+            if (
+                issue === "Other"
+            ) {
+
+                issue =
+                    document.getElementById(
+                        "customIssue"
+                    )?.value.trim() ||
+                    "";
+
+            }
+
+
+            /* =================================
+               ISSUE VALIDATION
+            ================================= */
+
+            if (!issue) {
+
+                showBookingPopup(
+                    "error",
+                    "Please select or describe your issue."
+                );
+
+                return;
+            }
 
 
             /* =================================
@@ -875,44 +1476,105 @@ document
             ================================= */
 
             const location =
-                houseNumber && detectedLocation
+                houseNumber &&
+                detectedLocation
+
                     ? `${houseNumber}, ${detectedLocation}`
+
                     : houseNumber ||
                       detectedLocation;
 
 
             /* =================================
-               DATE
+               BOOKING DATE
             ================================= */
 
-            const bookingDate =
+            const selectedBookingDate =
                 document.getElementById(
                     "bookingDate"
                 ).value;
 
 
             /* =================================
-               TIME
+               BOOKING TIME
             ================================= */
 
-            const bookingTime =
+            const selectedBookingTime =
                 document.getElementById(
                     "bookingTime"
                 ).value;
 
 
             /* =================================
+               DATE/TIME VALIDATION
+            ================================= */
+
+            if (
+                !selectedBookingDate
+            ) {
+
+                showBookingPopup(
+                    "error",
+                    "Please select a booking date."
+                );
+
+                return;
+            }
+
+
+            if (
+                !selectedBookingTime
+            ) {
+
+                showBookingPopup(
+                    "error",
+                    "Please select a booking time."
+                );
+
+                return;
+            }
+
+
+            /* =================================
+               PREVENT PAST DATE/TIME
+            ================================= */
+
+            const selectedDateTime =
+                new Date(
+                    `${selectedBookingDate}T${selectedBookingTime}`
+                );
+
+            const currentDateTime =
+                new Date();
+
+
+            if (
+                selectedDateTime <=
+                currentDateTime
+            ) {
+
+                showBookingPopup(
+                    "error",
+                    "Please select a future date and time."
+                );
+
+                return;
+            }
+
+
+            /* =================================
                BACKEND CONNECTION
-               KEEPING YOUR EXISTING API
+               EXISTING API PRESERVED
             ================================= */
 
             try {
 
                 const response =
                     await fetch(
-                        "/api/bookings/create",
+                        `${API_URL}/bookings/create`,
                         {
-                            method: "POST",
+                            method:
+                                "POST",
 
                             headers: {
 
@@ -945,9 +1607,11 @@ document
 
                                     location,
 
-                                    bookingDate,
+                                    bookingDate:
+                                        selectedBookingDate,
 
-                                    bookingTime
+                                    bookingTime:
+                                        selectedBookingTime
 
                                 })
 
@@ -959,15 +1623,40 @@ document
                    SERVER RESPONSE
                 ================================= */
 
-                const data =
-                    await response.json();
+                let data;
+
+                try {
+
+                    data =
+                        await response.json();
+
+                }
+                catch (
+                    parseError
+                ) {
+
+                    console.error(
+                        "Invalid server response:",
+                        parseError
+                    );
+
+                    showBookingPopup(
+                        "error",
+                        "Server returned an invalid response."
+                    );
+
+                    return;
+                }
 
 
                 /* =================================
                    SUCCESS
                 ================================= */
 
-                if (data.success) {
+                if (
+                    response.ok &&
+                    data.success
+                ) {
 
                     showBookingPopup(
                         "success",
@@ -975,15 +1664,19 @@ document
                     );
 
 
-                    setTimeout(() => {
+                    setTimeout(
+                        () => {
 
-                        window.location.href =
-                            "history.html";
+                            window.location.href =
+                                "history.html";
 
-                    }, 1200);
+                        },
+                        1200
+                    );
 
+                }
 
-                } else {
+                else {
 
                     showBookingPopup(
                         "error",
@@ -993,10 +1686,13 @@ document
 
                 }
 
+            }
 
-            } catch (error) {
+            catch (
+                error
+            ) {
 
-                console.log(
+                console.error(
                     "Booking error:",
                     error
                 );
@@ -1011,3 +1707,5 @@ document
 
         }
     );
+
+}
