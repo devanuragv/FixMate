@@ -4,14 +4,33 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import technicianMiddleware from "../middleware/technicianMiddleware.js";
 
 import {
+
     getAssignedJobs,
+
     updateJobStatus,
+
     toggleAvailability,
+
+    updateTechnicianLocation,
+
+    getNearbyTechnicians,
+
+    acceptJob,
+
+    getNewRequests,
+
     getTechnicianProfile,
+
     getPublicTechnicianProfile,
+
     updateTechnicianProfile,
+
     getTechnicianReviews,
+
+    cancelAssignedJob,
+
     changePassword
+
 }
 from "../controllers/technicianController.js";
 
@@ -25,6 +44,17 @@ router.get(
   authMiddleware,
   technicianMiddleware,
   getAssignedJobs
+);
+
+// ================================
+// New Nearby Service Requests
+// ================================
+
+router.get(
+    "/new-requests/:technicianId",
+    authMiddleware,
+    technicianMiddleware,
+    getNewRequests
 );
 
 // ================================
@@ -53,6 +83,36 @@ router.put(
   technicianMiddleware,
   toggleAvailability
 );
+
+router.put(
+    "/accept/:id",
+    authMiddleware,
+    technicianMiddleware,
+    acceptJob
+);
+
+router.get(
+    "/nearby",
+    authMiddleware,
+    getNearbyTechnicians
+);
+
+// ================================
+// Update Technician Location
+// ================================
+
+router.put(
+
+  "/location",
+
+  authMiddleware,
+
+  technicianMiddleware,
+
+  updateTechnicianLocation
+
+);
+
 // ================================
 // Technician Profile
 // ================================
@@ -82,6 +142,17 @@ router.put(
     authMiddleware,
     technicianMiddleware,
     updateTechnicianProfile
+);
+
+// ================================
+// Release / Cancel Assigned Job
+// ================================
+
+router.put(
+    "/cancel-job/:id",
+    authMiddleware,
+    technicianMiddleware,
+    cancelAssignedJob
 );
 
 

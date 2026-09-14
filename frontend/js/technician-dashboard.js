@@ -1,15 +1,15 @@
 const API_URL = "http://localhost:5000/api";
 
 const SERVICE_CHARGES = {
-
-Painter: 500,
-Electrician: 400,
-Plumber: 350,
-Carpenter: 450,
-"AC Repair": 800,
-Mechanic: 600,
-Cleaner: 300
-
+    Painter: 500,
+    Electrician: 400,
+    Plumber: 350,
+    Carpenter: 450,
+    "AC Repair": 800,
+    "Appliance Repair": 550,
+    Cleaner: 300,
+    Mechanic: 600,
+    "Pest Control": 650
 };
 
 // =====================================================
@@ -121,9 +121,17 @@ window.location.href =
 // Current Status
 // ================================
 
+// ================================
+// Current Status
+// ================================
+
 let currentStatus =
-technician.status ||
-"Available";
+  technician.status ||
+  "Offline";
+
+let locationWatchId = null;
+
+let locationPermissionGranted = false;
 
 let allJobs = [];
 
@@ -146,43 +154,489 @@ technician.serviceType;
 
 // ================================
 // Availability UI
-// ================================ 
+// ================================
 
 const switchBtn =
-document.getElementById(
-"availabilitySwitch"
-);
+  document.getElementById(
+    "availabilitySwitch"
+  );
 
 const statusText =
-document.getElementById(
-"statusText"
-);
+  document.getElementById(
+    "statusText"
+  );
 
-function updateAvailabilityUI(){
 
-if(
-currentStatus ===
-"Available"
-){
+function updateAvailabilityUI() {
 
-switchBtn.checked = true;
+  if (
+    currentStatus === "Available"
+  ) {
 
-statusText.innerText =
-"Available";
+    switchBtn.checked = true;
+
+    statusText.innerText =
+      "Available";
+
+  }
+
+  else {
+
+    switchBtn.checked = false;
+
+    statusText.innerText =
+      "Offline";
+
+  }
 
 }
-else{
 
-switchBtn.checked = false;
+// =========================================
+// TECHNICIAN LOCATION SYSTEM
+// =========================================
 
-statusText.innerText =
-"Offline";
+// -----------------------------------------
+// Check browser geolocation support
+// -----------------------------------------
+
+function isLocationSupported() {
+
+  return (
+    "geolocation" in navigator
+  );
 
 }
 
+
+// -----------------------------------------
+// Get current location
+// -----------------------------------------
+
+function requestTechnicianLocation() {
+
+  return new Promise(
+    (resolve, reject) => {
+
+      if (!isLocationSupported()) {
+
+        reject(
+          new Error(
+            "Location services are not supported by this browser."
+          )
+        );
+
+        return;
+      }
+
+
+      navigator.geolocation.getCurrentPosition(
+
+        position => {
+
+          const latitude =
+            position.coords.latitude;
+
+          const longitude =
+            position.coords.longitude;
+
+
+          resolve({
+            latitude,
+            longitude
+          });
+
+        },
+
+        error => {
+
+          let message =
+            "Unable to get your location.";
+
+          if (
+            error.code ===
+            error.PERMISSION_DENIED
+          ) {
+
+            message =
+              "Location permission is required to become Available.";
+
+          }
+
+          else if (
+            error.code ===
+            error.POSITION_UNAVAILABLE
+          ) {
+
+            message =
+              "Your current location is unavailable.";
+
+          }
+
+          else if (
+            error.code ===
+            error.TIMEOUT
+          ) {
+
+            message =
+              "Location request timed out. Please try again.";
+
+          }
+
+          reject(
+            new Error(message)
+          );
+
+        },
+
+        {
+          enableHighAccuracy: true,
+
+          timeout: 10000,
+
+          maximumAge: 0
+
+        }
+
+      );
+
+    }
+  );
+
 }
 
-updateAvailabilityUI();
+
+// -----------------------------------------
+// Send location to backend
+// -----------------------------------------
+
+async function sendTechnicianLocation(
+  latitude,
+  longitude
+) {
+
+  try {
+
+    const response =
+      await fetch(
+        `${API_URL}/technician/location`,
+        {
+
+          method: "PUT",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            Authorization:
+              `Bearer ${token}`
+
+          },
+
+          body:
+            JSON.stringify({
+
+              latitude,
+
+              longitude
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      console.log(
+        "Location update failed:",
+        data
+      );
+
+      return false;
+
+    }
+
+
+    // Keep local technician data updated
+
+    technician.latitude =
+      latitude;
+
+    technician.longitude =
+      longitude;
+
+    technician.locationUpdatedAt =
+      new Date().toISOString();
+
+
+    localStorage.setItem(
+      "technician",
+      JSON.stringify(
+        technician
+      )
+    );
+
+
+    return true;
+
+  }
+
+  catch (error) {
+
+    console.log(
+      "Location update error:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+
+// -----------------------------------------
+// Start live location tracking
+// -----------------------------------------
+
+function startLocationTracking() {
+
+  if (!isLocationSupported()) {
+
+    showToast(
+      "Location services are not supported by your browser.",
+      "error"
+    );
+
+    return false;
+
+  }
+
+
+  // Prevent duplicate watchers
+
+  if (
+    locationWatchId !== null
+  ) {
+
+    return true;
+
+  }
+
+
+  locationWatchId =
+    navigator.geolocation.watchPosition(
+
+      async position => {
+
+        const latitude =
+          position.coords.latitude;
+
+        const longitude =
+          position.coords.longitude;
+
+
+        const updated =
+          await sendTechnicianLocation(
+            latitude,
+            longitude
+          );
+
+
+        if (updated) {
+
+          locationPermissionGranted =
+            true;
+
+        }
+
+      },
+
+      error => {
+
+        console.log(
+          "Location tracking error:",
+          error
+        );
+
+
+        // If permission is removed
+        // while technician is Available,
+        // immediately stop availability.
+
+        if (
+          error.code ===
+          error.PERMISSION_DENIED
+        ) {
+
+          stopLocationTracking();
+
+          currentStatus =
+            "Offline";
+
+          switchBtn.checked =
+            false;
+
+          statusText.innerText =
+            "Offline";
+
+          technician.status =
+            "Offline";
+
+          localStorage.setItem(
+            "technician",
+            JSON.stringify(
+              technician
+            )
+          );
+
+          showToast(
+            "Location permission is required to receive new service requests.",
+            "error"
+          );
+
+        }
+
+      },
+
+      {
+
+        enableHighAccuracy: true,
+
+        timeout: 15000,
+
+        maximumAge: 10000
+
+      }
+
+    );
+
+
+  return true;
+
+}
+
+
+// -----------------------------------------
+// Stop live location tracking
+// -----------------------------------------
+
+function stopLocationTracking() {
+
+  if (
+    locationWatchId !== null
+  ) {
+
+    navigator.geolocation.clearWatch(
+      locationWatchId
+    );
+
+    locationWatchId =
+      null;
+
+  }
+
+  locationPermissionGranted =
+    false;
+
+}
+
+
+// -----------------------------------------
+// Restore location tracking if already
+// Available after page refresh
+// -----------------------------------------
+
+async function restoreLocationTracking() {
+
+  if (
+    currentStatus !==
+    "Available"
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const location =
+      await requestTechnicianLocation();
+
+
+    const updated =
+      await sendTechnicianLocation(
+
+        location.latitude,
+
+        location.longitude
+
+      );
+
+
+    if (!updated) {
+
+    currentStatus =
+      "Offline";
+
+    technician.status =
+      "Offline";
+
+    localStorage.setItem(
+      "technician",
+      JSON.stringify(
+        technician
+      )
+    );
+
+    updateAvailabilityUI();
+
+    return;
+}
+
+
+    locationPermissionGranted =
+      true;
+
+
+    startLocationTracking();
+
+  }
+
+  catch (error) {
+
+    console.log(
+      "Unable to restore technician location:",
+      error
+    );
+
+
+    currentStatus =
+      "Offline";
+
+    technician.status =
+      "Offline";
+
+
+    localStorage.setItem(
+      "technician",
+      JSON.stringify(
+        technician
+      )
+    );
+
+
+    updateAvailabilityUI();
+
+  }
+
+}
 
 // ================================
 // Toast Message
@@ -221,6 +675,529 @@ setTimeout(()=>{
 toast.remove();
 
 },3000);
+
+}
+
+
+// =========================================
+// LOAD NEW NEARBY REQUESTS
+// =========================================
+
+async function loadNewRequests() {
+
+    const container =
+        document.getElementById(
+            "newRequestsContainer"
+        );
+
+    const countElement =
+        document.getElementById(
+            "newRequestCount"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    // Technician must be Available
+
+    if (
+        currentStatus !==
+        "Available"
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-requests">
+
+                <i class="fas fa-toggle-off"></i>
+
+                <h3>
+                    You're Offline
+                </h3>
+
+                <p>
+                    Turn on Availability to receive
+                    nearby service requests.
+                </p>
+
+            </div>
+
+        `;
+
+        if (countElement) {
+            countElement.textContent = "0";
+        }
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/technician/new-requests/${technician.id}`,
+                {
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load requests."
+            );
+
+        }
+
+
+        const requests =
+            data.requests || [];
+
+
+        if (countElement) {
+
+            countElement.textContent =
+                requests.length;
+
+        }
+
+
+        if (!requests.length) {
+
+            container.innerHTML = `
+
+                <div class="empty-requests">
+
+                    <i class="fas fa-inbox"></i>
+
+                    <h3>
+                        No Nearby Requests
+                    </h3>
+
+                    <p>
+                        We'll show matching service
+                        requests here.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            requests
+                .map(
+                    request =>
+                        createNewRequestCard(
+                            request
+                        )
+                )
+                .join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "New requests error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="empty-requests">
+
+                <i class="fas fa-triangle-exclamation"></i>
+
+                <h3>
+                    Unable to load requests
+                </h3>
+
+                <p>
+                    Please try again shortly.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+// =========================================
+// CREATE NEW REQUEST CARD
+// =========================================
+
+function createNewRequestCard(request) {
+
+    // -----------------------------------------
+    // Distance
+    // -----------------------------------------
+
+    const distance =
+        request.distance !== undefined &&
+        request.distance !== null
+            ? `${request.distance} km`
+            : "Nearby";
+
+
+    // -----------------------------------------
+    // Service Charge
+    // -----------------------------------------
+
+    const serviceName = String(
+        request.service || ""
+    ).trim();
+
+
+    const serviceKey = Object.keys(
+        SERVICE_CHARGES
+    ).find(
+        key =>
+            key.toLowerCase() ===
+            serviceName.toLowerCase()
+    );
+
+
+    const backendCharge =
+        Number(request.serviceCharge);
+
+
+    const serviceCharge =
+        backendCharge > 0
+            ? backendCharge
+            : (
+                serviceKey
+                    ? SERVICE_CHARGES[serviceKey]
+                    : 0
+            );
+
+
+    // -----------------------------------------
+    // Return Card
+    // -----------------------------------------
+
+    return `
+
+        <article
+            class="new-request-card"
+            data-booking-id="${request.id}"
+        >
+
+            <!-- ===============================
+                 HEADER
+            ================================ -->
+
+            <div class="new-request-card-header">
+
+                <div class="request-service-info">
+
+                    <div class="request-service-icon">
+                        🛠️
+                    </div>
+
+                    <div class="request-heading">
+
+                        <span class="request-service">
+                            ${request.service || "Service"}
+                        </span>
+
+                        <h3>
+                            ${request.issue || "Service Request"}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="request-distance">
+                    📍 ${distance}
+                </div>
+
+            </div>
+
+
+            <!-- ===============================
+                 BOOKING INFO
+            ================================ -->
+
+            <div class="request-info-grid">
+
+                <!-- DATE -->
+
+                <div class="request-info-item">
+
+                    <span class="request-info-icon">
+                        📅
+                    </span>
+
+                    <div>
+
+                        <small>
+                            DATE
+                        </small>
+
+                        <strong>
+                            ${request.bookingDate || "-"}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TIME -->
+
+                <div class="request-info-item">
+
+                    <span class="request-info-icon">
+                        ⏰
+                    </span>
+
+                    <div>
+
+                        <small>
+                            TIME
+                        </small>
+
+                        <strong>
+                            ${request.bookingTime || "-"}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="request-info-item">
+
+                    <span class="request-info-icon">
+                        📍
+                    </span>
+
+                    <div>
+
+                        <small>
+                            LOCATION
+                        </small>
+
+                        <strong>
+                            ${request.city || "-"}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===============================
+                 FOOTER
+            ================================ -->
+
+            <div class="request-card-footer">
+
+
+                <!-- SERVICE CHARGE -->
+
+                <div class="technician-service-charge">
+
+                    <span class="charge-icon">
+                        💰
+                    </span>
+
+                    <div>
+
+                        <small>
+                            SERVICE CHARGE
+                        </small>
+
+                        <strong>
+                            ₹${serviceCharge}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACCEPT -->
+
+                <button
+                    type="button"
+                    class="accept-new-job-btn"
+                    data-booking-id="${request.id}"
+                    onclick="acceptNewJob('${request.id}')"
+                >
+
+                    <i class="fas fa-check"></i>
+
+                    Accept Job
+
+                </button>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+// ================================
+// Accept New Service Request
+// ================================
+
+async function acceptNewJob(bookingId) {
+
+    try {
+
+        if (!bookingId) {
+            showToast(
+                "Unable to accept this service request.",
+                "error"
+            );
+            return;
+        }
+
+        if (currentStatus !== "Available") {
+            showToast(
+                "You must be Available to accept a job.",
+                "error"
+            );
+            return;
+        }
+
+
+        // ==================================
+        // Find clicked button
+        // ==================================
+
+        const buttons =
+            document.querySelectorAll(
+                `.accept-new-job-btn[data-booking-id="${bookingId}"]`
+            );
+
+        buttons.forEach((button) => {
+            button.disabled = true;
+            button.innerHTML =
+                `<i class="fas fa-spinner fa-spin"></i> Accepting...`;
+        });
+
+
+        // ==================================
+        // Accept request
+        // ==================================
+
+        const response =
+            await fetch(
+                `${API_URL}/technician/accept/${bookingId}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        // ==================================
+        // Success
+        // ==================================
+
+        if (response.ok && data.success) {
+
+            showToast(
+                "Job accepted successfully.",
+                "success"
+            );
+
+
+            // Remove accepted request
+            await loadNewRequests();
+
+
+            // Refresh assigned jobs
+            await loadJobs();
+
+            return;
+        }
+
+
+        // ==================================
+        // Already accepted by another tech
+        // ==================================
+
+        if (response.status === 409) {
+
+            showToast(
+                data.message ||
+                "This service request has already been accepted.",
+                "error"
+            );
+
+            await loadNewRequests();
+
+            return;
+        }
+
+
+        // ==================================
+        // Other backend error
+        // ==================================
+
+        showToast(
+            data.message ||
+            "Unable to accept this service request.",
+            "error"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Accept new job error:",
+            error
+        );
+
+        showToast(
+            "Unable to connect to the server.",
+            "error"
+        );
+
+    }
 
 }
 
@@ -464,9 +1441,11 @@ ${
     </button>
     `
     :
-    job.status === "Assigned"
-    ?
-    `
+  job.status === "Assigned"
+?
+`
+<div class="job-action-group">
+
     <button
         onclick="
             updateStatus(
@@ -474,9 +1453,23 @@ ${
                 'In Progress'
             )
         ">
+        <i class="fas fa-play"></i>
         Start Job
     </button>
-    `
+
+    <button
+        class="cancel-job-btn"
+        onclick="
+            cancelAssignedJob(
+                '${job.id}'
+            )
+        ">
+        <i class="fas fa-rotate-left"></i>
+        Release Job
+    </button>
+
+</div>
+`
     :
     job.status === "In Progress"
     ?
@@ -627,7 +1620,7 @@ async function verifyCustomerOtp() {
 
         const response =
             await fetch(
-                `/api/technician/status/${otpBookingId}`,
+                `${API_URL}/technician/status/${otpBookingId}`,
                 {
                     method: "PUT",
 
@@ -874,88 +1867,387 @@ showToast(
 }
 
 // ================================
+// Release Assigned Job
+// ================================
+
+async function cancelAssignedJob(bookingId) {
+
+    if (!bookingId) {
+
+        showToast(
+            "Booking information is missing.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/technician/cancel-job/${bookingId}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (response.ok && data.success) {
+
+            showToast(
+                data.message ||
+                "Job released successfully.",
+                "success"
+            );
+
+
+            // Refresh assigned jobs
+            await loadJobs();
+
+
+            // Refresh nearby requests
+            if (
+                currentStatus ===
+                "Available"
+            ) {
+                await loadNewRequests();
+            }
+
+
+            return;
+        }
+
+
+        showToast(
+            data.message ||
+            "Unable to release this job.",
+            "error"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Release job error:",
+            error
+        );
+
+
+        showToast(
+            "Unable to connect to the server.",
+            "error"
+        );
+
+    }
+
+}
+
+// ================================
 // Availability Switch
 // ================================
 
 switchBtn.addEventListener(
-"change",
-async ()=>{
+  "change",
+  async () => {
 
-try{
+    const wantsAvailable =
+      switchBtn.checked;
 
-const newStatus =
-switchBtn.checked
-?
-"Available"
-:
-"Offline";
 
-const response =
-await fetch(
-`${API_URL}/technician/availability/${technician.id}`,
-{
-method:"PUT",
-headers:{
-"Content-Type":
-"application/json",
-Authorization:
-`Bearer ${token}`
-},
-body:JSON.stringify({
-status:newStatus
-})
-}
-);
+    // =========================================
+    // TECHNICIAN WANTS TO GO OFFLINE
+    // =========================================
 
-const data =
-await response.json();
+    if (!wantsAvailable) {
 
-if(data.success){
+      try {
 
-currentStatus =
-newStatus;
+        const response =
+          await fetch(
+            `${API_URL}/technician/availability/${technician.id}`,
+            {
 
-statusText.innerText =
-newStatus;
+              method: "PUT",
 
-technician.status =
-newStatus;
+              headers: {
 
-localStorage.setItem(
-"technician",
-JSON.stringify(
-technician
-)
-);
+                "Content-Type":
+                  "application/json",
 
-showToast(
-"Status Updated",
-"success"
-);
+                Authorization:
+                  `Bearer ${token}`
 
-}
-else{
+              },
 
-showToast(
-data.message,
-"error"
-);
+              body:
+                JSON.stringify({
 
-}
+                  status: "Offline"
 
-}
-catch(error){
+                })
 
-console.log(error);
+            }
+          );
 
-showToast(
-"Failed To Update Status",
-"error"
-);
 
-}
+        const data =
+          await response.json();
 
-}
+
+        if (!response.ok) {
+
+          switchBtn.checked =
+            true;
+
+          showToast(
+            data.message ||
+            "Failed to go Offline.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        // Stop browser location tracking
+
+        stopLocationTracking();
+
+
+        currentStatus =
+          "Offline";
+
+        technician.status =
+          "Offline";
+
+
+        localStorage.setItem(
+          "technician",
+          JSON.stringify(
+            technician
+          )
+        );
+
+
+        updateAvailabilityUI();
+
+
+        showToast(
+          "You are now Offline.",
+          "success"
+        );
+
+      }
+
+      catch (error) {
+
+        console.log(
+          "Offline update error:",
+          error
+        );
+
+        switchBtn.checked =
+          true;
+
+        showToast(
+          "Failed to update availability.",
+          "error"
+        );
+
+      }
+
+      return;
+
+    }
+
+
+    // =========================================
+    // TECHNICIAN WANTS TO GO AVAILABLE
+    // =========================================
+
+    switchBtn.checked =
+      false;
+
+
+    statusText.innerText =
+      "Checking location...";
+
+
+    try {
+
+      // ---------------------------------------
+      // Step 1: Request location permission
+      // ---------------------------------------
+
+      const location =
+        await requestTechnicianLocation();
+
+
+      // ---------------------------------------
+      // Step 2: Send first location
+      // ---------------------------------------
+
+      const locationUpdated =
+        await sendTechnicianLocation(
+
+          location.latitude,
+
+          location.longitude
+
+        );
+
+
+      if (!locationUpdated) {
+
+        throw new Error(
+          "Unable to save your location."
+        );
+
+      }
+
+
+      locationPermissionGranted =
+        true;
+
+
+      // ---------------------------------------
+      // Step 3: Tell backend Available
+      // ---------------------------------------
+
+      const response =
+        await fetch(
+          `${API_URL}/technician/availability/${technician.id}`,
+          {
+
+            method: "PUT",
+
+            headers: {
+
+              "Content-Type":
+                "application/json",
+
+              Authorization:
+                `Bearer ${token}`
+
+            },
+
+            body:
+              JSON.stringify({
+
+                status: "Available"
+
+              })
+
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.message ||
+          "Unable to become Available."
+        );
+
+      }
+
+
+      // ---------------------------------------
+      // Step 4: Update local state
+      // ---------------------------------------
+
+      currentStatus =
+        "Available";
+
+      technician.status =
+        "Available";
+
+
+      localStorage.setItem(
+        "technician",
+        JSON.stringify(
+          technician
+        )
+      );
+
+
+      updateAvailabilityUI();
+
+
+      // ---------------------------------------
+      // Step 5: Start live tracking
+      // ---------------------------------------
+
+      startLocationTracking();
+
+      await loadNewRequests();
+
+      showToast(
+        "You are now Available and receiving nearby service requests.",
+        "success"
+      );
+
+    }
+
+    catch (error) {
+
+      console.log(
+        "Availability error:",
+        error
+      );
+
+
+      currentStatus =
+        "Offline";
+
+      technician.status =
+        "Offline";
+
+
+      localStorage.setItem(
+        "technician",
+        JSON.stringify(
+          technician
+        )
+      );
+
+
+      switchBtn.checked =
+        false;
+
+
+      statusText.innerText =
+        "Offline";
+
+
+      showToast(
+        error.message ||
+        "Location permission is required to become Available.",
+        "error"
+      );
+
+    }
+
+  }
 );
 
 // ================================
@@ -1574,8 +2866,6 @@ ${review.review || "No Comment"}
 
 container.innerHTML = html;
 
-container.innerHTML = html;
-
 const avg =
 (
 totalRating /
@@ -1612,15 +2902,29 @@ console.log(error);
 
 async function initializeDashboard(){
 
-await loadJobs();
+    await loadJobs();
 
-loadReviews();
+    loadReviews();
 
-loadEarnings();
+    loadEarnings();
+
+    // Restore location tracking only if
+    // technician was already Available.
+
+    await restoreLocationTracking();
+
+    await loadNewRequests();
 
 }
 
 initializeDashboard();
+
+// Refresh nearby service requests every 10 seconds
+setInterval(() => {
+    if (currentStatus === "Available") {
+        loadNewRequests();
+    }
+}, 10000);
 
 document.getElementById(
 "profileSection"

@@ -173,14 +173,17 @@ export const addTechnician = async (req, res) => {
           role:
             "technician",
 
-          rating:
-            0,
+         rating: 0,
 
-          status:
-            "Available",
+// Technician must enable location
+// before becoming Available.
+status: "Offline",
 
-          createdAt:
-            new Date()
+latitude: null,
+longitude: null,
+locationUpdatedAt: null,
+
+createdAt: new Date()
         });
 
     res.status(201).json({
@@ -240,29 +243,80 @@ export const getAllTechnicians = async (req, res) => {
 export const assignTechnician = async (req, res) => {
   try {
 
-    const bookingId =
-      req.params.id;
+    const bookingId = req.params.id;
 
     const {
       technicianId,
       technicianName
     } = req.body;
 
- const assignedAt = new Date();
+    if (!bookingId || !technicianId) {
+      return res.status(400).json({
+        success: false,
+        message: "Booking ID and Technician ID are required."
+      });
+    }
 
-await db
-  .collection("bookings")
-  .doc(bookingId)
-  .update({
-    technicianId,
-    technician: technicianName,
+    const bookingRef = db
+      .collection("bookings")
+      .doc(bookingId);
 
-    status: "Assigned",
+    const bookingDoc = await bookingRef.get();
 
-    assignedAt,
+    if (!bookingDoc.exists) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking Not Found"
+      });
+    }
 
-    "statusHistory.assigned": assignedAt
-  });
+    const booking = bookingDoc.data();
+
+    // ==================================
+    // DO NOT OVERWRITE EXISTING ASSIGNMENT
+    // ==================================
+
+    if (booking.technicianId) {
+      return res.status(409).json({
+        success: false,
+        message:
+          "This booking has already been assigned to a technician."
+      });
+    }
+
+    // ==================================
+    // ONLY PENDING BOOKINGS
+    // ==================================
+
+    if (booking.status !== "Pending") {
+      return res.status(409).json({
+        success: false,
+        message:
+          "Only pending bookings can be assigned."
+      });
+    }
+
+    const assignedAt = new Date();
+
+    await bookingRef.update({
+
+      technicianId,
+
+      technician:
+        technicianName || "",
+
+      status:
+        "Assigned",
+
+      assignedAt,
+
+      "statusHistory.assigned":
+        assignedAt,
+
+      updatedAt:
+        assignedAt
+
+    });
 
     res.status(200).json({
       success: true,
@@ -271,6 +325,11 @@ await db
     });
 
   } catch (error) {
+
+    console.error(
+      "Assign Technician Error:",
+      error
+    );
 
     res.status(500).json({
       success: false,

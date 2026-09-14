@@ -2934,3 +2934,79 @@ body.booking-details-open {
     }
 
 }
+
+/* =====================================================
+   PART 14 - FINDING TECHNICIAN
+   ===================================================== */
+
+.finding-technician {
+    position: relative;
+    overflow: hidden;
+}
+
+.finding-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.finding-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #282830;
+    border-top-color: #ff7100;
+    border-radius: 50%;
+    animation: findingSpin 0.9s linear infinite;
+}
+
+@keyframes findingSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =====================================================
+   PART 14 - TECHNICIAN FOUND
+   ===================================================== */
+
+.technician-found {
+    position: relative;
+}
+
+.technician-found-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 113, 0, 0.35);
+    border-radius: 999px;
+    background: rgba(255, 113, 0, 0.08);
+    color: #ff8a1f;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.technician-found-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff7100;
+    box-shadow: 0 0 10px rgba(255, 113, 0, 0.6);
+}
+
+.technician-status-message {
+    margin: 8px 0 0;
+    color: #8f929d;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* Status badge stays compact */
+
+.technician-found-badge {
+    transition: .2s ease;
+}

@@ -2584,3 +2584,49 @@ body {
     }
 
 }
+
+/* ========================================
+   ADMIN TECHNICIAN LOCATION
+======================================== */
+
+.admin-location-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-left: 10px;
+    padding: 7px 11px;
+
+    border: 1px solid #ff7100;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #ff7100;
+
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.admin-location-btn:hover {
+    background: #ff7100;
+    color: #0b0b0f;
+    transform: translateY(-1px);
+}
+
+.admin-location-btn i {
+    font-size: 11px;
+}
+
+@media (max-width: 600px) {
+
+    .admin-location-btn {
+        margin-left: 0;
+        margin-top: 8px;
+        display: flex;
+        width: fit-content;
+    }
+
+}

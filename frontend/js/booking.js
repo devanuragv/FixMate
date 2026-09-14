@@ -912,6 +912,13 @@ const locationStatus =
         "locationStatus"
     );
 
+// =========================================
+// CUSTOMER GPS COORDINATES
+// =========================================
+
+let customerLatitude = null;
+let customerLongitude = null;
+
 
 if (
     detectLocationBtn
@@ -970,6 +977,10 @@ function detectCustomerLocation() {
 
             const longitude =
                 position.coords.longitude;
+
+            // Save coordinates for booking
+            customerLatitude = latitude;
+            customerLongitude = longitude;
 
 
             console.log(
@@ -1484,6 +1495,21 @@ if (bookingForm) {
                     : houseNumber ||
                       detectedLocation;
 
+                      // =========================================
+// GPS LOCATION VALIDATION
+// =========================================
+
+if (
+    customerLatitude === null ||
+    customerLongitude === null
+) {
+    showBookingPopup(
+        "error",
+        "Please detect your location before booking the service."
+    );
+
+    return;
+}
 
             /* =================================
                BOOKING DATE
@@ -1587,33 +1613,24 @@ if (bookingForm) {
                             },
 
                             body:
-                                JSON.stringify({
+    JSON.stringify({
+        customerName,
+        customerPhone,
+        customerEmail,
+        service,
+        issue,
+        city,
+        state,
+        pincode,
+        location,
 
-                                    customerName,
+        // Customer GPS coordinates
+        latitude: customerLatitude,
+        longitude: customerLongitude,
 
-                                    customerPhone,
-
-                                    customerEmail,
-
-                                    service,
-
-                                    issue,
-
-                                    city,
-
-                                    state,
-
-                                    pincode,
-
-                                    location,
-
-                                    bookingDate:
-                                        selectedBookingDate,
-
-                                    bookingTime:
-                                        selectedBookingTime
-
-                                })
+        bookingDate: selectedBookingDate,
+        bookingTime: selectedBookingTime
+    })
 
                         }
                     );

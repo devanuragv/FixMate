@@ -9,6 +9,10 @@ import {
   deleteBooking
 } from "../controllers/bookingController.js";
 
+import {
+  getNearbyTechnicians
+} from "../controllers/technicianController.js";
+
 const router = express.Router();
 
 // ================================
@@ -27,6 +31,16 @@ router.get(
   "/",
   authMiddleware,
   getBookings
+);
+
+// ================================
+// Get Nearby Technicians
+// ================================
+
+router.get(
+  "/nearby-technicians",
+  authMiddleware,
+  getNearbyTechnicians
 );
 
 // ================================

@@ -1359,3 +1359,2491 @@ input:checked + .slider:before{transform:translateX(24px);}
     }
 
 }
+
+/* =========================================
+   NEW SERVICE REQUESTS
+   ========================================= */
+
+.new-requests-section {
+    margin-bottom: 30px;
+    padding: 26px;
+    background: #111116;
+    border: 1px solid #282830;
+    border-radius: 18px;
+}
+
+
+.section-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+
+.section-kicker {
+    display: block;
+    margin-bottom: 7px;
+    color: #ff7100;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+
+.section-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+.section-header p {
+    margin: 7px 0 0;
+    color: #8f929d;
+    font-size: 14px;
+}
+
+
+.new-request-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    background: rgba(255, 113, 0, 0.08);
+    border: 1px solid rgba(255, 113, 0, 0.35);
+    border-radius: 999px;
+    color: #ff7100;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+.new-request-badge i {
+    font-size: 13px;
+}
+
+
+.new-request-badge span:first-of-type {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+
+.new-requests-container {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(280px, 1fr)
+    );
+    gap: 16px;
+}
+
+
+/* =========================================
+   REQUEST CARD
+   ========================================= */
+
+.new-request-card {
+    padding: 20px;
+    background: #0d0d12;
+    border: 1px solid #282830;
+    border-radius: 16px;
+    transition: 0.25s ease;
+}
+
+
+.new-request-card:hover {
+    border-color: rgba(255, 113, 0, 0.55);
+    transform: translateY(-2px);
+}
+
+
+.new-request-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+
+.request-service {
+    display: inline-block;
+    margin-bottom: 6px;
+    color: #ff7100;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.new-request-top h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 17px;
+    line-height: 1.35;
+}
+
+
+.request-distance {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #ff8a1f;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+.new-request-details {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+
+.new-request-details > div {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #8f929d;
+    font-size: 13px;
+}
+
+
+.new-request-details i {
+    width: 16px;
+    color: #ff7100;
+    text-align: center;
+}
+
+
+.new-request-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #282830;
+}
+
+
+.new-request-footer strong {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+
+.accept-new-job-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 15px;
+    border: 1px solid #ff7100;
+    border-radius: 10px;
+    background: #ff7100;
+    color: #0b0b0f;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+
+.accept-new-job-btn:hover {
+    background: #ff8a1f;
+    border-color: #ff8a1f;
+}
+
+
+.accept-new-job-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* =========================================
+   EMPTY REQUEST STATE
+   ========================================= */
+
+.empty-requests {
+    grid-column: 1 / -1;
+    padding: 45px 20px;
+    text-align: center;
+    background: #0d0d12;
+    border: 1px dashed #282830;
+    border-radius: 16px;
+}
+
+
+.empty-requests i {
+    margin-bottom: 14px;
+    color: #ff7100;
+    font-size: 28px;
+}
+
+
+.empty-requests h3 {
+    margin: 0 0 7px;
+    color: #ffffff;
+    font-size: 17px;
+}
+
+
+.empty-requests p {
+    margin: 0;
+    color: #8f929d;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    .new-requests-section {
+        padding: 18px;
+    }
+
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+
+    .new-requests-container {
+        grid-template-columns: 1fr;
+    }
+
+
+    .new-request-top {
+        flex-direction: column;
+    }
+
+
+    .request-distance {
+        align-self: flex-start;
+    }
+
+
+    .new-request-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .accept-new-job-btn {
+        width: 100%;
+    }
+
+}
+
+/* ================================
+   JOB ACTION GROUP
+================================ */
+
+.job-action-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+
+/* ================================
+   RELEASE JOB BUTTON
+================================ */
+
+.cancel-job-btn {
+    border: 1px solid #ff7100;
+    background: transparent;
+    color: #ff7100;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.cancel-job-btn:hover {
+    background: #ff7100;
+    color: #0b0b0f;
+    transform: translateY(-1px);
+}
+
+.cancel-job-btn i {
+    margin-right: 6px;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    .job-action-group {
+        flex-direction: column;
+    }
+
+    .job-action-group button {
+        width: 100%;
+    }
+
+}
+
+/* =========================================================
+   MODERN NEW REQUESTS PANEL
+   CSS ONLY — JS / HTML UNTOUCHED
+========================================================= */
+
+#newRequestsSection {
+    position: relative;
+    margin: 28px 0 38px;
+    padding: 30px;
+    border: 1px solid rgba(255, 113, 0, 0.28);
+    border-radius: 24px;
+    background:
+        radial-gradient(
+            circle at 8% 0%,
+            rgba(255, 113, 0, 0.13),
+            transparent 30%
+        ),
+        linear-gradient(
+            145deg,
+            #15151b 0%,
+            #101015 55%,
+            #0d0d12 100%
+        );
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    overflow: hidden;
+}
+
+/* subtle orange glow */
+#newRequestsSection::before {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    top: -150px;
+    left: -100px;
+    background: rgba(255, 113, 0, 0.10);
+    filter: blur(65px);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+#newRequestsSection .section-header {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 25px;
+
+    margin-bottom: 24px;
+}
+
+#newRequestsSection .section-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 8px;
+
+    color: #ff7100;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+#newRequestsSection .section-kicker::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff7100;
+    box-shadow: 0 0 12px rgba(255, 113, 0, 0.8);
+}
+
+#newRequestsSection .section-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+#newRequestsSection .section-header p {
+    margin: 7px 0 0;
+    color: #8f929d;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   REQUEST COUNT
+========================================================= */
+
+#newRequestsSection .request-count {
+    min-width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 113, 0, 0.22);
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 800;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   REQUEST CONTAINER
+========================================================= */
+
+#newRequestsSection .new-requests-container {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+/* =========================================================
+   REQUEST CARD
+========================================================= */
+
+#newRequestsSection .new-request-card {
+    position: relative;
+
+    padding: 22px 24px;
+
+    border: 1px solid #292930;
+    border-radius: 19px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.035),
+            rgba(255, 255, 255, 0.012)
+        );
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+
+    overflow: hidden;
+}
+
+/* orange left accent */
+#newRequestsSection .new-request-card::before {
+    content: "";
+    position: absolute;
+
+    left: 0;
+    top: 18px;
+    bottom: 18px;
+
+    width: 3px;
+
+    border-radius: 0 5px 5px 0;
+
+    background: #ff7100;
+    box-shadow: 0 0 14px rgba(255, 113, 0, 0.55);
+}
+
+#newRequestsSection .new-request-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(255, 113, 0, 0.38);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 113, 0, 0.055),
+            rgba(255, 255, 255, 0.018)
+        );
+
+    box-shadow:
+        0 16px 38px rgba(0, 0, 0, 0.28),
+        0 0 25px rgba(255, 113, 0, 0.055);
+}
+
+
+/* =========================================================
+   TOP ROW
+========================================================= */
+
+#newRequestsSection .new-request-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding-left: 8px;
+}
+
+#newRequestsSection .request-service {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 10px;
+    margin-bottom: 7px;
+
+    border-radius: 7px;
+
+    background: rgba(255, 113, 0, 0.10);
+    border: 1px solid rgba(255, 113, 0, 0.18);
+
+    color: #ff8a1f;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+#newRequestsSection .new-request-top h3 {
+    margin: 0;
+
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 750;
+    line-height: 1.25;
+}
+
+
+/* =========================================================
+   DISTANCE
+========================================================= */
+
+#newRequestsSection .request-distance {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 12px;
+
+    border: 1px solid rgba(255, 113, 0, 0.18);
+    border-radius: 10px;
+
+    background: rgba(255, 113, 0, 0.065);
+
+    color: #ff8a1f;
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+#newRequestsSection .request-distance i {
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   DATE / TIME / CITY
+========================================================= */
+
+#newRequestsSection .new-request-details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 22px;
+
+    margin-top: 20px;
+    padding: 16px 8px 18px;
+
+    border-bottom: 1px solid #282830;
+}
+
+#newRequestsSection .new-request-details > div {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #a5a7b1;
+    font-size: 13px;
+}
+
+#newRequestsSection .new-request-details i {
+    width: 25px;
+    height: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background: rgba(255, 113, 0, 0.09);
+
+    color: #ff7100;
+    font-size: 11px;
+}
+
+#newRequestsSection .new-request-details span {
+    color: #aeb0ba;
+}
+
+
+/* =========================================================
+   FOOTER / PRICE / BUTTON
+========================================================= */
+
+#newRequestsSection .new-request-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 18px 8px 0;
+}
+
+#newRequestsSection .new-request-footer strong {
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+}
+
+#newRequestsSection .new-request-footer strong::first-letter {
+    color: #ff7100;
+}
+
+
+/* =========================================================
+   ACCEPT BUTTON
+========================================================= */
+
+#newRequestsSection .accept-new-job-btn {
+    min-width: 145px;
+    height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 0 20px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #ff7100,
+        #ff8a1f
+    );
+
+    color: #0b0b0f;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(255, 113, 0, 0.20);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+#newRequestsSection .accept-new-job-btn:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.06);
+
+    box-shadow:
+        0 12px 28px rgba(255, 113, 0, 0.34);
+}
+
+#newRequestsSection .accept-new-job-btn:active {
+    transform: translateY(0);
+}
+
+#newRequestsSection .accept-new-job-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+#newRequestsSection .empty-requests {
+    min-height: 190px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 35px 20px;
+
+    border: 1px dashed #303039;
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.015);
+
+    text-align: center;
+}
+
+#newRequestsSection .empty-requests i {
+    margin-bottom: 13px;
+
+    color: #ff7100;
+    font-size: 27px;
+
+    opacity: 0.85;
+}
+
+#newRequestsSection .empty-requests h3 {
+    margin: 0 0 7px;
+
+    color: #ffffff;
+    font-size: 16px;
+}
+
+#newRequestsSection .empty-requests p {
+    max-width: 390px;
+    margin: 0;
+
+    color: #777a85;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    #newRequestsSection {
+        margin: 20px 0 28px;
+        padding: 20px 16px;
+        border-radius: 19px;
+    }
+
+    #newRequestsSection .section-header {
+        gap: 15px;
+    }
+
+    #newRequestsSection .section-header h2 {
+        font-size: 24px;
+    }
+
+    #newRequestsSection .request-count {
+        min-width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        font-size: 17px;
+    }
+
+    #newRequestsSection .new-request-card {
+        padding: 19px 17px;
+        border-radius: 16px;
+    }
+
+    #newRequestsSection .new-request-top {
+        gap: 12px;
+    }
+
+    #newRequestsSection .new-request-top h3 {
+        font-size: 18px;
+    }
+
+    #newRequestsSection .request-distance {
+        padding: 7px 9px;
+        font-size: 11px;
+    }
+
+    #newRequestsSection .new-request-details {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #newRequestsSection .new-request-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #newRequestsSection .accept-new-job-btn {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   NEW REQUEST — PREMIUM INNER CARD
+   CSS ONLY
+========================================================= */
+
+#newRequestsSection .new-request-card {
+    position: relative;
+    padding: 0 !important;
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 22px !important;
+
+    background:
+        radial-gradient(
+            circle at 90% 100%,
+            rgba(255, 113, 0, 0.10),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #18181e 0%,
+            #121217 55%,
+            #0f0f14 100%
+        ) !important;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+
+    transition: all 0.25s ease;
+}
+
+
+/* glowing vertical accent */
+#newRequestsSection .new-request-card::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 4px;
+
+    background: linear-gradient(
+        to bottom,
+        #ff8a1f,
+        #ff7100,
+        #ff8a1f
+    );
+
+    box-shadow:
+        0 0 18px rgba(255, 113, 0, 0.45);
+
+    z-index: 3;
+}
+
+
+#newRequestsSection .new-request-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(255, 113, 0, 0.28) !important;
+
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.40),
+        0 0 25px rgba(255, 113, 0, 0.07) !important;
+}
+
+
+/* =========================================================
+   TOP AREA
+========================================================= */
+
+#newRequestsSection .new-request-top {
+    position: relative;
+
+    padding: 25px 25px 20px 28px !important;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+
+/* SERVICE BADGE */
+
+#newRequestsSection .request-service {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 10px;
+    padding: 6px 11px;
+
+    border-radius: 8px;
+
+    background: rgba(255, 113, 0, 0.10);
+    border: 1px solid rgba(255, 113, 0, 0.22);
+
+    color: #ff8a1f;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+/* ISSUE */
+
+#newRequestsSection .new-request-top h3 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+}
+
+
+/* =========================================================
+   DISTANCE BADGE
+========================================================= */
+
+#newRequestsSection .request-distance {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 9px 13px;
+
+    border-radius: 11px;
+
+    background: rgba(255, 113, 0, 0.08);
+    border: 1px solid rgba(255, 113, 0, 0.20);
+
+    color: #ff8a1f;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+#newRequestsSection .request-distance i {
+    color: #ff7100;
+}
+
+
+/* =========================================================
+   DETAILS STRIP
+========================================================= */
+
+#newRequestsSection .new-request-details {
+    margin: 0 !important;
+    padding: 17px 25px 18px 28px !important;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.055);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+
+    background: rgba(255, 255, 255, 0.018);
+}
+
+
+/* EACH DETAIL */
+
+#newRequestsSection .new-request-details > div {
+    flex: 1;
+
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    padding: 9px 13px;
+
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    border-radius: 13px;
+
+    background: rgba(0, 0, 0, 0.16);
+
+    color: #c5c7ce;
+
+    transition: 0.2s ease;
+}
+
+
+#newRequestsSection .new-request-details > div:hover {
+    border-color: rgba(255, 113, 0, 0.20);
+    background: rgba(255, 113, 0, 0.045);
+}
+
+
+/* =========================================================
+   DATE / TIME / LOCATION ICONS
+========================================================= */
+
+#newRequestsSection .new-request-details i {
+    flex-shrink: 0;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: rgba(255, 113, 0, 0.12);
+
+    color: #ff8a1f;
+
+    font-size: 13px;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 113, 0, 0.08);
+}
+
+
+/* TEXT */
+
+#newRequestsSection .new-request-details span {
+    color: #d5d6db;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+#newRequestsSection .new-request-footer {
+    margin: 0 !important;
+    padding: 20px 25px 21px 28px !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* SERVICE CHARGE */
+
+#newRequestsSection .new-request-footer strong {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #ffffff;
+
+    font-size: 25px;
+    font-weight: 850;
+}
+
+
+/* ₹ icon / currency */
+
+#newRequestsSection .new-request-footer strong::before {
+    content: "₹";
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: rgba(255, 113, 0, 0.13);
+    border: 1px solid rgba(255, 113, 0, 0.18);
+
+    color: #ff8a1f;
+
+    font-size: 19px;
+    font-weight: 900;
+}
+
+
+/*
+   Remove duplicate ₹ from the actual text visually
+   while keeping JS untouched.
+*/
+#newRequestsSection .new-request-footer strong {
+    font-size: 0;
+}
+
+#newRequestsSection .new-request-footer strong::after {
+    content: attr(data-charge);
+}
+
+#newRequestsSection .new-request-footer strong {
+    /* fallback for existing ₹0 text */
+    font-size: 0;
+}
+
+
+/* =========================================================
+   ACCEPT BUTTON
+========================================================= */
+
+#newRequestsSection .accept-new-job-btn {
+    min-width: 165px;
+    height: 52px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #ff7100,
+        #ff8a1f
+    );
+
+    color: #0b0b0f;
+
+    font-size: 14px;
+    font-weight: 850;
+
+    box-shadow:
+        0 10px 25px rgba(255, 113, 0, 0.20);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+
+#newRequestsSection .accept-new-job-btn:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.07);
+
+    box-shadow:
+        0 14px 32px rgba(255, 113, 0, 0.35);
+}
+
+
+#newRequestsSection .accept-new-job-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    #newRequestsSection .new-request-top {
+        padding: 20px 18px 17px 22px !important;
+    }
+
+    #newRequestsSection .new-request-top h3 {
+        font-size: 19px;
+    }
+
+    #newRequestsSection .new-request-details {
+        flex-direction: column;
+        align-items: stretch;
+
+        padding: 14px 18px 16px 22px !important;
+    }
+
+    #newRequestsSection .new-request-details > div {
+        width: 100%;
+        flex: none;
+    }
+
+    #newRequestsSection .new-request-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+
+        padding: 18px 18px 20px 22px !important;
+    }
+
+    #newRequestsSection .accept-new-job-btn {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   NEW REQUEST — MODERN SERVICE CARD
+========================================================= */
+
+#newRequestsSection .new-request-card {
+    position: relative;
+
+    padding: 0 !important;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border-radius: 22px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #19191f 0%,
+            #141419 50%,
+            #101014 100%
+        ) !important;
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* left orange highlight */
+
+#newRequestsSection .new-request-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 4px;
+
+    background: linear-gradient(
+        to bottom,
+        #ff8a1f,
+        #ff7100,
+        #ff8a1f
+    );
+
+    box-shadow:
+        0 0 20px rgba(255, 113, 0, 0.45);
+
+    z-index: 5;
+}
+
+
+#newRequestsSection .new-request-card:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(255, 113, 0, 0.30) !important;
+
+    box-shadow:
+        0 24px 55px rgba(0, 0, 0, 0.45),
+        0 0 28px rgba(255, 113, 0, 0.06) !important;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+#newRequestsSection .new-request-card-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 25px 25px 22px 28px;
+}
+
+
+/* SERVICE INFO */
+
+#newRequestsSection .request-service-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-width: 0;
+}
+
+
+/* BIG SERVICE EMOJI */
+
+#newRequestsSection .request-service-icon {
+    width: 54px;
+    height: 54px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 113, 0, 0.20),
+            rgba(255, 113, 0, 0.07)
+        );
+
+    border: 1px solid rgba(255, 113, 0, 0.20);
+
+    font-size: 26px;
+
+    box-shadow:
+        0 8px 20px rgba(255, 113, 0, 0.08);
+}
+
+
+/* SERVICE LABEL */
+
+#newRequestsSection .request-service {
+    display: inline-flex;
+
+    padding: 5px 10px;
+
+    margin-bottom: 7px;
+
+    border-radius: 7px;
+
+    background: rgba(255, 113, 0, 0.09);
+
+    border: 1px solid rgba(255, 113, 0, 0.18);
+
+    color: #ff8a1f;
+
+    font-size: 10px;
+    font-weight: 850;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+
+/* ISSUE TITLE */
+
+#newRequestsSection .new-request-card-header h3 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 21px;
+    font-weight: 800;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.3px;
+}
+
+
+/* =========================================================
+   DISTANCE
+========================================================= */
+
+#newRequestsSection .request-distance {
+    display: flex;
+
+    align-items: center;
+    gap: 6px;
+
+    padding: 9px 13px;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: rgba(255, 113, 0, 0.07);
+
+    border: 1px solid rgba(255, 113, 0, 0.18);
+
+    color: #ff8a1f;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   INFO GRID
+========================================================= */
+
+#newRequestsSection .request-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1.35fr;
+
+    gap: 10px;
+
+    margin: 0 25px 0 28px;
+
+    padding: 17px 0;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.06);
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.06);
+}
+
+
+/* EACH INFO BOX */
+
+#newRequestsSection .request-info-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+
+    padding: 11px 13px;
+
+    border-radius: 13px;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.055);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+#newRequestsSection .request-info-item:hover {
+    background:
+        rgba(255, 113, 0, 0.055);
+
+    border-color:
+        rgba(255, 113, 0, 0.18);
+}
+
+
+/* =========================================================
+   EMOJI BOXES
+========================================================= */
+
+#newRequestsSection .request-info-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        rgba(255, 113, 0, 0.10);
+
+    font-size: 17px;
+}
+
+
+/* INFO TEXT */
+
+#newRequestsSection .request-info-item div {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+#newRequestsSection .request-info-item small {
+    color: #777b87;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+
+#newRequestsSection .request-info-item strong {
+    color: #dfe0e5;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+#newRequestsSection .request-card-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 19px 25px 21px 28px;
+}
+
+
+/* =========================================================
+   SERVICE CHARGE
+========================================================= */
+
+#newRequestsSection .technician-service-charge {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+#newRequestsSection .charge-icon {
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 113, 0, 0.17),
+            rgba(255, 113, 0, 0.07)
+        );
+
+    border:
+        1px solid rgba(255, 113, 0, 0.20);
+
+    font-size: 19px;
+}
+
+
+#newRequestsSection .technician-service-charge > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+#newRequestsSection .technician-service-charge small {
+    color: #777b87;
+
+    font-size: 9px;
+    font-weight: 850;
+
+    letter-spacing: 1px;
+}
+
+
+#newRequestsSection .technician-service-charge strong {
+    color: #ffffff;
+
+    font-size: 23px;
+    font-weight: 850;
+}
+
+
+/* =========================================================
+   ACCEPT BUTTON
+========================================================= */
+
+#newRequestsSection .accept-new-job-btn {
+    min-width: 155px;
+    height: 49px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 0 20px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff7100,
+            #ff8a1f
+        );
+
+    color: #0b0b0f;
+
+    font-size: 13px;
+    font-weight: 850;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(255, 113, 0, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+
+#newRequestsSection .accept-new-job-btn i {
+    font-size: 12px;
+}
+
+
+#newRequestsSection .accept-new-job-btn:hover {
+    transform: translateY(-2px);
+
+    filter: brightness(1.06);
+
+    box-shadow:
+        0 14px 32px rgba(255, 113, 0, 0.36);
+}
+
+
+#newRequestsSection .accept-new-job-btn:active {
+    transform: translateY(0);
+}
+
+
+#newRequestsSection .accept-new-job-btn:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    #newRequestsSection .new-request-card-header {
+        padding: 20px 18px 18px 22px;
+    }
+
+    #newRequestsSection .request-service-icon {
+        width: 46px;
+        height: 46px;
+
+        border-radius: 13px;
+
+        font-size: 22px;
+    }
+
+    #newRequestsSection .new-request-card-header h3 {
+        font-size: 18px;
+    }
+
+    #newRequestsSection .request-info-grid {
+        grid-template-columns: 1fr;
+
+        margin: 0 18px 0 22px;
+
+        padding: 14px 0;
+    }
+
+    #newRequestsSection .request-card-footer {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 18px 18px 20px 22px;
+    }
+
+    #newRequestsSection .accept-new-job-btn {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   NEW REQUESTS — 2 COLUMN GRID
+========================================================= */
+
+#newRequestsContainer {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   REQUEST CARD
+========================================================= */
+
+#newRequestsContainer .new-request-card {
+
+    width: 100% !important;
+
+    min-width: 0;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    overflow: hidden;
+
+    position: relative;
+
+    border-radius: 20px !important;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08) !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #18181d,
+            #111115
+        ) !important;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.30) !important;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* Orange side accent */
+
+#newRequestsContainer .new-request-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: 3px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #ff8a1f,
+            #ff7100
+        );
+
+    z-index: 2;
+}
+
+
+#newRequestsContainer .new-request-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(255, 113, 0, 0.35) !important;
+
+    box-shadow:
+        0 18px 38px rgba(0, 0, 0, 0.42),
+        0 0 22px rgba(255, 113, 0, 0.06) !important;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+#newRequestsContainer
+.new-request-card-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding:
+        20px 18px 18px 22px;
+}
+
+
+#newRequestsContainer
+.request-service-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+
+/* Service icon */
+
+#newRequestsContainer
+.request-service-icon {
+
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 113, 0, 0.10);
+
+    border:
+        1px solid rgba(255, 113, 0, 0.22);
+
+    font-size: 23px;
+}
+
+
+/* Heading */
+
+#newRequestsContainer
+.request-heading {
+
+    min-width: 0;
+}
+
+
+#newRequestsContainer
+.request-service {
+
+    display: inline-block;
+
+    padding:
+        4px 8px;
+
+    margin-bottom: 5px;
+
+    border-radius: 6px;
+
+    background:
+        rgba(255, 113, 0, 0.09);
+
+    border:
+        1px solid rgba(255, 113, 0, 0.18);
+
+    color: #ff8a1f;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+
+    text-transform: uppercase;
+}
+
+
+#newRequestsContainer
+.new-request-card-header h3 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    line-height: 1.25;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   DISTANCE
+========================================================= */
+
+#newRequestsContainer
+.request-distance {
+
+    flex-shrink: 0;
+
+    padding:
+        8px 10px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 113, 0, 0.07);
+
+    border:
+        1px solid rgba(255, 113, 0, 0.17);
+
+    color: #ff8a1f;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   INFO GRID
+========================================================= */
+
+#newRequestsContainer
+.request-info-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 8px;
+
+    margin:
+        0 18px 0 22px;
+
+    padding:
+        14px 0;
+
+    border-top:
+        1px solid rgba(255,255,255,0.06);
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.06);
+}
+
+
+/* Info box */
+
+#newRequestsContainer
+.request-info-item {
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        9px;
+
+    border-radius: 11px;
+
+    background:
+        rgba(255,255,255,0.025);
+
+    border:
+        1px solid rgba(255,255,255,0.055);
+}
+
+
+/* Emoji */
+
+#newRequestsContainer
+.request-info-icon {
+
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255, 113, 0, 0.09);
+
+    font-size: 14px;
+}
+
+
+/* Text */
+
+#newRequestsContainer
+.request-info-item > div {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+#newRequestsContainer
+.request-info-item small {
+
+    color: #70737d;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+}
+
+
+#newRequestsContainer
+.request-info-item strong {
+
+    color: #e9e9ed;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+#newRequestsContainer
+.request-card-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding:
+        15px 18px 17px 22px;
+}
+
+
+/* =========================================================
+   SERVICE CHARGE
+========================================================= */
+
+#newRequestsContainer
+.technician-service-charge {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+#newRequestsContainer
+.charge-icon {
+
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 113, 0, 0.10);
+
+    border:
+        1px solid rgba(255, 113, 0, 0.20);
+
+    font-size: 16px;
+}
+
+
+#newRequestsContainer
+.technician-service-charge > div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1px;
+}
+
+
+#newRequestsContainer
+.technician-service-charge small {
+
+    color: #70737d;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.7px;
+}
+
+
+#newRequestsContainer
+.technician-service-charge strong {
+
+    color: #ffffff;
+
+    font-size: 19px;
+
+    font-weight: 850;
+}
+
+
+/* =========================================================
+   ACCEPT BUTTON
+========================================================= */
+
+#newRequestsContainer
+.accept-new-job-btn {
+
+    height: 42px;
+
+    padding:
+        0 17px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff7100,
+            #ff8a1f
+        );
+
+    color: #0b0b0f;
+
+    font-size: 11px;
+
+    font-weight: 850;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(255,113,0,0.20);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+#newRequestsContainer
+.accept-new-job-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(255,113,0,0.32);
+}
+
+
+#newRequestsContainer
+.accept-new-job-btn:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   EMPTY / ERROR STATE
+   Keep it full width
+========================================================= */
+
+#newRequestsContainer
+.empty-requests {
+
+    grid-column:
+        1 / -1;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    #newRequestsContainer {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    #newRequestsContainer {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 14px;
+
+    }
+
+    #newRequestsContainer
+    .request-info-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    #newRequestsContainer
+    .request-card-footer {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    #newRequestsContainer
+    .accept-new-job-btn {
+
+        width: 100%;
+
+    }
+
+}
+
+/* =========================================================
+   NEW REQUESTS — SECTION HEADER ONLY
+========================================================= */
+
+#newRequestsSection .section-header {
+    margin: 0 0 22px 0;
+    padding: 0;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+
+/* NEARBY OPPORTUNITIES */
+
+#newRequestsSection .section-kicker {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #ff7100;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+
+    line-height: 1.2;
+
+    text-transform: uppercase;
+}
+
+
+/* NEW REQUESTS */
+
+#newRequestsSection .section-header h1 {
+    margin: 0;
+
+    color: #f4f4f5;
+
+    font-size: 29px;
+    font-weight: 700;
+
+    line-height: 1.15;
+
+    letter-spacing: -0.6px;
+}
+
+
+/* SMALL ORANGE LINE */
+
+#newRequestsSection .section-header h1::after {
+    display: none;
+}
+
+#newRequestsSection .section-header p::after {
+    content: "";
+
+    display: block;
+
+    width: 42px;
+    height: 3px;
+
+    margin-top: 10px;
+
+    border-radius: 2px;
+
+    background: #ff7100;
+}
+
+
+/* DESCRIPTION */
+
+#newRequestsSection .section-header p {
+    margin: 9px 0 0;
+
+    color: #858993;
+
+    font-size: 13px;
+    font-weight: 400;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    #newRequestsSection .section-header {
+        margin-bottom: 18px;
+    }
+
+    #newRequestsSection .section-header h1 {
+        font-size: 24px;
+    }
+
+    #newRequestsSection .section-kicker {
+        font-size: 9px;
+    }
+
+    #newRequestsSection .section-header p {
+        font-size: 12px;
+    }
+
+}

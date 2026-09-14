@@ -560,6 +560,89 @@ function escapeHTML(value) {
 
 }
 
+// =====================================================
+// CHECK NEARBY TECHNICIANS
+// =====================================================
+
+async function getNearbyTechnicianCount(booking) {
+
+    if (
+        !booking ||
+        !booking.latitude ||
+        !booking.longitude ||
+        !booking.service
+    ) {
+        return 0;
+    }
+
+
+    try {
+
+        const params =
+            new URLSearchParams({
+                latitude:
+                    String(booking.latitude),
+
+                longitude:
+                    String(booking.longitude),
+
+                service:
+                    booking.service
+            });
+
+
+        const response =
+            await fetch(
+                `${API_URL}/bookings/nearby-technicians?${params.toString()}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            console.log(
+                "Nearby technician check failed:",
+                data
+            );
+
+            return 0;
+        }
+
+
+        return Number(
+            data.count || 0
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.log(
+            "Nearby technician check error:",
+            error
+        );
+
+        return 0;
+
+    }
+
+}
+
 
 // =====================================================
 // OPEN BOOKING DETAILS
@@ -607,6 +690,26 @@ async function openBookingDetails(bookingId) {
         normalizeStatus(
             booking.status
         );
+
+        const normalizedStatus = String(status).toLowerCase().trim();
+        // =====================================================
+// CHECK NEARBY TECHNICIANS
+// =====================================================
+
+let nearbyTechnicianCount = 0;
+
+if (
+    status === "pending" &&
+    !booking.technicianId &&
+    !booking.technician
+) {
+
+    nearbyTechnicianCount =
+        await getNearbyTechnicianCount(
+            booking
+        );
+
+}
 
 
     const statusLabel =
@@ -774,15 +877,16 @@ catch (error) {
     // =========================================
 
     const technicianSection =
-        createTechnicianSection(
-            booking,
-            technicianName,
-            technicianPhone,
-            technicianRating,
-            totalReviews,
-            technicianService,
-            technicianExperience
-        );
+    createTechnicianSection(
+        booking,
+        technicianName,
+        technicianPhone,
+        technicianRating,
+        totalReviews,
+        technicianService,
+        technicianExperience,
+        nearbyTechnicianCount
+    );
 
 
     const reviewSection =
@@ -942,10 +1046,10 @@ catch (error) {
 
     <!-- SERVICE OTP -->
 
-    ${
-        status !== "completed" &&
-        status !== "cancelled"
-        ?
+   ${
+    status !== "completed" &&
+    status !== "cancelled"
+    ?
         `
 
         <div class="service-otp-card">
@@ -2158,19 +2262,28 @@ function createTechnicianSection(
     technicianRating,
     totalReviews,
     technicianService,
-    technicianExperience
+    technicianExperience,
+    nearbyTechnicianCount = 0
 ) {
 
+    const status = normalizeStatus(booking.status);
+
     const assigned =
-        booking.technician ||
-        booking.technicianId;
+        booking.technicianId ||
+        booking.technician;
 
 
     // =========================================
-    // NOT ASSIGNED
+    // FINDING TECHNICIAN
     // =========================================
 
-    if (!assigned) {
+  if (!assigned) {
+
+    const hasNearbyTechnicians =
+        Number(nearbyTechnicianCount) > 0;
+
+
+    if (!hasNearbyTechnicians) {
 
         return `
 
@@ -2181,38 +2294,39 @@ function createTechnicianSection(
                     <span class="section-line"></span>
 
                     <h3>
-                        Assigned Technician
+                        Technician
                     </h3>
 
                 </div>
 
 
-                <div class="technician-card not-assigned">
+                <div class="technician-card finding-technician">
 
+                    <div class="technician-avatar finding-avatar">
 
-                    <div class="technician-avatar">
-                        👨‍🔧
+                        <span class="finding-spinner"></span>
+
                     </div>
 
 
                     <div class="technician-info">
 
                         <span class="technician-label">
-                            YOUR TECHNICIAN
+                            FIXMATE
                         </span>
 
 
                         <h4>
-                            Technician Not Assigned
+                            No Technician Nearby
                         </h4>
 
 
                         <div class="technician-designation">
-                            Technician will appear here once assigned.
+                            We couldn't find an available technician
+                            within 20 km of your location right now.
                         </div>
 
                     </div>
-
 
                 </div>
 
@@ -2223,8 +2337,120 @@ function createTechnicianSection(
     }
 
 
+    return `
+
+        <section class="detail-section technician-section">
+
+            <div class="section-heading">
+
+                <span class="section-line"></span>
+
+                <h3>
+                    Technician
+                </h3>
+
+            </div>
+
+
+            <div class="technician-card finding-technician">
+
+                <div class="technician-avatar finding-avatar">
+
+                    <span class="finding-spinner"></span>
+
+                </div>
+
+
+                <div class="technician-info">
+
+                    <span class="technician-label">
+                        FIXMATE
+                    </span>
+
+
+                    <h4>
+                        Finding Technician...
+                    </h4>
+
+
+                    <div class="technician-designation">
+                        ${
+                            nearbyTechnicianCount
+                        } available technician${
+                            nearbyTechnicianCount === 1
+                                ? ""
+                                : "s"
+                        } nearby. Waiting for one to accept your request.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    `;
+
+}
+
+
     // =========================================
-    // RATING
+    // STATUS-AWARE MESSAGE
+    // =========================================
+
+    let technicianTitle = "Technician Found";
+
+    let technicianMessage =
+        "Your technician has accepted your service request.";
+
+    let technicianBadge =
+        "Technician Assigned";
+
+
+    if (status === "on-the-way") {
+
+        technicianTitle =
+            "Technician On The Way";
+
+        technicianMessage =
+            "Your technician is heading to the service location.";
+
+        technicianBadge =
+            "On The Way";
+
+    }
+
+
+    else if (status === "in-progress") {
+
+        technicianTitle =
+            "Service In Progress";
+
+        technicianMessage =
+            "Your technician is currently working on your service.";
+
+        technicianBadge =
+            "Service In Progress";
+
+    }
+
+
+    else if (status === "completed") {
+
+        technicianTitle =
+            "Service Completed";
+
+        technicianMessage =
+            "Your service has been successfully completed.";
+
+        technicianBadge =
+            "Service Completed";
+
+    }
+
+
+    // =========================================
+    // TECHNICIAN DATA
     // =========================================
 
     const hasRating =
@@ -2247,19 +2473,11 @@ function createTechnicianSection(
             : 0;
 
 
-    // =========================================
-    // EXPERIENCE
-    // =========================================
-
     const hasExperience =
         technicianExperience !== null &&
         technicianExperience !== undefined &&
         technicianExperience !== "";
 
-
-    // =========================================
-    // PHONE
-    // =========================================
 
     const hasPhone =
         technicianPhone !== null &&
@@ -2268,32 +2486,28 @@ function createTechnicianSection(
 
 
     // =========================================
-    // FINAL CARD
+    // TECHNICIAN FOUND
     // =========================================
 
     return `
 
         <section class="detail-section technician-section">
 
-
             <div class="section-heading">
 
                 <span class="section-line"></span>
 
                 <h3>
-                    Assigned Technician
+                    ${technicianTitle}
                 </h3>
 
             </div>
 
 
-            <div class="technician-card">
+            <div class="technician-card technician-found">
 
-
-                <!-- LEFT SIDE -->
 
                 <div class="technician-main">
-
 
                     <div class="technician-avatar">
                         👨‍🔧
@@ -2301,7 +2515,6 @@ function createTechnicianSection(
 
 
                     <div class="technician-info">
-
 
                         <span class="technician-label">
                             YOUR TECHNICIAN
@@ -2316,45 +2529,44 @@ function createTechnicianSection(
                         </h4>
 
 
-                        ${
-                            technicianService
-                            ?
-                            `
+                        <div class="technician-designation">
 
-                            <div class="technician-designation">
+                            ${
+                                technicianService
+                                    ? `🔧 ${escapeHTML(
+                                        technicianService
+                                    )}`
+                                    : "FixMate Technician"
+                            }
 
-                                🔧
+                        </div>
 
-                                ${escapeHTML(
-                                    technicianService
-                                )}
 
-                            </div>
-
-                            `
-                            :
-                            ""
-                        }
-
+                        <p class="technician-status-message">
+                            ${technicianMessage}
+                        </p>
 
                     </div>
-
 
                 </div>
 
 
-                <!-- RIGHT SIDE : RATING + EXPERIENCE -->
+                <div class="technician-found-badge">
+
+                    <span class="technician-found-dot"></span>
+
+                    ${technicianBadge}
+
+                </div>
+
 
                 <div class="technician-stats">
 
-
                     ${
                         hasRating
-                        ?
-                        `
+                            ? `
 
                         <div class="technician-stat">
-
 
                             <span class="stat-label">
                                 RATING
@@ -2363,38 +2575,30 @@ function createTechnicianSection(
 
                             <div class="stat-value rating-value">
 
-
                                 <span>
                                     ★
                                 </span>
 
-
                                 ${ratingValue.toFixed(1)}
-
 
                                 <small>
                                     (${reviewCount} ratings)
                                 </small>
 
-
                             </div>
-
 
                         </div>
 
                         `
-                        :
-                        ""
+                        : ""
                     }
 
 
                     ${
                         hasExperience
-                        ?
-                        `
+                            ? `
 
                         <div class="technician-stat">
-
 
                             <span class="stat-label">
                                 EXPERIENCE
@@ -2413,24 +2617,18 @@ function createTechnicianSection(
 
                             </div>
 
-
                         </div>
 
                         `
-                        :
-                        ""
+                        : ""
                     }
-
 
                 </div>
 
 
-                <!-- CALL BUTTON -->
-
                 ${
                     hasPhone
-                    ?
-                    `
+                        ? `
 
                     <a
                         href="tel:${escapeHTML(
@@ -2443,7 +2641,6 @@ function createTechnicianSection(
                         )}"
                     >
 
-
                         <span class="call-icon">
                             📞
                         </span>
@@ -2451,38 +2648,30 @@ function createTechnicianSection(
 
                         <span>
 
-
                             <small>
                                 CALL TECHNICIAN
                             </small>
-
 
                             ${escapeHTML(
                                 technicianPhone
                             )}
 
-
                         </span>
-
 
                     </a>
 
                     `
-                    :
-                    ""
+                    : ""
                 }
 
 
             </div>
-
 
         </section>
 
     `;
 
 }
-
-
 // =====================================================
 // REVIEW SECTION
 // =====================================================
@@ -3452,3 +3641,13 @@ window.addEventListener(
 // =====================================================
 
 loadBookings();
+
+// =====================================================
+// AUTO REFRESH BOOKING STATUS
+// =====================================================
+
+setInterval(() => {
+
+    loadBookings();
+
+}, 10000);

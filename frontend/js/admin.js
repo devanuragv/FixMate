@@ -2517,6 +2517,38 @@ function viewBookingDetails(
         booking.status ||
         "Pending";
 
+        // ================================
+// Live Technician Information
+// ================================
+
+const assignedTechnician =
+    window.allTechnicians.find(
+        tech =>
+            tech.id === booking.technicianId
+    ) ||
+    window.allTechnicians.find(
+        tech =>
+            tech.name === booking.technician
+    );
+
+const technicianName =
+    assignedTechnician?.name ||
+    booking.technician ||
+    "Not Assigned";
+
+const technicianStatus =
+    assignedTechnician?.status ||
+    "Unknown";
+
+const technicianLatitude =
+    assignedTechnician?.latitude;
+
+const technicianLongitude =
+    assignedTechnician?.longitude;
+
+const technicianLocationUpdatedAt =
+    assignedTechnician?.locationUpdatedAt;
+
 
     const statusClass =
         status
@@ -2549,6 +2581,7 @@ function viewBookingDetails(
 
     }
 
+    details.dataset.bookingId = bookingId;
 
     details.innerHTML = `
 
@@ -2643,18 +2676,82 @@ function viewBookingDetails(
                 </p>
 
 
-                <p>
+               <p>
+    <strong>
+        Technician:
+    </strong>
 
-                    <strong>
-                        Technician:
-                    </strong>
+    ${technicianName}
 
-                    ${
-                        booking.technician ||
-                        "Not Assigned"
-                    }
+</p>
 
-                </p>
+<p>
+    <strong>
+        Technician Status:
+    </strong>
+
+    <span class="booking-status">
+        ${technicianStatus}
+    </span>
+</p>
+
+${
+    assignedTechnician
+    ?
+    `
+    <p>
+    <strong>
+        Current Location:
+    </strong>
+
+    ${
+        technicianLatitude !== undefined &&
+        technicianLongitude !== undefined
+        ?
+        `
+        <span>
+            ${technicianLatitude},
+            ${technicianLongitude}
+        </span>
+
+        <a
+            href="https://www.google.com/maps?q=${encodeURIComponent(
+                `${technicianLatitude},${technicianLongitude}`
+            )}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="admin-location-btn"
+        >
+            <i class="fas fa-location-arrow"></i>
+            Open in Maps
+        </a>
+        `
+        :
+        `
+        <span>
+            Location unavailable
+        </span>
+        `
+    }
+</p>
+
+<p>
+    <strong>
+        Last Location Update:
+    </strong>
+
+    ${
+        technicianLocationUpdatedAt
+        ?
+        technicianLocationUpdatedAt
+        :
+        "Not available"
+    }
+</p>
+    `
+    :
+    ""
+}
 
             </div>
 
@@ -3485,3 +3582,44 @@ Promise.all([
     loadTechnicians(),
     loadUsers()
 ]);
+
+// ========================================
+// LIVE ADMIN DASHBOARD REFRESH
+// ========================================
+
+// ========================================
+// LIVE ADMIN DASHBOARD REFRESH
+// ========================================
+
+setInterval(async () => {
+
+    await loadAdminData();
+
+    // Refresh currently opened booking modal
+    const bookingModal =
+        document.getElementById("bookingModal");
+
+    if (
+        bookingModal &&
+        bookingModal.style.display === "flex"
+    ) {
+
+        const bookingDetails =
+            document.getElementById("bookingDetails");
+
+        if (bookingDetails) {
+
+            const currentBookingId =
+                bookingDetails.dataset.bookingId;
+
+            if (currentBookingId) {
+                viewBookingDetails(
+                    currentBookingId
+                );
+            }
+
+        }
+
+    }
+
+}, 10000);
