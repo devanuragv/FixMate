@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = "/api";
 
 const SERVICE_CHARGES = {
     Painter: 500,
@@ -128,6 +128,51 @@ window.location.href =
 let currentStatus =
   technician.status ||
   "Offline";
+
+  async function syncTechnicianStatus() {
+    try {
+        const response = await fetch(
+            `${API_URL}/technician/profile/${technician.id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (response.ok && data.success && data.technician) {
+            const latestTechnician = data.technician;
+
+            currentStatus =
+                latestTechnician.status || "Offline";
+
+            Object.assign(
+                technician,
+                latestTechnician
+            );
+
+            localStorage.setItem(
+                "technician",
+                JSON.stringify(technician)
+            );
+
+            updateAvailabilityUI();
+
+            return true;
+        }
+
+    } catch (error) {
+        console.log(
+            "Unable to sync technician status:",
+            error
+        );
+    }
+
+    updateAvailabilityUI();
+    return false;
+}
 
 let locationWatchId = null;
 
@@ -2241,7 +2286,7 @@ switchBtn.addEventListener(
 
       showToast(
         error.message ||
-        "Location permission is required to become Available.",
+        "Unable to become Available.",
         "error"
       );
 
@@ -2259,6 +2304,8 @@ document.getElementById(
 ).addEventListener(
 "click",
 ()=>{
+
+    setActiveMenu(document.getElementById("profileBtn"));
 
 document.getElementById(
 "dashboardSection"
@@ -2333,6 +2380,8 @@ document.getElementById(
 "click",
 ()=>{
 
+    setActiveMenu(document.getElementById("earningsBtn"));
+
 document.getElementById(
 "dashboardSection"
 ).style.display =
@@ -2384,6 +2433,8 @@ document.getElementById(
 .addEventListener(
 "click",
 ()=>{
+
+    setActiveMenu(document.getElementById("dashboardBtn"));
 
 document.getElementById(
 "dashboardSection"
@@ -2455,6 +2506,8 @@ document.getElementById(
 "click",
 ()=>{
 
+    setActiveMenu(document.getElementById("historyBtn"));
+
 document.getElementById(
 "dashboardSection"
 ).style.display =
@@ -2509,6 +2562,8 @@ document.getElementById(
 .addEventListener(
 "click",
 ()=>{
+
+    setActiveMenu(document.getElementById("reviewsBtn"));
 
 document.getElementById(
 "dashboardSection"
@@ -2902,19 +2957,18 @@ console.log(error);
 
 async function initializeDashboard(){
 
+    // Get latest status from backend first
+    await syncTechnicianStatus();
+
+    updateAvailabilityUI();
+
     await loadJobs();
-
     loadReviews();
-
     loadEarnings();
-
-    // Restore location tracking only if
-    // technician was already Available.
 
     await restoreLocationTracking();
 
     await loadNewRequests();
-
 }
 
 initializeDashboard();
@@ -4132,4 +4186,12 @@ data.message
 
 }
 
+}
+
+function setActiveMenu(activeButton) {
+    document.querySelectorAll(".menu-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    activeButton.classList.add("active");
 }

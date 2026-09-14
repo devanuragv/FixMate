@@ -1,5 +1,4 @@
-const API_URL = "http://localhost:5000/api";
-
+const API_URL = "/api";
 /* =====================================================
    FIXMATE IN-APP NOTIFICATION
    No browser alert()
