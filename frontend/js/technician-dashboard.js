@@ -1486,7 +1486,7 @@ ${
     </button>
     `
     :
-  job.status === "Assigned"
+ job.status === "Assigned"
 ?
 `
 <div class="job-action-group">
@@ -1495,8 +1495,35 @@ ${
         onclick="
             updateStatus(
                 '${job.id}',
-                'In Progress'
+                'On The Way'
             )
+        ">
+        <i class="fas fa-motorcycle"></i>
+        Start Travel
+    </button>
+
+    <button
+        class="cancel-job-btn"
+        onclick="
+            cancelAssignedJob(
+                '${job.id}'
+            )
+        ">
+        <i class="fas fa-rotate-left"></i>
+        Release Job
+    </button>
+
+</div>
+`
+:
+job.status === "On The Way"
+?
+`
+<div class="job-action-group">
+
+    <button
+        onclick="
+            openOtpModal('${job.id}')
         ">
         <i class="fas fa-play"></i>
         Start Job
@@ -1515,15 +1542,21 @@ ${
 
 </div>
 `
-    :
-    job.status === "In Progress"
-    ?
-    `
-    <button
-        onclick="openOtpModal('${job.id}')">
-        Complete Job
-    </button>
-    `
+:
+job.status === "In Progress"
+?
+`
+<button
+    onclick="
+        updateStatus(
+            '${job.id}',
+            'Completed'
+        )
+    ">
+    <i class="fas fa-check"></i>
+    Complete Job
+</button>
+`
     :
     `
     <button disabled>
@@ -1610,8 +1643,7 @@ function closeOtpModal() {
     otpBookingId = null;
 }
 
-
-// Verify OTP and Complete Job
+// Verify OTP and START Job
 async function verifyCustomerOtp() {
 
     const input =
@@ -1626,6 +1658,7 @@ async function verifyCustomerOtp() {
     const otp =
         input.value.trim();
 
+
     if (!otp) {
 
         error.textContent =
@@ -1635,6 +1668,7 @@ async function verifyCustomerOtp() {
 
         return;
     }
+
 
     if (!/^\d{4}$/.test(otp)) {
 
@@ -1646,6 +1680,7 @@ async function verifyCustomerOtp() {
         return;
     }
 
+
     if (!otpBookingId) {
 
         error.textContent =
@@ -1653,6 +1688,7 @@ async function verifyCustomerOtp() {
 
         return;
     }
+
 
     try {
 
@@ -1662,6 +1698,7 @@ async function verifyCustomerOtp() {
             <i class="fas fa-spinner fa-spin"></i>
             Verifying...
         `;
+
 
         const response =
             await fetch(
@@ -1679,25 +1716,18 @@ async function verifyCustomerOtp() {
 
                     body: JSON.stringify({
 
-                        status: "Completed",
+                        status: "In Progress",
 
-                        otp: otp,
+                        otp: otp
 
-                        completedAt:
-                            new Date()
-                                .toLocaleDateString(
-                                    "en-CA",
-                                    {
-                                        timeZone:
-                                            "Asia/Kolkata"
-                                    }
-                                )
                     })
                 }
             );
 
+
         const data =
             await response.json();
+
 
         if (data.success) {
 
@@ -1705,15 +1735,15 @@ async function verifyCustomerOtp() {
 
             showToast(
                 data.message ||
-                "Job Completed Successfully",
+                "OTP verified. Job started successfully.",
                 "success"
             );
 
             await loadJobs();
 
-            loadEarnings();
+        }
 
-        } else {
+        else {
 
             error.textContent =
                 data.message ||
@@ -1721,7 +1751,10 @@ async function verifyCustomerOtp() {
 
         }
 
-    } catch (error) {
+
+    }
+
+    catch (error) {
 
         console.error(
             "OTP verification error:",
@@ -1731,15 +1764,19 @@ async function verifyCustomerOtp() {
         error.textContent =
             "Unable to verify OTP. Please try again.";
 
-    } finally {
+    }
+
+    finally {
 
         verifyBtn.disabled = false;
 
         verifyBtn.innerHTML = `
             <i class="fas fa-check"></i>
-            Verify & Complete
+            Verify & Start Job
         `;
+
     }
+
 }
 
 

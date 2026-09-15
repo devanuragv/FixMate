@@ -17,10 +17,10 @@
     <div class="sidebar">
 
         <div class="logo">
-        <h2>
-            <span class="logo-fix">Fix</span><span class="logo-mate">Mate</span>
-        </h2>
-    </div>
+            <h2>
+                <span class="logo-fix">Fix</span><span class="logo-mate">Mate</span>
+            </h2>
+        </div>
 
         <ul>
 
@@ -52,6 +52,7 @@
 
     </div>
 
+
     <div class="main-content">
 
         <div class="topbar">
@@ -63,51 +64,83 @@
 
         </div>
 
-        <div class="stats-grid">
 
-            <div class="stat-card">
-                <h3>Total Bookings</h3>
-                <p id="totalBookings">0</p>
+        <!-- =========================================
+             CURRENT / RECENT BOOKING
+        ========================================== -->
+
+        <div class="current-booking-section" id="currentBookingSection">
+
+            <div class="current-booking-header">
+                <div>
+                    <span class="current-booking-kicker">
+                        RECENT SERVICE
+                    </span>
+
+                    <h2>
+                        Your Last Booking
+                    </h2>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <h3>Pending</h3>
-                <p id="pendingBookings">0</p>
-            </div>
 
-            <div class="stat-card">
-                <h3>Completed</h3>
-                <p id="completedBookings">0</p>
+            <div class="current-booking-card" id="currentBookingCard">
+
+                <!-- Filled by dashboard.js -->
+
             </div>
 
         </div>
 
-        <div class="recent-bookings">
 
-            <div class="section-header">
-                <h2>Recent Bookings</h2>
+        <!-- =========================================
+             BOOKING STATS
+        ========================================== -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <h3>
+                    Total Bookings
+                </h3>
+
+                <p id="totalBookings">
+                    0
+                </p>
+
             </div>
 
-            <table>
 
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Issue</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+            <div class="stat-card">
 
-                <tbody id="bookingTable">
+                <h3>
+                    Pending
+                </h3>
 
-                </tbody>
+                <p id="pendingBookings">
+                    0
+                </p>
 
-            </table>
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    Completed
+                </h3>
+
+                <p id="completedBookings">
+                    0
+                </p>
+
+            </div>
 
         </div>
 
     </div>
+
 
     <script src="js/dashboard.js"></script>
 

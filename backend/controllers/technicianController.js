@@ -72,256 +72,253 @@ export const updateJobStatus = async (
 
   try {
 
-    console.log("REQ PARAMS:", req.params);
-    console.log("BOOKING ID:", req.params.id);
-    console.log("REQ USER:", req.user);
-
-    const bookingId =
-      req.params.id;
-    
-    console.log("BOOKING ID:", bookingId);
-    console.log("PARAMS:", req.params);
-
+    const bookingId = req.params.id;
     const { status, otp } = req.body;
 
-    if (!bookingId) {
+    console.log("BOOKING ID:", bookingId);
+    console.log("REQ USER:", req.user);
+    console.log("REQUESTED STATUS:", status);
 
+    if (!bookingId) {
       return res.status(400).json({
         success: false,
         message: "Booking ID Required"
       });
-
     }
 
     if (!status) {
-
       return res.status(400).json({
         success: false,
         message: "Status Required"
       });
-
     }
 
-    const bookingRef =
-      db
-        .collection("bookings")
-        .doc(bookingId);
+    const bookingRef = db
+      .collection("bookings")
+      .doc(bookingId);
 
     const bookingDoc = await bookingRef.get();
 
-if (!bookingDoc.exists) {
-    return res.status(404).json({
-        success: false,
-        message: "Booking Not Found"
-    });
-}
-
-const bookingData = bookingDoc.data();
-
-const SERVICE_PRICES = {
-
-"AC Repair":700,
-
-"Electrical":500,
-
-"Plumbing":400,
-
-"Appliance Repair":600,
-
-"Carpentry":500,
-
-"Painting":800,
-
-"Cleaning":300,
-
-"Pest Control":450
-
-};
-
     if (!bookingDoc.exists) {
-
       return res.status(404).json({
         success: false,
         message: "Booking Not Found"
       });
-
     }
-    const technicianId =
-    req.user.technicianId;
-        console.log(
-        "TECHNICIAN ID:",
-        technicianId
-        );
 
-        console.log(
-        "CHECKING TECH DOC:",
-        technicianId
-        );
+    const bookingData = bookingDoc.data();
 
-        const techDoc =
-        await db
-        .collection(
-        "technicians"
-        )
-        .doc(
-        technicianId
-        )
-        .get();
+    const technicianId = req.user.technicianId;
 
-        if(
-        !techDoc.exists
-        ){
+    if (!technicianId) {
+      return res.status(403).json({
+        success: false,
+        message: "Technician authentication required."
+      });
+    }
 
-        return res.status(404).json({
-        success:false,
-        message:"Technician Not Found"
-        });
+    // ================================
+    // GET TECHNICIAN
+    // ================================
 
-        }
+    const techDoc = await db
+      .collection("technicians")
+      .doc(technicianId)
+      .get();
 
-        if (
-    bookingData.technicianId !== technicianId
-) {
-    return res.status(403).json({
+    if (!techDoc.exists) {
+      return res.status(404).json({
+        success: false,
+        message: "Technician Not Found"
+      });
+    }
+
+    // ================================
+    // OWNERSHIP CHECK
+    // ================================
+
+    if (bookingData.technicianId !== technicianId) {
+      return res.status(403).json({
         success: false,
         message: "This job is not assigned to you"
-    });
-}
+      });
+    }
 
-        if(
-        techDoc.data().status ===
-        "Offline"
-        ){
+    // ================================
+    // TECHNICIAN OFFLINE CHECK
+    // ================================
 
-        return res.status(403).json({
-        success:false,
-        message:
-        "You are Offline"
-        });
+    if (techDoc.data().status === "Offline") {
+      return res.status(403).json({
+        success: false,
+        message: "You are Offline"
+      });
+    }
 
-        }
+    const statusTime = new Date();
 
-        const statusTime = new Date();
+    const statusKeyMap = {
+      "Pending": "pending",
+      "Assigned": "assigned",
+      "On The Way": "on-the-way",
+      "In Progress": "in-progress",
+      "Completed": "completed"
+    };
 
-const statusKeyMap = {
-    "Pending": "pending",
-    "Assigned": "assigned",
-    "On The Way": "on-the-way",
-    "In Progress": "in-progress",
-    "Completed": "completed"
-};
-
-const statusKey =
-    statusKeyMap[status] ||
-    String(status)
+    const statusKey =
+      statusKeyMap[status] ||
+      String(status)
         .toLowerCase()
         .trim()
         .replace(/\s+/g, "-");
 
-let updateData = {
+    // ================================
+    // STATUS TRANSITION VALIDATION
+    // ================================
 
-    status,
-
-    updatedAt:
-        statusTime,
-
-    [`statusHistory.${statusKey}`]:
-        statusTime
-
-};
-
-
-if (status === "Completed") {
-
-    // =========================================
-    // CUSTOMER OTP VERIFICATION
-    // =========================================
-
-    if (!otp) {
-        return res.status(400).json({
-            success: false,
-            message: "Customer OTP Required"
-        });
+    if (
+      status === "In Progress" &&
+      bookingData.status !== "On The Way"
+    ) {
+      return res.status(409).json({
+        success: false,
+        message: "Job must be On The Way before starting."
+      });
     }
 
-    // Get customer account
-    const customerId = bookingData.userId;
-
-    if (!customerId) {
-        return res.status(400).json({
-            success: false,
-            message: "Customer Account Not Found"
-        });
+    if (
+      status === "Completed" &&
+      bookingData.status !== "In Progress"
+    ) {
+      return res.status(409).json({
+        success: false,
+        message: "Job must be In Progress before completing."
+      });
     }
 
-    const customerDoc = await db
+    // ================================
+    // BASE UPDATE
+    // ================================
+
+    const updateData = {
+      status: status,
+      updatedAt: statusTime,
+      [`statusHistory.${statusKey}`]: statusTime
+    };
+
+    // =====================================================
+    // OTP VERIFICATION
+    // ON THE WAY → IN PROGRESS
+    // =====================================================
+
+    if (status === "In Progress") {
+
+      // OTP is mandatory only when starting the job
+      if (!otp) {
+        return res.status(400).json({
+          success: false,
+          message: "Customer OTP Required"
+        });
+      }
+
+      const customerId = bookingData.userId;
+
+      if (!customerId) {
+        return res.status(400).json({
+          success: false,
+          message: "Customer Account Not Found"
+        });
+      }
+
+      const customerDoc = await db
         .collection("users")
         .doc(customerId)
         .get();
 
-    if (!customerDoc.exists) {
+      if (!customerDoc.exists) {
         return res.status(404).json({
-            success: false,
-            message: "Customer Not Found"
+          success: false,
+          message: "Customer Not Found"
         });
-    }
+      }
 
-    const customerData = customerDoc.data();
+      const customerData = customerDoc.data();
 
-    const customerOtp =
+      const customerOtp =
         String(customerData.serviceOtp || "").trim();
 
-    const enteredOtp =
+      const enteredOtp =
         String(otp).trim();
 
-    // Verify OTP
-    if (
+      // ================================
+      // VERIFY OTP
+      // ================================
+
+      if (
         !/^\d{4}$/.test(enteredOtp) ||
         enteredOtp !== customerOtp
-    ) {
+      ) {
         return res.status(401).json({
-            success: false,
-            message: "Invalid Customer OTP"
+          success: false,
+          message: "Invalid Customer OTP"
         });
+      }
+
+      console.log("CUSTOMER OTP VERIFIED");
     }
 
-    // =========================================
-    // OTP CORRECT → COMPLETE JOB
-    // =========================================
+    // =====================================================
+    // IN PROGRESS → COMPLETED
+    // NO OTP REQUIRED
+    // =====================================================
 
-    updateData.serviceCharge =
-        SERVICE_PRICES[
-            bookingData.service
-        ] || 0;
+    if (status === "Completed") {
 
-    updateData.completedAt =
+      const SERVICE_PRICES = {
+        "AC Repair": 700,
+        "Electrical": 500,
+        "Plumbing": 400,
+        "Appliance Repair": 600,
+        "Carpentry": 500,
+        "Painting": 800,
+        "Cleaning": 300,
+        "Pest Control": 450
+      };
+
+      updateData.serviceCharge =
+        SERVICE_PRICES[bookingData.service] || 0;
+
+      updateData.completedAt =
         new Date().toLocaleDateString(
-            "en-CA",
-            {
-                timeZone: "Asia/Kolkata"
-            }
+          "en-CA",
+          {
+            timeZone: "Asia/Kolkata"
+          }
         );
-}
+    }
 
-        await bookingRef.update(
-        updateData
-        );
+    // ================================
+    // UPDATE BOOKING
+    // ================================
 
-    res.status(200).json({
+    await bookingRef.update(updateData);
+
+    return res.status(200).json({
       success: true,
-      message:
-        "Status Updated Successfully"
+      message: "Status Updated Successfully"
     });
 
   } catch (error) {
 
-    console.log(error);
+    console.error(
+      "Update Job Status Error:",
+      error
+    );
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message
     });
-
   }
 
 };

@@ -1,7 +1,7 @@
-/* =====================================================
+/* =========================================================
    FIXMATE CUSTOMER DASHBOARD
-   DARK / ORANGE PREMIUM THEME
-===================================================== */
+   CLEAN DARK / ORANGE THEME  (cleaned & de-duplicated)
+========================================================= */
 
 * {
     margin: 0;
@@ -23,16 +23,11 @@
     --muted: #8f929d;
 
     --border: #282830;
-
-    --success: #18c98b;
-    --warning: #ffb020;
-    --danger: #ff4d5e;
 }
 
-
-/* =====================================================
+/* =========================================================
    BODY
-===================================================== */
+========================================================= */
 
 html {
     width: 100%;
@@ -41,30 +36,18 @@ html {
 
 body {
     min-height: 100vh;
-
     font-family: "Poppins", sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 75% 10%,
-            rgba(255, 113, 0, 0.055),
-            transparent 28%
-        ),
-        var(--bg);
-
+    background: var(--bg);
     color: var(--white);
-
     overflow-x: hidden;
 }
 
-
-/* =====================================================
+/* =========================================================
    SIDEBAR
-===================================================== */
+========================================================= */
 
 .sidebar {
     position: fixed;
-
     left: 0;
     top: 0;
 
@@ -73,39 +56,29 @@ body {
 
     padding: 30px 20px;
 
-    background:
-        linear-gradient(
-            180deg,
-            #111116 0%,
-            #0d0d12 100%
-        );
-
+    background: linear-gradient(180deg, #111116 0%, #0d0d12 100%);
     border-right: 1px solid var(--border);
 
     z-index: 100;
-
-    box-shadow:
-        15px 0 45px rgba(0, 0, 0, 0.18);
+    box-shadow: 15px 0 45px rgba(0, 0, 0, 0.18);
 }
-
-
-/* =====================================================
-   LOGO
-===================================================== */
 
 .logo {
     position: relative;
-
     margin-bottom: 45px;
-
     padding: 0 10px;
+}
+
+.logo h2 {
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -1.5px;
 }
 
 .logo::after {
     content: "";
-
     position: absolute;
-
     left: 10px;
     bottom: -18px;
 
@@ -113,169 +86,85 @@ body {
     height: 3px;
 
     border-radius: 10px;
-
     background: var(--orange);
-
-    box-shadow:
-        0 0 14px rgba(255, 113, 0, 0.45);
+    box-shadow: 0 0 14px rgba(255, 113, 0, 0.35);
 }
 
-.logo h2 {
-    font-size: 28px;
-
-    line-height: 1;
-
-    font-weight: 800;
-
-    letter-spacing: -1.5px;
-}
-
-/* FIX = ORANGE */
-
-.logo-fix {
-    color: var(--orange);
-}
-
-/* MATE = WHITE */
-
-.logo-mate {
-    color: var(--white);
-}
-
-
-/* =====================================================
-   SIDEBAR MENU
-===================================================== */
+.logo-fix { color: var(--orange); }
+.logo-mate { color: var(--white); }
 
 .sidebar ul {
     list-style: none;
-
     display: flex;
-
     flex-direction: column;
-
     gap: 7px;
 }
 
 .sidebar li {
     position: relative;
-
     padding: 14px 15px;
 
-    margin-bottom: 2px;
-
     border: 1px solid transparent;
-
-    border-radius: 12px;
+    border-radius: 11px;
 
     color: var(--muted);
-
     font-size: 13px;
-
     font-weight: 500;
 
     cursor: pointer;
-
-    transition:
-        background 0.25s ease,
-        color 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.25s ease;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-
-
-/* =====================================================
-   MENU HOVER
-===================================================== */
 
 .sidebar li:hover {
     color: var(--white);
-
-    background: rgba(255, 113, 0, 0.07);
-
-    border-color: rgba(255, 113, 0, 0.15);
-
-    transform: translateX(3px);
+    background: rgba(255, 113, 0, 0.06);
+    border-color: rgba(255, 113, 0, 0.14);
 }
-
-
-/* =====================================================
-   ACTIVE MENU
-===================================================== */
 
 .sidebar li.active {
     color: var(--white);
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255, 113, 0, 0.16),
-            rgba(255, 113, 0, 0.05)
-        );
-
-    border-color: rgba(255, 113, 0, 0.22);
-
-    box-shadow:
-        inset 3px 0 0 var(--orange),
-        0 8px 25px rgba(255, 113, 0, 0.05);
+    background: rgba(255, 113, 0, 0.09);
+    border-color: rgba(255, 113, 0, 0.20);
+    box-shadow: inset 3px 0 0 var(--orange);
 }
 
 .sidebar li.active::before {
     content: "";
-
     position: absolute;
-
     left: -1px;
     top: 50%;
 
     width: 3px;
-    height: 22px;
+    height: 20px;
 
     transform: translateY(-50%);
-
-    border-radius: 0 5px 5px 0;
-
+    border-radius: 0 4px 4px 0;
     background: var(--orange);
 }
 
-
-/* =====================================================
-   MAIN CONTENT
-===================================================== */
+/* =========================================================
+   MAIN CONTENT / TOPBAR
+========================================================= */
 
 .main-content {
     min-height: 100vh;
-
     margin-left: 250px;
-
     width: calc(100% - 250px);
-
     padding: 38px 42px;
 }
 
-
-/* =====================================================
-   TOPBAR
-===================================================== */
-
 .topbar {
     position: relative;
-
-    margin-bottom: 35px;
-
-    padding-bottom: 25px;
-
-    border-bottom: 1px solid rgba(40, 40, 48, 0.7);
+    margin-bottom: 30px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(40, 40, 48, 0.75);
 }
 
 .topbar h1 {
     color: var(--white);
-
-    font-size: 29px;
-
+    font-size: 28px;
     font-weight: 600;
-
-    letter-spacing: -0.8px;
+    letter-spacing: -0.7px;
 }
 
 .topbar h1 span {
@@ -283,299 +172,723 @@ body {
     font-weight: 700;
 }
 
-
-/* =====================================================
-   SMALL ORANGE LINE
-===================================================== */
-
 .topbar::after {
     content: "";
-
     position: absolute;
-
     left: 0;
     bottom: -1px;
 
-    width: 70px;
+    width: 60px;
     height: 2px;
 
     background: var(--orange);
-
-    box-shadow:
-        0 0 12px rgba(255, 113, 0, 0.35);
 }
 
+/* =========================================================
+   CURRENT BOOKING — SECTION / HIGHLIGHT BOX
+========================================================= */
 
-/* =====================================================
-   STATS GRID
-===================================================== */
+.current-booking-section {
+    position: relative;
+    width: 100%;
+
+    padding: 20px 18px 18px;
+    margin-bottom: 28px;
+
+    border: 1px solid rgba(255, 113, 0, 0.75);
+    border-radius: 24px;
+
+    background: rgba(255, 113, 0, 0.015);
+    box-shadow:
+        0 0 18px rgba(255, 113, 0, 0.08),
+        inset 0 0 20px rgba(255, 113, 0, 0.015);
+}
+
+.current-booking-header {
+    padding: 0 2px 12px;
+}
+
+.current-booking-kicker {
+    display: block;
+    margin-bottom: 3px;
+
+    color: var(--orange);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+.current-booking-header h2 {
+    margin-top: 3px;
+
+    color: var(--white);
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+/* =========================================================
+   BOOKING CARD — LAYOUT
+   (Service+OTP+View Details on the left,
+    Tracking on the right)
+========================================================= */
+
+.current-booking-card {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    column-gap: 80px;
+    row-gap: 42px;
+    align-items: start;
+
+    min-height: 185px;
+    padding: 30px 30px;
+
+    background: var(--panel);
+    border: 1px solid #282830;
+    border-radius: 16px;
+
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.22);
+}
+
+/* =========================================================
+   LEFT SIDE — SERVICE / OTP / VIEW DETAILS
+========================================================= */
+
+.current-booking-main {
+    grid-column: 1;
+    grid-row: 1;
+
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    min-width: 0;
+    align-self: start;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.current-booking-service {
+    display: block;
+    margin: 0;
+}
+
+.current-booking-service .service-info {
+    min-width: 0;
+}
+
+.current-booking-service .service-label {
+    display: block;
+
+    /* The wrench is intentionally ignored — this offset
+       centers SERVICE over the actual service name. */
+    width: 100%;
+    padding-left: 27px;
+    margin: 0 0 5px;
+
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.current-booking-service .service-title,
+.current-booking-service h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+
+    color: var(--white);
+    font-size: 21px;
+    font-weight: 650;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+}
+
+.current-booking-service .service-title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 18px;
+    min-width: 18px;
+
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* =========================================================
+   SERVICE OTP
+========================================================= */
+
+.current-booking-otp {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    width: fit-content;
+    max-width: 150px;
+    min-height: 52px;
+
+    margin-top: 18px;
+    padding: 10px 14px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255, 113, 0, 0.10),
+        rgba(255, 113, 0, 0.02)
+    );
+
+    border: 1px solid rgba(255, 113, 0, 0.35);
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 24px rgba(255, 113, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+    overflow: hidden;
+}
+
+/* subtle glowing corner accent */
+.current-booking-otp::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    right: -20px;
+
+    width: 60px;
+    height: 60px;
+
+    background: rgba(255, 113, 0, 0.15);
+    border-radius: 50%;
+    filter: blur(8px);
+}
+
+.current-booking-otp .otp-label {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+
+    color: var(--muted);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.current-booking-otp .otp-label::before {
+    content: "🔒";
+    font-size: 9px;
+}
+
+.current-booking-otp strong {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 5px;
+
+    color: var(--orange);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    line-height: 1;
+
+    text-shadow: 0 0 12px rgba(255, 113, 0, 0.35);
+}
+
+/* =========================================================
+   VIEW DETAILS
+========================================================= */
+
+.current-booking-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+
+    width: 100%;
+    margin-top: 22px;
+}
+
+.view-details-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    padding: 9px 13px;
+
+    color: var(--text);
+    background: transparent;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    font-size: 9px;
+    font-weight: 500;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.view-details-link span {
+    color: var(--orange);
+    font-size: 13px;
+}
+
+.view-details-link:hover {
+    color: var(--white);
+    background: rgba(255, 113, 0, 0.05);
+    border-color: rgba(255, 113, 0, 0.30);
+}
+
+/* =========================================================
+   RIGHT SIDE — LIVE TRACKING
+========================================================= */
+
+.booking-route {
+    grid-column: 2;
+    grid-row: 1;
+
+    position: relative;
+    z-index: 3;
+
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+
+    align-self: start;
+    justify-self: stretch;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* TOP STATUS ("ARRIVING IN 1 MIN" style) */
+
+.arriving-eta {
+    width: 100%;
+
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 7px;
+
+    margin: 0 0 22px;
+    text-align: left;
+}
+
+.arriving-label {
+    color: var(--white);
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    line-height: 1.1;
+}
+
+.arriving-value {
+    color: var(--orange);
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    line-height: 1.1;
+}
+
+/* ROUTE TRACK */
+
+.route-track {
+    position: relative;
+
+    width: calc(100% - 55px);
+    height: 30px;
+
+    margin: 22px 0 0;
+    padding: 0;
+
+    background: transparent;
+    overflow: visible;
+}
+
+/* grey base line */
+.route-track::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+
+    height: 3px;
+    transform: translateY(-50%);
+
+    background: #3b3b43;
+    border-radius: 999px;
+    z-index: 1;
+}
+
+/* orange progress line */
+.route-filled {
+    position: absolute;
+    left: 0;
+    top: 50%;
+
+    height: 3px;
+    transform: translateY(-50%);
+
+    background: #ff7100;
+    border-radius: 999px;
+    z-index: 2;
+
+    transition: width 0.7s ease;
+}
+
+/* SCOOTER */
+
+.route-scooter {
+    position: absolute;
+    top: 50%;
+
+    width: 34px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+
+    transform: translate(-50%, -50%);
+    transition: left 0.7s ease;
+
+    z-index: 10;
+    pointer-events: none;
+}
+
+.scooter-icon {
+    position: relative;
+    display: block;
+
+    width: 25px;
+    height: 9px;
+
+    background: #ff7100;
+    border-radius: 5px 7px 3px 3px;
+
+    filter: drop-shadow(0 1px 3px rgba(255, 113, 0, 0.35));
+    z-index: 11;
+}
+
+/* handle / front */
+.scooter-icon::before {
+    content: "";
+    position: absolute;
+    right: 1px;
+    top: -7px;
+
+    width: 6px;
+    height: 10px;
+
+    border-right: 2px solid #ff7100;
+    border-top: 2px solid #ff7100;
+    border-radius: 0 5px 0 0;
+}
+
+/* wheels */
+.scooter-icon::after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    bottom: -5px;
+
+    width: 6px;
+    height: 6px;
+
+    background: #ffffff;
+    border: 1px solid #ff7100;
+    border-radius: 50%;
+
+    box-shadow: 15px 0 0 #ffffff, 15px 0 0 1px #ff7100;
+}
+
+/* destination dot */
+.route-endpoint {
+    position: absolute;
+    right: 0;
+    top: 50%;
+
+    width: 8px;
+    height: 8px;
+
+    transform: translate(50%, -50%);
+
+    background: #8f929d;
+    border-radius: 50%;
+    z-index: 4;
+}
+
+/* labels under the track */
+.route-labels {
+    display: flex;
+    justify-content: space-between;
+
+    width: calc(100% - 55px);
+    margin: 3px 0 0;
+
+    color: #8f929d;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.route-labels span:last-child {
+    transform: translateX(50%);
+}
+
+/* bottom status line */
+.tracking-status {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin-top: 16px;
+
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    line-height: 1.2;
+
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.tracking-status::before {
+    content: "";
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 9px;
+    flex: 0 0 7px;
+
+    background: var(--orange);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(255, 113, 0, 0.10);
+}
+
+/* =========================================================
+   EMPTY BOOKING STATE
+========================================================= */
+
+.no-current-booking {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+}
+
+.no-booking-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    color: var(--orange);
+    background: rgba(255, 113, 0, 0.07);
+    border: 1px solid rgba(255, 113, 0, 0.18);
+    border-radius: 10px;
+
+    font-size: 19px;
+}
+
+.no-current-booking h3 {
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.no-current-booking p {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.book-now-link {
+    margin-left: auto;
+    padding: 9px 14px;
+
+    color: var(--white);
+    background: var(--orange);
+    border: 1px solid var(--orange);
+    border-radius: 8px;
+
+    font-size: 9px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
 
 .stats-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 20px;
-
-    margin-bottom: 30px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
 }
-
-
-/* =====================================================
-   STAT CARD
-===================================================== */
 
 .stat-card {
     position: relative;
+    min-height: 130px;
+    padding: 23px;
 
-    min-height: 145px;
-
-    padding: 25px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(20, 20, 27, 0.98),
-            rgba(15, 15, 21, 0.98)
-        );
-
+    background: var(--panel);
     border: 1px solid var(--border);
-
-    border-radius: 17px;
+    border-radius: 15px;
 
     overflow: hidden;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.20);
 
-    box-shadow:
-        0 15px 45px rgba(0, 0, 0, 0.22);
-
-    transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
-
-
-/* orange glow inside card */
 
 .stat-card::before {
     content: "";
-
     position: absolute;
+    right: -40px;
+    top: -40px;
 
-    right: -45px;
-    top: -45px;
-
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
 
     border-radius: 50%;
-
-    background: rgba(255, 113, 0, 0.07);
-
-    filter: blur(2px);
+    background: rgba(255, 113, 0, 0.05);
 }
-
-
-/* bottom accent */
 
 .stat-card::after {
     content: "";
-
     position: absolute;
-
-    left: 25px;
+    left: 23px;
     bottom: 0;
 
-    width: 35px;
+    width: 32px;
     height: 3px;
 
-    border-radius: 10px 10px 0 0;
-
+    border-radius: 5px 5px 0 0;
     background: var(--orange);
-
-    box-shadow:
-        0 0 15px rgba(255, 113, 0, 0.35);
 }
 
 .stat-card:hover {
-    transform: translateY(-4px);
-
+    transform: translateY(-3px);
     border-color: rgba(255, 113, 0, 0.25);
-
-    box-shadow:
-        0 20px 55px rgba(0, 0, 0, 0.30),
-        0 0 30px rgba(255, 113, 0, 0.035);
 }
-
-
-/* =====================================================
-   STAT TEXT
-===================================================== */
 
 .stat-card h3 {
     position: relative;
-
     z-index: 2;
 
     color: var(--muted);
-
-    font-size: 13px;
-
+    font-size: 11px;
     font-weight: 500;
-
-    letter-spacing: 0.2px;
 }
 
 .stat-card p {
     position: relative;
-
     z-index: 2;
 
-    margin-top: 9px;
+    margin-top: 8px;
 
     color: var(--white);
-
-    font-size: 34px;
-
+    font-size: 31px;
     line-height: 1;
-
     font-weight: 700;
-
-    letter-spacing: -1px;
 }
 
-
-/* =====================================================
-   RECENT BOOKINGS
-===================================================== */
+/* =========================================================
+   RECENT BOOKINGS / TABLE
+========================================================= */
 
 .recent-bookings {
     width: 100%;
+    padding: 25px;
 
-    padding: 27px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(18, 18, 24, 0.98),
-            rgba(14, 14, 19, 0.98)
-        );
-
+    background: var(--panel);
     border: 1px solid var(--border);
+    border-radius: 16px;
 
-    border-radius: 19px;
-
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.20);
 }
-
-
-/* =====================================================
-   SECTION HEADER
-===================================================== */
 
 .section-header {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
-    margin-bottom: 23px;
+    margin-bottom: 20px;
 }
 
 .section-header h2 {
     color: var(--white);
-
-    font-size: 19px;
-
+    font-size: 18px;
     font-weight: 600;
-
-    letter-spacing: -0.3px;
 }
-
-.section-header h2::before {
-    content: "";
-
-    display: inline-block;
-
-    width: 4px;
-    height: 19px;
-
-    margin-right: 10px;
-
-    vertical-align: -3px;
-
-    border-radius: 5px;
-
-    background: var(--orange);
-
-    box-shadow:
-        0 0 10px rgba(255, 113, 0, 0.35);
-}
-
-
-/* =====================================================
-   TABLE
-===================================================== */
 
 table {
     width: 100%;
-
-    border-collapse: separate;
-
-    border-spacing: 0;
-
-    overflow: hidden;
+    border-collapse: collapse;
 }
-
-
-/* =====================================================
-   TABLE HEADER
-===================================================== */
 
 thead {
     background: #0d0d12;
 }
 
 th {
-    padding: 15px 16px;
-
+    padding: 13px 15px;
     text-align: left;
 
     color: #777b87;
-
     border-bottom: 1px solid var(--border);
 
-    font-size: 11px;
-
+    font-size: 10px;
     font-weight: 600;
-
     text-transform: uppercase;
-
-    letter-spacing: 0.7px;
+    letter-spacing: 0.6px;
 }
 
-
-/* =====================================================
-   TABLE DATA
-===================================================== */
-
 td {
-    padding: 17px 16px;
-
+    padding: 15px;
     color: #d9d9df;
-
-    border-bottom: 1px solid rgba(40, 40, 48, 0.7);
-
-    font-size: 13px;
-
-    font-weight: 400;
+    border-bottom: 1px solid rgba(40, 40, 48, 0.65);
+    font-size: 12px;
 }
 
 tbody tr {
-    transition:
-        background 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 tbody tr:hover {
@@ -586,77 +899,38 @@ tbody tr:last-child td {
     border-bottom: none;
 }
 
-
-/* =====================================================
-   STATUS COLORS
-
-   These classes won't interfere with dashboard.js.
-   If your JS already adds these classes, they will
-   automatically get the new theme.
-===================================================== */
-
 .status {
     display: inline-flex;
-
     align-items: center;
-
-    padding: 6px 11px;
+    padding: 5px 9px;
 
     border-radius: 30px;
-
-    font-size: 10px;
-
+    font-size: 9px;
     font-weight: 600;
 }
 
-.status.pending {
-    color: var(--warning);
-
-    background: rgba(255, 176, 32, 0.09);
-
-    border: 1px solid rgba(255, 176, 32, 0.18);
-}
-
-.status.completed {
-    color: var(--success);
-
-    background: rgba(24, 201, 139, 0.09);
-
-    border: 1px solid rgba(24, 201, 139, 0.18);
-}
-
+.status.pending,
+.status.completed,
 .status.cancelled,
 .status.rejected {
-    color: var(--danger);
-
-    background: rgba(255, 77, 94, 0.09);
-
-    border: 1px solid rgba(255, 77, 94, 0.18);
+    color: var(--orange);
+    background: rgba(255, 113, 0, 0.08);
+    border: 1px solid rgba(255, 113, 0, 0.18);
 }
-
-
-/* =====================================================
-   EMPTY TABLE STATE
-===================================================== */
 
 #bookingTable:empty::after {
     content: "No bookings yet.";
-
     display: block;
-
-    padding: 35px 15px;
+    padding: 30px 15px;
 
     text-align: center;
-
     color: var(--muted);
-
-    font-size: 13px;
+    font-size: 12px;
 }
 
-
-/* =====================================================
+/* =========================================================
    SCROLLBAR
-===================================================== */
+========================================================= */
 
 ::-webkit-scrollbar {
     width: 7px;
@@ -664,12 +938,11 @@ tbody tr:last-child td {
 }
 
 ::-webkit-scrollbar-track {
-    background: #0b0b0f;
+    background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
     background: #303039;
-
     border-radius: 10px;
 }
 
@@ -677,10 +950,9 @@ tbody tr:last-child td {
     background: var(--orange);
 }
 
-
-/* =====================================================
-   TABLET
-===================================================== */
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media (max-width: 1100px) {
 
@@ -690,25 +962,10 @@ tbody tr:last-child td {
 
     .main-content {
         margin-left: 220px;
-
         width: calc(100% - 220px);
-
         padding: 30px;
     }
-
-    .stats-grid {
-        gap: 15px;
-    }
-
-    .stat-card {
-        padding: 21px;
-    }
 }
-
-
-/* =====================================================
-   TABLET / SMALL LAPTOP
-===================================================== */
 
 @media (max-width: 900px) {
 
@@ -718,87 +975,86 @@ tbody tr:last-child td {
 
     .main-content {
         margin-left: 0;
-
         width: 100%;
-
         padding: 30px 25px;
     }
 
     .stats-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    /* stack Service and Tracking on top of each other */
+    .current-booking-card {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: 28px;
+    }
+
+    .current-booking-main,
+    .booking-route {
+        grid-column: 1;
+        grid-row: auto;
+        width: 100%;
+    }
+
+    .current-booking-action {
+        margin-top: 18px;
+    }
 }
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
 
 @media (max-width: 700px) {
 
     .main-content {
-        padding: 25px 18px 40px;
+        padding: 24px 18px 40px;
     }
 
     .topbar {
-        margin-bottom: 25px;
-
-        padding-bottom: 20px;
+        margin-bottom: 24px;
+        padding-bottom: 18px;
     }
 
     .topbar h1 {
-        font-size: 24px;
+        font-size: 23px;
+    }
+
+    .current-booking-card {
+        padding: 24px 20px;
+    }
+
+    .view-details-link {
+        width: 100%;
     }
 
     .stats-grid {
         grid-template-columns: 1fr;
-
-        gap: 13px;
-
+        gap: 12px;
         margin-bottom: 22px;
     }
 
     .stat-card {
-        min-height: 115px;
-
-        padding: 21px;
-    }
-
-    .stat-card p {
-        font-size: 30px;
+        min-height: 110px;
+        padding: 20px;
     }
 
     .recent-bookings {
-        padding: 20px 15px;
-
-        border-radius: 16px;
-    }
-
-    .section-header {
-        margin-bottom: 17px;
-    }
-
-    .section-header h2 {
-        font-size: 17px;
-    }
-
-    /*
-       Keep table usable on small screens.
-       dashboard.js remains completely untouched.
-    */
-    .recent-bookings {
+        padding: 19px 14px;
         overflow-x: auto;
     }
 
     table {
-        min-width: 600px;
+        min-width: 580px;
+    }
+
+    .arriving-label,
+    .arriving-value {
+        font-size: 17px;
+    }
+
+    .tracking-status {
+        font-size: 10px;
+        letter-spacing: 0.9px;
     }
 }
-
-
-/* =====================================================
-   SMALL MOBILE
-===================================================== */
 
 @media (max-width: 450px) {
 
@@ -810,26 +1066,39 @@ tbody tr:last-child td {
         font-size: 21px;
     }
 
-    .stat-card {
-        min-height: 105px;
-
-        padding: 19px;
+    .current-booking-card {
+        padding: 20px 17px;
     }
 
-    .stat-card h3 {
-        font-size: 12px;
+    .current-booking-service .service-title,
+    .current-booking-service h3 {
+        font-size: 18px;
+    }
+
+    .arriving-label,
+    .arriving-value {
+        font-size: 15px;
+    }
+
+    .tracking-status {
+        font-size: 9px;
+    }
+
+    .stat-card {
+        min-height: 105px;
+        padding: 18px;
     }
 
     .stat-card p {
         font-size: 28px;
     }
+}
 
-    .recent-bookings {
-        padding: 18px 12px;
-    }
+@media (prefers-reduced-motion: reduce) {
 
-    th,
-    td {
-        padding: 13px 12px;
+    .route-scooter,
+    .route-filled,
+    .stat-card {
+        transition: none;
     }
 }

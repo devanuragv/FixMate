@@ -188,6 +188,14 @@ const SERVICE_ICONS = {
 
 let allBookings = [];
 
+// ==========================================
+// OPEN SPECIFIC BOOKING FROM DASHBOARD
+// ==========================================
+const urlBookingId =
+    new URLSearchParams(window.location.search).get("bookingId");
+
+let autoOpenedBooking = false;
+
 
 // =====================================================
 // LOAD BOOKINGS
@@ -416,6 +424,29 @@ async function loadBookings() {
 
             container.innerHTML =
                 html;
+
+                // ==========================================
+// AUTO OPEN REQUESTED BOOKING
+// ==========================================
+if (
+    urlBookingId &&
+    !autoOpenedBooking
+) {
+    const requestedBooking =
+        allBookings.find(
+            booking =>
+                String(booking.id) ===
+                String(urlBookingId)
+        );
+
+    if (requestedBooking) {
+        autoOpenedBooking = true;
+
+        setTimeout(() => {
+            openBookingDetails(urlBookingId);
+        }, 150);
+    }
+}
 
 
             // -----------------------------------------

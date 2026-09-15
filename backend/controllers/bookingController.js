@@ -161,17 +161,85 @@ export const getBookings = async (req, res) => {
     const bookings = [];
 
 
-    snapshot.forEach((doc) => {
+    for (const doc of snapshot.docs) {
+
+      const bookingData = doc.data();
+
+
+      let technicianData = null;
+
+
+      // =========================================
+      // GET LIVE TECHNICIAN DATA
+      // =========================================
+
+      if (bookingData.technicianId) {
+
+        const technicianDoc =
+          await db
+            .collection("technicians")
+            .doc(bookingData.technicianId)
+            .get();
+
+
+        if (technicianDoc.exists) {
+
+          technicianData = {
+            id: technicianDoc.id,
+            ...technicianDoc.data()
+          };
+
+        }
+
+      }
+
 
       bookings.push({
 
         id: doc.id,
 
-        ...doc.data()
+        ...bookingData,
+
+        /*
+         * Keep the existing technician information,
+         * but attach the latest live location.
+         */
+
+        technician: technicianData
+          ? {
+              ...(bookingData.technician || {}),
+
+              id:
+                technicianData.id,
+
+              name:
+                technicianData.name ||
+                bookingData.technician?.name ||
+                "",
+
+              serviceType:
+                technicianData.serviceType ||
+                bookingData.technician?.serviceType ||
+                "",
+
+              latitude:
+                technicianData.latitude ??
+                null,
+
+              longitude:
+                technicianData.longitude ??
+                null,
+
+              locationUpdatedAt:
+                technicianData.locationUpdatedAt ??
+                null
+            }
+
+          : bookingData.technician || null
 
       });
 
-    });
+    }
 
 
     res.status(200).json({
@@ -183,7 +251,14 @@ export const getBookings = async (req, res) => {
     });
 
 
-  } catch (error) {
+  }
+  catch (error) {
+
+    console.log(
+      "Get Bookings Error:",
+      error
+    );
+
 
     res.status(500).json({
 
